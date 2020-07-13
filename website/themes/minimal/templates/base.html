@@ -1,3 +1,5 @@
+{% from 'iwrm_macros.j2' import vote %}
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
     <head>
@@ -84,6 +86,9 @@
 
         <!-- Page content block -->
         {% block content %} {% endblock %}
+
+        <!-- Toast for the I Want To Read More  -->
+        {% include 'iwrm_toast.html' %}
 
         <!-- Footer -->
         <footer class="footer mt-auto py-3 site-footer text-center text-muted">

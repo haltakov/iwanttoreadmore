@@ -130,3 +130,9 @@ a:hover {
 .vote-link:hover {
     fill: #2873a6;
 }
+
+.toast {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
