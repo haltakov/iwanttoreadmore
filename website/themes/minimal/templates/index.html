@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block title %}I Want To Read More Blog{% endblock %}
+{% block description %}The I Want To Read More blog documents our journey building a SaaS product in the open. It explains how and why we did every step on the way.{% endblock %}
+
+<!-- prettier-ignore -->
+{% block extra_head -%}
+<style>
+    body {
+        background: #eee;
+    }
+</style>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="container">
+    <!-- All articles in the blog -->
+    {% for article in articles_page.object_list %}
+    <article class="container mt-4 blog-post bg-white p-3 shadow-sm">
+        <h3>
+            <a
+                href="{{ SITEURL }}/{{ article.url }}"
+                class="text-dark blog-post-title"
+                rel="bookmark"
+                title="{{ article.title|striptags }}"
+                >{{ article.title }}</a
+            >
+        </h3>
+        <p class="text-muted">{{ article.locale_date }} by <a href="{{ SITEURL }}">{{ AUTHOR }}</a></p>
+        <p>
+            {{ article.summary|striptags }}
+            <a href="{{ SITEURL }}/{{ article.url }}">Read more...</a>
+        </p>
+    </article>
+    {% endfor %}
+</div>
+{% endblock content %}

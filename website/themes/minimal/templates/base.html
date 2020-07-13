@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        {% block head %}
+        <meta charset="utf-8" />
+
+        <!-- General medatada -->
+        <meta name="author" content="{{ AUTHOR }}" />
+        <meta name="title" content="{% block title %}{{ SITENAME }}{% endblock %}" />
+        <meta name="description" content="{% block description %}{{ SITEDESCRIPTION }}{% endblock %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <!-- Social media tags -->
+        <meta property="og:title" content="{{ self.title() }}" />
+        <meta property="og:description" content="{{ self.description() }}" />
+        <meta property="og:image" content="{% block image %}{{ SITEURL }}/images/cover-image.jpg{% endblock %}" />
+        <meta property="og:url" content="{% block url %}{{ SITEURL }}{% endblock %}" />
+        <meta property="og:site_name" content="{{ SITENAME }}" />
+        <meta name="twitter:site" content="@haltakov" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image:alt" content="{{ self.description() }}" />
+
+        <!-- Page title -->
+        <title>{{ self.title() }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ SITEURL }}/images/logo_16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="{{ SITEURL }}/images/logo_32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="{{ SITEURL }}/images/logo_96.png" sizes="96x96" />
+
+        <!-- CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" />
+
+        <!-- RSS and Atom feeds -->
+        {% if FEED_ALL_ATOM %}
+        <link
+            href="{{ FEED_DOMAIN }}/{% if FEED_ALL_ATOM_URL %}{{ FEED_ALL_ATOM_URL }}{% else %}{{ FEED_ALL_ATOM }}{% endif %}"
+            type="application/atom+xml"
+            rel="alternate"
+            title="{{ SITENAME }} Atom Feed"
+        />
+        {% endif %} {% if FEED_ALL_RSS %}
+        <link
+            href="{{ FEED_DOMAIN }}/{% if FEED_ALL_RSS_URL %}{{ FEED_ALL_RSS_URL }}{% else %}{{ FEED_ALL_RSS }}{% endif %}"
+            type="application/rss+xml"
+            rel="alternate"
+            title="{{ SITENAME }} RSS Feed"
+        />
+        {% endif %}
+
+        <!-- Block for additional page specific header tags -->
+        <!-- prettier-ignore -->
+        {% block extra_head %}
+        {% endblock extra_head %}
+        
+        {% endblock head %}
+    </head>
+
+    <body class="d-flex flex-column h-100">
+        <!-- Navigation bar -->
+        <header class="border-bottom p-1 bg-white">
+            <nav class="navbar navbar-expand">
+                <a class="navbar-brand text-dark" href="{{ SITEURL }}"
+                    ><img src="{{ SITEURL }}/images/logo_256.png" class="logo mr-2" alt="I Want To Read More Logo" />
+                    <span class="d-none d-sm-inline">I Want To Read More</span></a
+                >
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="p-2 text-dark" href="{{ SITEURL }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="p-2 text-dark" href="{{ SITEURL }}/blog">Blog</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Page content block -->
+        {% block content %} {% endblock %}
+
+        <!-- Footer -->
+        <footer class="footer mt-auto py-3 site-footer text-center text-muted">
+            <div class="container">
+                <span class="">I Want To Read More</span>
+                <a class="icon-link px-3" href="https://twitter.com/haltakov"><i class="fab fa-twitter"></i></a>
+                <a class="icon-link px-1" href="https://github.com/haltakov"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+
+        <!-- JavaScript -->
+        <script src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.5.0.min.js"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"
+        ></script>
+        <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+
+        <!-- Optional page specific scripts block -->
+        {% block scripts %} {% endblock %}
+    </body>
+</html>
