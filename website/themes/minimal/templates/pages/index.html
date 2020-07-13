@@ -60,7 +60,54 @@
             <div class="col-md-5 mb-4 mt-md-4">
                 <blockquote class="blockquote text-left">
                     <h4 class="font-italic">
-                        "Next, I'll write about traveling in Japan {{ vote("haltakov","iwanttoreadmore","example") }}
+                        "Next, I'll write about traveling in Japan
+                        <span style="position: relative; white-space: nowrap; display: inline-block;">
+                            <a href="#" data-vote="haltakov/iwanttoreadmore/example">
+                                <svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em;">
+                                    <circle r="5" cx="11" cy="5" />
+                                    <rect
+                                        ry="1.5"
+                                        x="3"
+                                        y="9"
+                                        height="18"
+                                        width="16"
+                                        style="stroke: #fff; stroke-width: 1.5;"
+                                    />
+                                    <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2;" />
+                                    <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2;" />
+                                </svg>
+                            </a>
+                            <span
+                                data-aos="fade-right"
+                                data-aos-anchor-placement="center-center"
+                                data-aos-offset="-200"
+                                data-aos-duration="1000"
+                                data-aos-id="mouse-pointer"
+                                style="position: absolute; left: -7px; bottom: -30px; pointer-events: none;"
+                            >
+                                <img src="{{ SITEURL }}/images/hand-cursor.svg" style="height: 3rem;" />
+                            </span>
+                            <div
+                                data-aos="zoom-in"
+                                data-aos-anchor-placement="center-center"
+                                data-aos-offset="-200"
+                                data-aos-delay="800"
+                                class="tooltip fade bs-tooltip-top show"
+                                style="
+                                    position: absolute;
+                                    transform: translate3d(-90px, -80px, 0px);
+                                    top: 0px;
+                                    left: 0px;
+                                    will-change: transform;
+                                    width: 200px;
+                                "
+                            >
+                                <div class="arrow" style="left: 94px;"></div>
+                                <div class="tooltip-inner">
+                                    Click if you want me to write more about this topic in the future.
+                                </div>
+                            </div>
+                        </span>
                         and how I organize {{ vote("haltakov","iwanttoreadmore","example") }} my trips."
                     </h4>
                     <footer class="blockquote-footer">A travel blog using <cite>I Want To Read More</cite></footer>
