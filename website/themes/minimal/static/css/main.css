@@ -31,6 +31,11 @@ a:hover {
     color: #2873a6;
 }
 
+.image-500 {
+    max-width: 500px;
+    width: 95%;
+}
+
 /* Navigation bar */
 .navbar {
     font-variant: small-caps;
