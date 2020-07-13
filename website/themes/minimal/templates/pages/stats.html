@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block title %}Live demo for I Want To Read More{% endblock %}
+{% block description %}Live demo of the vote statistics collected from the I Want To Read More blog.{% endblock %}
+{% block image %}{{ SITEURL }}/images/live-demo-screenshot.jpg{% endblock %}
+{% block url %}{{ SITEURL }}/stats{% endblock %}
+
+<!-- prettier-ignore -->
+{% block extra_head -%}
+<style>
+    body {
+        background: #eee;
+    }
+</style>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <!-- Live demo explanation -->
+        <div class="col-lg-8">
+            <div class="alert alert-warning bg-yellow shadow-sm" role="alert">
+                <h5 class="text-center mb-3">Live Demo</h5>
+
+                <p>
+                    This is a live demo showing statistics for the
+                    <a href="https://iwanttoreadmore.com/blog" target="_blank">I Want To Read More blog</a>. All
+                    articles in the blog contain vote links that readers can click if they are interested in the
+                    particular topic. We use these statistics to decide what we should write about next.
+                </p>
+                <p>
+                    Here is one example vote link {{ vote("haltakov","iwanttoreadmore","example") }} that you can click
+                    to see how it works. Clicking it you will vote for the topic
+                    <strong>example</strong>. Reload the table below to see it in action.
+                </p>
+            </div>
+        </div>
+
+        <!-- I Want To Read More statistics -->
+        <div class="col-lg-10">
+            <h3 class="text-center mt-5 mb-3">
+                Project:
+                <a href="https://iwanttoreadmore.com/blog" target="_blank">iwanttoreadmore.com</a>
+            </h3>
+            <div class="rounded shadow p-3 bg-white position-relative">
+                <button class="reload"><i class="fas fa-sync"></i></button>
+
+                <table class="table table-hover table-sm table-borderless" id="table-iwanttoreadmore">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Topic <a href="#"><i class="fas fa-sort pl-2"></i></a>
+                            </th>
+                            <th scope="col" class="text-right">
+                                Votes <a href="#"><i class="fas fa-sort pl-2"></i></a>
+                            </th>
+                            <th scope="col" class="text-center">
+                                Last Vote <a href="#"><i class="fas fa-sort pl-2"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="text-center py-5">
+                                <i class="fa fa-spinner fa-2x fa-spin"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ SITEURL }}#subscribe" class="btn btn-blue m-1">Get started improving your blog for free</a>
+                <a href="{{ SITEURL }}#why-use" class="btn btn-outline-blue m-1">Read more about I Want To Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- prettier-ignore -->
+{% block scripts %}
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/stats.js"></script>
+{% endblock %}

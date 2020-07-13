@@ -19,6 +19,7 @@ THEME = "themes/minimal/"
 # Static pages of the website that will be generated
 TEMPLATE_PAGES = {
     "pages/index.html": "index.html",
+    "pages/stats.html": "stats.html",
     "pages/404.html": "404.html",
 }
 

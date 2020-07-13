@@ -121,6 +121,19 @@ a:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Statistics page */
+
+.reload {
+    color: #000;
+    opacity: 0.5;
+    font-size: 0.8em;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    border: 0px;
+    background: none;
+}
+
 /* I Want To Read More definitions */
 
 .vote-link {
