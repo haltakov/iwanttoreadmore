@@ -3,5 +3,6 @@ website/output
 website/temp
 .idea
 .vscode
+.serverless
 *.code-workspace
 .DS_Store
