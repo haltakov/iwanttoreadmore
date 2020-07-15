@@ -1,0 +1,204 @@
+{% extends "base.html" %} {% block content %}
+<!-- Header image and text -->
+<div class="container-fluid site-header p-0">
+    <div class="site-header-overlay">
+        <div class="container py-5">
+            <div class="row justify-content-center py-5">
+                <div class="col-sm-10">
+                    <h1 class="text-center">
+                        Have you asked your blog readers what they want to read?
+                    </h1>
+                    <h3 class="mt-3 text-center">
+                        Put vote icons
+                        <!-- prettier-ignore -->
+                        <a href="#"><svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em;"><circle r="5" cx="11" cy="5" /><rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke: #fff; stroke-width: 1.5;" /> <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2;" /> <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2;" /></svg></a>
+                        in your text to learn which topics you should write about next
+                    </h3>
+                    <h3 class="mt-4 text-center">
+                        Make your blog more interesting and improve engagement
+                    </h3>
+
+                    <div class="text-center mt-5">
+                        <a href="#how-it-works" class="btn btn-lg btn-blue m-1">Find out how it works</a>
+                        <a href="#" class="btn btn-lg btn-outline-blue m-1">View live demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works section -->
+<a name="how-it-works"></a>
+<div class="container-fluid pb-5">
+    <div class="container">
+        <h2 class="text-center py-5">You are not sure what your next article should be about?</h2>
+
+        <div class="row justify-content-around">
+            <div class="col-md-6 col-md-5 text-center">
+                <h4 class="mb-4">
+                    <i class="far fa-edit mr-2"></i> You write a <strong>blog</strong> and have
+                    <strong>many ideas</strong> for new articles?
+                </h4>
+                <h4>
+                    <i class="fas fa-award mr-2"></i> But which topics will be most
+                    <strong>interesting to your readers</strong>?
+                </h4>
+            </div>
+
+            <div class="col-md-5 mt-4">
+                <blockquote class="blockquote text-right">
+                    <h4 class="font-italic">
+                        "Next, I'll write about traveling in Japan and how I organize my trips."
+                    </h4>
+                    <footer class="blockquote-footer">A travel blog on the <cite>Internet</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+
+        <h2 class="text-center py-5 mt-5">Just ask your readers with I Want To Read More</h2>
+
+        <div class="row justify-content-around">
+            <div class="col-md-5 mb-4 mt-md-4">
+                <blockquote class="blockquote text-left">
+                    <h4 class="font-italic">
+                        "Next, I'll write about traveling in Japan
+                        <!-- prettier-ignore -->
+                        <a href="#"><svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em;"><circle r="5" cx="11" cy="5" /><rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke: #fff; stroke-width: 1.5;" /> <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2;" /> <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2;" /></svg></a>
+                        and how I organize
+                        <!-- prettier-ignore -->
+                        <a href="#"><svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em;"><circle r="5" cx="11" cy="5" /><rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke: #fff; stroke-width: 1.5;" /> <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2;" /> <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2;" /></svg></a>
+                        my trips."
+                    </h4>
+                    <footer class="blockquote-footer">A travel blog using <cite>I Want To Read More</cite></footer>
+                </blockquote>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <h4 class="mb-4">
+                    <i class="far fa-hand-pointer mr-2"></i> Put <strong>vote icons</strong> in your text so people can
+                    <strong>click</strong> them if they are interested
+                </h4>
+                <h4>
+                    <i class="far fa-chart-bar mr-2"></i> Decide what to write about next by looking which topic got the
+                    <strong>most votes</strong>
+                </h4>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8 col-lg-6">
+                <img class="img-fluid shadow" src="{{ SITEURL }}/images/demo-travel-blog.png" alt="Image Description" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-5">
+            <a href="#subscribe" class="btn btn-blue m-1">Get started for free</a>
+            <a href="#" class="btn btn-outline-blue m-1">View live demo</a>
+        </div>
+    </div>
+</div>
+
+<!-- Subscribe section -->
+<div class="container-fluid p-5 bg-blue text-white">
+    <a name="subscribe"></a>
+    <h1 class="text-center mb-4"><strong>Request a free trial</strong></h1>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                We still have a bit more work and polishing to do. Leave us your e-mail in the form below, if you want
+                to get early access to the free trial. We will get back to you soon. We care about privacy and we will
+                not use your e-mail address for anything else. You can read more about our approach
+                <a href="{{ SITEURL }}/blog" target="_blank">here</a>.
+            </div>
+        </div>
+
+        <form class="mt-4" novalidate>
+            <div class="form-group row justify-content-center">
+                <input
+                    class="form-control col-11 col-sm-6 m-1"
+                    type="email"
+                    value=""
+                    name="EMAIL"
+                    class="required email"
+                    placeholder="E-Mail"
+                />
+                <button type="submit" class="btn btn-blue m-1">Request a free trail</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Why to use section -->
+<div class="container p-5">
+    <a name="why-use"></a>
+    <h1 class="text-center mb-5"><strong>Why use I Want To Read More?</strong></h1>
+
+    <div class="row justify-content-lg-center">
+        <div class="col-md-4 col-lg-3 text-center pt-4">
+            <img class="w-25" src="{{ SITEURL }}/images/icon_simple.svg" alt="I Want To Read More is simple" />
+        </div>
+        <div class="col-md-8 col-lg-7">
+            <div>
+                <h4><strong>Simple</strong></h4>
+                <p class="mt-3">
+                    I Want To Read More is <strong>easy to start with</strong>. We provide you a
+                    <strong>short HTML snippet</strong> that you put in your text to create a vote icon like this
+                    <!-- prettier-ignore -->
+                    <a href="#"><svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em;"><circle r="5" cx="11" cy="5" /><rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke: #fff; stroke-width: 1.5;" /> <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2;" /> <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2;" /></svg></a>
+                    . You
+                    <strong>don't need any external content</strong> - no images, CSS or JavaScript have to be loaded.
+                    You are in full control!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-lg-center mt-3">
+        <div class="col-md-4 col-lg-3 text-center pt-4">
+            <img class="w-25" src="{{ SITEURL }}/images/icon_open.svg" alt="I Want To Read More is open" />
+        </div>
+        <div class="col-md-8 col-lg-7">
+            <div>
+                <h4><strong>Open</strong></h4>
+                <p class="mt-3">
+                    We are building this service in the open. All code is <strong>open-sourced</strong> on
+                    <a href="https://github.com/haltakov/iwanttoreadmore" target="_blank">GitHub</a>. Our
+                    <strong><a href="https://plausible.io/iwanttoreadmore.com" target="_blank">statistics</a></strong>
+                    are publicly available. We share the <strong>thought process</strong> behind technical and business
+                    decisions in our <a href="https://iwanttoreadmore.com/blog" target="_blank">blog</a>. We also want
+                    to help others <a href="https://iwanttoreadmore.com/blog" target="_blank">learn from us</a>, so we
+                    create a <strong>detailed tutorial how</strong> we build every feature and <strong>why</strong> we
+                    use a particular technology.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-lg-center mt-3">
+        <div class="col-md-4 col-lg-3 text-center pt-4">
+            <img
+                class="w-25"
+                src="{{ SITEURL }}/images/icon_private.svg"
+                alt="I Want To Read More is privacy-oriented"
+            />
+        </div>
+        <div class="col-md-8 col-lg-7">
+            <div>
+                <h4><strong>Privacy Oriented</strong></h4>
+                <p class="mt-3">
+                    We <strong>don't collect any data</strong> about your readers, except their votes. We
+                    <strong>don't store cookies</strong> so you don't need to put an ugly cookie banner. We don't log IP
+                    addresses. We don't sell your or your readers' data. I Want To Read More is a
+                    <strong>paid service</strong>, so our <strong>incentives are aligned</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="#subscribe" class="btn btn-blue">Get started improving your blog for free</a>
+    </div>
+</div>
+{% endblock content %}

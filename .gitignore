@@ -1,0 +1,7 @@
+__pycache__
+website/output
+website/temp
+.idea
+.vscode
+*.code-workspace
+.DS_Store

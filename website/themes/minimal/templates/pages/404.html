@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block extra_head -%}
+<style>
+    body {
+        background: #eee;
+    }
+</style>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-6 mb-5 rounded shadow-sm p-4 bg-white">
+            <h2>Ooops... something went wrong!</h2>
+            <p class="mt-5">
+                The page you are looking for doesn't exist. Go back to the <a href="{{ SITEURL }}">start page</a>.
+            </p>
+            <p class="mt-5 text-red"><i class="fas fa-times-circle fa-3x"></i></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

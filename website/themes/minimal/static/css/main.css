@@ -1,0 +1,132 @@
+/* Fonts */
+
+@font-face {
+    font-family: SourceSansPro;
+    src: url(../fonts/SourceSansPro-Light.ttf);
+}
+
+@font-face {
+    font-family: SourceSansPro;
+    src: url(../fonts/SourceSansPro-SemiBold.ttf);
+    font-weight: bold;
+}
+
+/* General classes relevant for all pages */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: SourceSansPro, Arial, sans-serif;
+    background: #fff;
+}
+
+a {
+    color: #3498db;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #2873a6;
+}
+
+/* Navigation bar */
+.navbar {
+    font-variant: small-caps;
+}
+
+.navbar a:hover {
+    text-decoration: none;
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+}
+
+/* Footer */
+
+.site-footer {
+    background-color: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+}
+
+.icon-link {
+    color: #212529;
+}
+
+.icon-link:hover {
+    color: #3498db;
+}
+
+/* Color definitions */
+
+.text-muted {
+    color: #999 !important;
+}
+
+.btn-blue {
+    color: #ffffff;
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-blue:hover {
+    color: #ffffff;
+    background-color: #2873a6;
+    border-color: #2873a6;
+}
+
+.btn-outline-blue {
+    color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-outline-blue:hover {
+    color: #ffffff;
+    background-color: #2873a6;
+    border-color: #2873a6;
+}
+
+.bg-blue {
+    background-color: #184766;
+}
+
+.bg-yellow {
+    background-color: #f7f2df;
+}
+
+.text-green {
+    color: #07b541;
+}
+
+.text-red {
+    color: #b50707;
+}
+
+.blog-post-title:hover {
+    text-decoration: none;
+}
+
+/* Start page */
+
+.site-header {
+    background: url(../images/header-background.jpg);
+    background-size: cover;
+    background-position: center 30%;
+}
+
+.site-header-overlay {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* I Want To Read More definitions */
+
+.vote-link {
+    fill: #3498db;
+}
+
+.vote-link:hover {
+    fill: #2873a6;
+}
