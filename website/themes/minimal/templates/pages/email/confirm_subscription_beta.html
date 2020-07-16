@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block extra_head -%}
+<style>
+    body {
+        background: #eee;
+    }
+</style>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-6 mb-5 rounded shadow-sm p-4 bg-white">
+            <h2>Your request has been received!</h2>
+            <p class="mt-5">
+                Thank you for your interest in an early access to our beta program. We will set up you account and send
+                you further instructions soon.
+            </p>
+            <p class="mt-5 text-green"><i class="fas fa-check-circle fa-3x"></i></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
