@@ -1,3 +1,5 @@
+{% from 'iwrm_macros.j2' import vote %}
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
     <head>
@@ -75,6 +77,9 @@
                     <li class="nav-item active">
                         <a class="p-2 text-dark" href="{{ SITEURL }}">Home</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="p-2 text-dark" href="{{ SITEURL }}/stats">Live Demo</a>
+                    </li>
                     <li class="nav-item">
                         <a class="p-2 text-dark" href="{{ SITEURL }}/blog">Blog</a>
                     </li>
@@ -84,6 +89,9 @@
 
         <!-- Page content block -->
         {% block content %} {% endblock %}
+
+        <!-- Toast for the I Want To Read More  -->
+        {% include 'iwrm_toast.html' %}
 
         <!-- Footer -->
         <footer class="footer mt-auto py-3 site-footer text-center text-muted">
