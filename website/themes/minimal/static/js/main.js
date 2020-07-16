@@ -2,6 +2,8 @@
  * Initializes all UI elements
  */
 function init() {
+    AOS.init();
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".toast").on("show.bs.toast", function () {
