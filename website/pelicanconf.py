@@ -33,6 +33,10 @@ ARTICLE_URL = "blog/{slug}/"
 ARTICLE_SAVE_AS = "blog/{slug}/index.html"
 INDEX_SAVE_AS = "blog.html"
 
+# Enable the jinja2content plugin
+PLUGIN_PATHS = ["plugins"]
+PLUGINS = ["jinja2content"]
+
 # Enable document-relative URLs when developing
 RELATIVE_URLS = True
 
