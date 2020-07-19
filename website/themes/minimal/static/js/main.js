@@ -4,6 +4,8 @@
 function init() {
     AOS.init();
 
+    hljs.initHighlightingOnLoad();
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".toast").on("show.bs.toast", function () {
