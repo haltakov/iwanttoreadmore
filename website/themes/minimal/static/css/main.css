@@ -36,6 +36,11 @@ a:hover {
     width: 95%;
 }
 
+.image-750 {
+    max-width: 750px;
+    width: 95%;
+}
+
 /* Navigation bar */
 .navbar {
     font-variant: small-caps;
@@ -48,6 +53,11 @@ a:hover {
 .logo {
     width: 36px;
     height: 36px;
+}
+
+code {
+    color: #333;
+    font-size: 80%;
 }
 
 /* Footer */

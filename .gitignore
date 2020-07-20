@@ -6,3 +6,4 @@ website/temp
 .serverless
 *.code-workspace
 .DS_Store
+temp
