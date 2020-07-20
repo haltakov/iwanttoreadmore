@@ -1,7 +1,7 @@
 Title: How to create a minimal static website with Pelican?
 Date: 2020-07-20
 Slug: create-minimal-static-website-pelican
-Image:
+Image: create-pelican-website-iwtrm.jpg
 Summary: In this tutorial I will show you how to create a minimal static website and blog using [Pelican](https://blog.getpelican.com/) and deploy it on [Netlify](https://www.netlify.com/). To goal is to start simple with a minimal set of features and add more functionality later as needed. I will also explain why I decided to use a static site generator and why I chose Pelican.
 
 {% from 'iwrm_macros.j2' import vote %}
