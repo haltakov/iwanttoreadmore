@@ -125,25 +125,30 @@
         </footer>
 
         <!-- JavaScript -->
-        <script src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
         <script
+            defer
             src="https://code.jquery.com/jquery-3.5.0.min.js"
             integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
             crossorigin="anonymous"
         ></script>
         <script
+            defer
             src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"
         ></script>
         <script
+            defer
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"
         ></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
-        <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+
+        <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+        <script defer src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+
+        <script async src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
 
         <!-- Optional page specific scripts block -->
         {% block scripts %} {% endblock %}
