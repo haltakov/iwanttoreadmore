@@ -1,25 +1,22 @@
 {% extends "base.html" %} {% block content %}
 <!-- Header image and text -->
-<div class="container-fluid site-header p-0">
-    <div class="site-header-overlay">
-        <div class="container py-5">
-            <div class="row justify-content-center py-5">
-                <div class="col-sm-10">
-                    <h1 class="text-center">
-                        Have you asked your blog readers what they want to read?
-                    </h1>
-                    <h3 class="mt-3 text-center">
-                        Put vote icons {{ vote("haltakov","iwanttoreadmore","example") }} in your text to learn which
-                        topics you should write about next
-                    </h3>
-                    <h3 class="mt-4 text-center">
-                        Make your blog more interesting and improve engagement
-                    </h3>
+<div
+    class="container-fluid p-0"
+    style="background: url({{SITEURL}}/theme/images/header-background.jpg);background-size:cover;background-position:center 30%;"
+>
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-sm-10">
+                <h1 class="text-center">Have you asked your blog readers what they want to read?</h1>
+                <h3 class="mt-3 text-center">
+                    Put vote icons {{ vote("haltakov","iwanttoreadmore","example") }} in your text to learn which topics
+                    you should write about next
+                </h3>
+                <h3 class="mt-4 text-center">Make your blog more interesting and improve engagement</h3>
 
-                    <div class="text-center mt-5">
-                        <a href="#how-it-works" class="btn btn-lg btn-blue m-1">Find out how it works</a>
-                        <a href="{{ SITEURL }}/stats" class="btn btn-lg btn-outline-blue m-1">View live demo</a>
-                    </div>
+                <div class="text-center mt-5">
+                    <a href="#how-it-works" class="btn btn-lg btn-blue m-1">Find out how it works</a>
+                    <a href="{{ SITEURL }}/stats" class="btn btn-lg btn-outline-blue m-1">View live demo</a>
                 </div>
             </div>
         </div>
