@@ -30,6 +30,11 @@
         <link rel="icon" type="image/png" href="{{ SITEURL }}/images/logo_32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ SITEURL }}/images/logo_96.png" sizes="96x96" />
 
+        <link
+            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;600&display=swap"
+            rel="stylesheet"
+        />
+
         <!-- CSS -->
         <link
             rel="stylesheet"
@@ -37,12 +42,21 @@
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
             crossorigin="anonymous"
         />
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" />
+
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+            media="print"
+            onload="this.media='all'"
+        />
+
         <link
             rel="stylesheet"
             href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/atom-one-light.min.css"
+            media="print"
+            onload="this.media='all'"
         />
-        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" />
 
         <!-- Plausible Analytics -->
         <script async defer data-domain="iwanttoreadmore.com" src="https://plausible.io/js/plausible.js"></script>
@@ -77,7 +91,7 @@
         <header class="border-bottom p-1 bg-white">
             <nav class="navbar navbar-expand">
                 <a class="navbar-brand text-dark" href="{{ SITEURL }}"
-                    ><img src="{{ SITEURL }}/images/logo_256.png" class="logo mr-2" alt="I Want To Read More Logo" />
+                    ><img src="{{ SITEURL }}/images/logo_96.png" class="logo mr-2" alt="I Want To Read More Logo" />
                     <span class="d-none d-sm-inline">I Want To Read More</span></a
                 >
 
@@ -111,25 +125,30 @@
         </footer>
 
         <!-- JavaScript -->
-        <script src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
         <script
+            defer
             src="https://code.jquery.com/jquery-3.5.0.min.js"
             integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
             crossorigin="anonymous"
         ></script>
         <script
+            defer
             src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"
         ></script>
         <script
+            defer
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"
         ></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
-        <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+
+        <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+        <script defer src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
+
+        <script async src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
 
         <!-- Optional page specific scripts block -->
         {% block scripts %} {% endblock %}

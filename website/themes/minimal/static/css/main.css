@@ -1,16 +1,3 @@
-/* Fonts */
-
-@font-face {
-    font-family: SourceSansPro;
-    src: url(../fonts/SourceSansPro-Light.ttf);
-}
-
-@font-face {
-    font-family: SourceSansPro;
-    src: url(../fonts/SourceSansPro-SemiBold.ttf);
-    font-weight: bold;
-}
-
 /* General classes relevant for all pages */
 
 html {
@@ -18,7 +5,7 @@ html {
 }
 
 body {
-    font-family: SourceSansPro, Arial, sans-serif;
+    font-family: "Source Sans Pro", Arial, sans-serif;
     background: #fff;
 }
 
@@ -130,10 +117,6 @@ code {
     background: url(../images/header-background.jpg);
     background-size: cover;
     background-position: center 30%;
-}
-
-.site-header-overlay {
-    background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* Statistics page */
