@@ -59,7 +59,7 @@
                     <h4 class="font-italic">
                         "Next, I'll write about traveling in Japan
                         <span style="position: relative; white-space: nowrap; display: inline-block">
-                            <a href="#" data-vote="haltakov/iwanttoreadmore/example">
+                            <a href="#" aria-label="vote" data-vote="haltakov/iwanttoreadmore/example">
                                 <svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em">
                                     <circle r="5" cx="11" cy="5" />
                                     <rect
@@ -82,7 +82,11 @@
                                 data-aos-id="mouse-pointer"
                                 style="position: absolute; left: -7px; bottom: -30px; pointer-events: none"
                             >
-                                <img src="{{ SITEURL }}/images/hand-cursor.svg" style="height: 3rem" />
+                                <img
+                                    src="{{ SITEURL }}/images/hand-cursor.svg"
+                                    alt="Hand cursor"
+                                    style="height: 3rem"
+                                />
                             </span>
                             <div
                                 data-aos="zoom-in"
@@ -168,7 +172,9 @@
                     class="required email"
                     placeholder="E-Mail"
                     id="mce-EMAIL"
+                    aria-label="E-Mail"
                 />
+
                 <div style="position: absolute; left: -5000px" aria-hidden="true">
                     <input type="text" name="b_bc617085c7a8ca566fed9a16d_efaae60cc5" tabindex="-1" value="" />
                 </div>
