@@ -10,12 +10,12 @@ body {
 }
 
 a {
-    color: #3498db;
+    color: #1a7cbd;
     font-weight: bold;
 }
 
 a:hover {
-    color: #2873a6;
+    color: #45b4ff;
 }
 
 .image-500 {
@@ -59,7 +59,7 @@ code {
 }
 
 .icon-link:hover {
-    color: #3498db;
+    color: #45b4ff;
 }
 
 /* Color definitions */
@@ -70,25 +70,25 @@ code {
 
 .btn-blue {
     color: #ffffff;
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: #1a7cbd;
+    border-color: #1a7cbd;
 }
 
 .btn-blue:hover {
     color: #ffffff;
-    background-color: #2873a6;
-    border-color: #2873a6;
+    background-color: #45b4ff;
+    border-color: #45b4ff;
 }
 
 .btn-outline-blue {
-    color: #3498db;
-    border-color: #3498db;
+    color: #1a7cbd;
+    border-color: #1a7cbd;
 }
 
 .btn-outline-blue:hover {
     color: #ffffff;
-    background-color: #2873a6;
-    border-color: #2873a6;
+    background-color: #45b4ff;
+    border-color: #45b4ff;
 }
 
 .bg-blue {
@@ -119,6 +119,11 @@ code {
     background-position: center 30%;
 }
 
+.blog-examples {
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
 /* Statistics page */
 
 .reload {
@@ -135,11 +140,11 @@ code {
 /* I Want To Read More definitions */
 
 .vote-link {
-    fill: #3498db;
+    fill: #1a7cbd;
 }
 
 .vote-link:hover {
-    fill: #2873a6;
+    fill: #45b4ff;
 }
 
 .toast {

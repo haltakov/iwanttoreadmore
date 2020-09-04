@@ -1,9 +1,10 @@
 {% macro vote(user, project, topic) -%}
-<a 
-    href="#" 
+<a
+    href="#"
     data-vote="{{ user }}/{{ project }}/{{ topic }}" 
     data-toggle="tooltip" 
     data-placement="top" 
+    aria-label="vote"
     title="Click if you want me to write more about this topic in the future.">
     <svg 
         class="vote-link" 
