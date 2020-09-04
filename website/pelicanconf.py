@@ -28,7 +28,7 @@ TEMPLATE_PAGES = {
 
 # Static paths of the website
 # The _redirects file is used by Netlify to create redirect rules
-STATIC_PATHS = ["images", "_redirects"]
+STATIC_PATHS = ["images", "_redirects", "robots.txt"]
 
 # Settings for the URLs of the blog and the articles
 ARTICLE_PATHS = ["blog"]
