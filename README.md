@@ -37,3 +37,11 @@ More details are coming soon...
 ## Feedback
 
 If you have any ffedback feel free to contact me on [Twitter](https://twitter.com/haltakov) or per e-mail on \<firstname>.\<lastnage>@gmail.com.
+
+## Acknowledgements
+
+This service was built using some awesome free ressources, which made everything much easier. Thanks you for sharing your work!
+
+-   Photos - [Unsplash](https://unsplash.com/)
+    -   [Photo](https://unsplash.com/photos/aOC7TSLb1o8) by [Lauren Mancke](https://unsplash.com/@laurenmancke)
+-   Tooltips - [Cooltipz](https://cooltipz.jackdomleo.dev/) by [Jack Domleo](https://jackdomleo.dev/)
