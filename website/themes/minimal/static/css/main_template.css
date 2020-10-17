@@ -1,0 +1,49 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+}
+
+.link {
+    @apply text-iblue font-bold;
+}
+
+.link:hover {
+    @apply text-iblue-light;
+}
+
+.markdown h2 {
+    @apply text-3xl mb-2 mt-4;
+}
+
+.markdown h3 {
+    @apply text-2xl mb-2 mt-4;
+}
+
+.markdown a {
+    @apply link;
+}
+
+.markdown a:hover {
+    @apply text-iblue-light;
+}
+
+.markdown a svg {
+    @apply inline fill-current;
+}
+
+.markdown p {
+    @apply mb-3;
+}
+
+.markdown ul {
+    @apply list-disc ml-8;
+}
+
+.markdown code {
+    @apply text-sm;
+}

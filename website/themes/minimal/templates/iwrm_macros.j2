@@ -1,11 +1,12 @@
 {% macro vote(user, project, topic) -%}
 <a
     href="#"
+    class="link"
     data-vote="{{ user }}/{{ project }}/{{ topic }}" 
     aria-label="Click if you want me to write more about this topic in the future."
     title="Click if you want me to write more about this topic in the future.">
     <svg 
-        class="vote-link" 
+        class="inline fill-current" 
         viewBox="0 0 22 27" 
         style="height: 1em; width: 0.815em">
         <circle r="5" cx="11" cy="5"/><rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke:#fff;stroke-width:1.5"/><ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke:#fff;stroke-width:2"/><ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke:#fff;stroke-width:2"/>

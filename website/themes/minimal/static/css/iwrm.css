@@ -68,3 +68,8 @@
     margin-bottom: calc(0.3125rem * 2);
     width: 12.5rem;
 }
+
+.mock-text {
+    background-color: #eee;
+    height: 1rem;
+}
