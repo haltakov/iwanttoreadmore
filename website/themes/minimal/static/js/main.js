@@ -2,31 +2,29 @@
  * Initializes all UI elements
  */
 function init() {
-    AOS.init();
-
+    // Init the highlight.js library
     hljs.initHighlightingOnLoad();
 
-    $('[data-toggle="tooltip"]').tooltip();
-
-    $(".toast").on("show.bs.toast", function () {
-        $(this).removeClass("d-none");
-    });
-    $(".toast").on("hidden.bs.toast", function () {
-        $(this).addClass("d-none");
-    });
-
+    // Click events for all vote links
     Array.from(document.querySelectorAll("[data-vote]")).forEach(
         (e) =>
             (e.onclick = (event) => {
+                // Post the vote to the backend
                 const url = `https://iwanttoreadmore.com/vote/${e.getAttribute("data-vote")}`;
                 fetch(url, { method: "post" });
 
+                // Remove the link from the vote icon
                 e.removeAttribute("href");
                 e.onclick = null;
-                e.querySelector("svg").classList.remove("vote-link");
-                $('[data-toggle="tooltip"]').tooltip("hide");
+                e.removeAttribute("data-vote");
+                e.style = "color: #4a5568;";
 
-                $(".toast").toast("show");
+                // Display the toast
+                const toast = document.getElementById("vote-toast");
+                toast.classList.remove("hidden");
+                setInterval(function () {
+                    toast.classList.add("hidden");
+                }, 10000);
 
                 return false;
             })
