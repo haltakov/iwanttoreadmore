@@ -7,3 +7,4 @@ website/temp
 *.code-workspace
 .DS_Store
 temp
+node_modules
