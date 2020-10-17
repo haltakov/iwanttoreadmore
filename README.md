@@ -2,7 +2,7 @@
 
 [I Want To Read More](https://iwanttoreadmore.com/) is a service that helps bloggers make their blog more interesting and engaging by letting readers vote for topics they want to read more about.
 
-[![I Want To Read More website](https://iwanttoreadmore.com/images/building-open-cover.jpg)](https://iwanttoreadmore.com/)
+[![I Want To Read More website](https://iwanttoreadmore.com/images/create-pelican-website-iwtrm.jpg)](https://iwanttoreadmore.com/)
 
 ## Why use I Want To Read More?
 
@@ -43,5 +43,5 @@ If you have any ffedback feel free to contact me on [Twitter](https://twitter.co
 This service was built using some awesome free ressources, which made everything much easier. Thanks you for sharing your work!
 
 -   Photos - [Unsplash](https://unsplash.com/)
-    -   [Photo](https://unsplash.com/photos/aOC7TSLb1o8) by [Lauren Mancke](https://unsplash.com/@laurenmancke)
+    -   [Photo](https://unsplash.com/photos/jEOAOVq39Z4) by [Lauren Mancke](https://unsplash.com/@timmossholder)
 -   Tooltips - [Cooltipz](https://cooltipz.jackdomleo.dev/) by [Jack Domleo](https://jackdomleo.dev/)
