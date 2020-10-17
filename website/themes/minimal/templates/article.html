@@ -13,68 +13,29 @@
 {% endif %}
 
 {% block content %}
-<div class="container">
-    <main role="main" class="container">
-        <article class="blog-post">
-            <header class="my-5">
-                <h1>
-                    <a
-                        href="{{ SITEURL }}/{{ article.url }}"
-                        class="text-dark blog-post-title"
-                        rel="bookmark"
-                        title="Permalink to {{ article.title|striptags }}"
-                        >{{ article.title }}</a
-                    >
-                </h1>
-                <p class="text-muted">{{ article.locale_date }} by <a href="{{ SITEURL }}">{{ AUTHOR }}</a></p>
-            </header>
 
-            <div class="article-content">
-                {{ article.content }}
-            </div>
+<main role="main" class="container md:px-3 lg:px-20 py-6 mx-auto text-gray-700">
+    <article class="p-3">
+        <header class="my-5">
+            <h1>
+                <a
+                    href="{{ SITEURL }}/{{ article.url }}"
+                    class="text-4xl font-bold"
+                    rel="bookmark"
+                    title="Permalink to {{ article.title|striptags }}"
+                    >{{ article.title }}</a
+                >
+            </h1>
+            <p class="text-gray-500">
+                {{ article.locale_date }} by
+                <a class="link" href="{{ SITEURL }}">{{ AUTHOR }}</a>
+            </p>
+        </header>
 
-            <div class="row justify-content-center">
-                <div class="col-sm-10 col-md-8 col-lg-6 shadow border my-5 p-3">
-                    <h4 class="text-center">Don't miss the next update</h4>
+        <div class="markdown">{{ article.content }}</div>
 
-                    <p class="my-3">
-                        Subscribe to our newsletter below if you don't want to miss our next update. We are constantly
-                        working on some new tutorials about building a SaaS product.
-                    </p>
+        {% include "newsletter_form.html" %}
+    </article>
+</main>
 
-                    <form
-                        action="https://iwanttoreadmore.us10.list-manage.com/subscribe/post?u=bc617085c7a8ca566fed9a16d&amp;id=659081ab56"
-                        method="post"
-                        id="mc-embedded-subscribe-form"
-                        name="mc-embedded-subscribe-form"
-                        class="validate"
-                        target="_blank"
-                        novalidate
-                    >
-                        <div class="form-group row justify-content-center">
-                            <input
-                                class="form-control col-11 col-sm-6 m-1"
-                                type="email"
-                                value=""
-                                name="EMAIL"
-                                class="required email"
-                                placeholder="E-Mail"
-                                id="mce-EMAIL"
-                            />
-                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                                <input
-                                    type="text"
-                                    name="b_bc617085c7a8ca566fed9a16d_659081ab56"
-                                    tabindex="-1"
-                                    value=""
-                                />
-                            </div>
-                            <button type="submit" class="btn btn-blue m-1">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </article>
-    </main>
-</div>
 {% endblock %}

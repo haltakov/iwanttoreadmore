@@ -63,27 +63,22 @@ function fillVotesTable(votesData) {
         const tableId = `table-${vote.project_name}`;
 
         const voteRow = document.createElement("tr");
-        voteRow.insertAdjacentHTML("beforeend", `<td>${vote.topic}</td>`);
-        voteRow.insertAdjacentHTML("beforeend", `<td class="text-right">${vote.vote_count}</td>`);
-        voteRow.insertAdjacentHTML(
-            "beforeend",
-            `<td class="text-center">${timestampToDate(vote.last_vote)}</td>`
-        );
+        voteRow.classList.add("hover:bg-gray-200");
+        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2">${vote.topic}</td>`);
+        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 text-right">${vote.vote_count}</td>`);
+        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 text-center">${timestampToDate(vote.last_vote)}</td>`);
 
         document.querySelector(`#${tableId} tbody`).appendChild(voteRow);
     });
 
-    // Init all tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-
     // Init reload buttons
-    reloadButtons = Array.from(document.getElementsByClassName("reload"));
-    reloadButtons.forEach((e) => e.querySelector("i").classList.remove("fa-spin"));
+    reloadButtons = Array.from(document.getElementsByClassName("reload-button"));
+    reloadButtons.forEach((e) => e.classList.remove("animate-spin"));
     reloadButtons.forEach((e) =>
         e.addEventListener(
             "click",
             (event) => {
-                e.querySelector("i").classList.add("fa-spin");
+                e.classList.add("animate-spin");
                 loadVotes();
             },
             true
@@ -101,10 +96,7 @@ function initSorting() {
     };
 
     const comparer = (idx, desc) => (a, b) =>
-        ((v1, v2) =>
-            v1 !== "" && v2 !== "" && !isNaN(v1) && !isNaN(v2)
-                ? v1 - v2
-                : v1.toString().localeCompare(v2))(
+        ((v1, v2) => (v1 !== "" && v2 !== "" && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)))(
             getCellValue(desc ? b : a, idx),
             getCellValue(desc ? a : b, idx)
         );

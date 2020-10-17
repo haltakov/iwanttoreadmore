@@ -1,4 +1,6 @@
+<!-- prettier-ignore -->
 {% from 'iwrm_macros.j2' import vote %}
+{% import 'icons.html' as icons %}
 
 <!DOCTYPE html>
 <html lang="en" class="h-100">
@@ -36,21 +38,8 @@
         />
 
         <!-- CSS -->
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-        />
         <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" />
         <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/iwrm.css" />
-
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-            media="print"
-            onload="this.media='all'"
-        />
 
         <link
             rel="stylesheet"
@@ -87,24 +76,30 @@
         {% endblock head %}
     </head>
 
-    <body class="d-flex flex-column h-100">
+    <body class="font-body flex flex-col h-screen justify-between">
         <!-- Navigation bar -->
-        <header class="border-bottom p-1 bg-white">
-            <nav class="navbar navbar-expand">
-                <a class="navbar-brand text-dark" href="{{ SITEURL }}"
-                    ><img src="{{ SITEURL }}/images/logo_96.png" class="logo mr-2" alt="I Want To Read More Logo" />
-                    <span class="d-none d-sm-inline">I Want To Read More</span></a
-                >
+        <header class="border-b border-gray-300 bg-white">
+            <nav class="flex lg:container lg:mx-auto items-center font-bold text-gray-700 py-3 px-5 uppercase">
+                <div class="flex flex-grow">
+                    <a class="" href="{{ SITEURL }}"
+                        ><img
+                            class="inline h-8"
+                            src="{{ SITEURL }}/images/logo_96.png"
+                            alt="I Want To Read More Logo"
+                        />
+                        <span class="px-3 text-md hidden md:inline">I Want To Read More</span></a
+                    >
+                </div>
 
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="p-2 text-dark" href="{{ SITEURL }}">Home</a>
+                <ul class="flex text-sm">
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}">Home</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="p-2 text-dark" href="{{ SITEURL }}/stats">Live Demo</a>
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/stats">Live Demo</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="p-2 text-dark" href="{{ SITEURL }}/blog">Blog</a>
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/blog">Blog</a>
                     </li>
                 </ul>
             </nav>
@@ -117,43 +112,23 @@
         {% include 'iwrm_toast.html' %}
 
         <!-- Footer -->
-        <footer class="footer mt-auto py-3 site-footer text-center">
-            <div class="container">
-                <span class="">I Want To Read More</span>
-                <a class="icon-link px-3" href="https://twitter.com/haltakov" aria-label="twitter"
-                    ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="icon-link px-1" href="https://github.com/haltakov" aria-label="github"
-                    ><i class="fab fa-github"></i
-                ></a>
-            </div>
+        <footer class="border-t border-gray-300 text-center flex justify-center text-gray-700 bg-white py-3">
+            <span class="px-3"
+                ><span class="hidden sm:inline">I Want To Read More created</span
+                ><span class="sm:hidden">Created</span> by
+                <a class="link" href="https://haltakov.net" target="_blank" rel="noopener">Vladimir Haltakov</a></span
+            >
+            <a class="px-3 hover:text-iblue-light" href="https://twitter.com/haltakov" aria-label="Twitter account"
+                >{{ icons.twitter("w-4 mt-1 fill-current") }}</a
+            >
+            <a class="px-3 hover:text-iblue-light" href="https://github.com/haltakov" aria-label="Github account">
+                {{ icons.github("w-4 mt-1 fill-current") }}
+            </a>
         </footer>
 
         <!-- JavaScript -->
-        <script
-            defer
-            src="https://code.jquery.com/jquery-3.5.0.min.js"
-            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
-            crossorigin="anonymous"
-        ></script>
-        <script
-            defer
-            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            defer
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"
-        ></script>
-
-        <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
         <script defer src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
-
-        <script async src="https://kit.fontawesome.com/0598d5a60d.js" crossorigin="anonymous"></script>
 
         <!-- Optional page specific scripts block -->
         {% block scripts %} {% endblock %}

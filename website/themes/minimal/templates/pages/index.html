@@ -1,268 +1,335 @@
 {% extends "base.html" %} {% block content %}
 <!-- Header image and text -->
-<div
-    class="container-fluid p-0"
-    style="background: url({{SITEURL}}/theme/images/header-background.jpg);background-size:cover;background-position:center 30%;"
->
-    <div class="container py-5">
-        <div class="row justify-content-center py-5">
-            <div class="col-sm-10">
-                <h1 class="text-center">Have you asked your blog readers what they want to read?</h1>
-                <h2 class="mt-3 text-center" style="font-size: 1.75rem">
-                    Put vote icons {{ vote("haltakov","iwanttoreadmore","example") }} in your text to learn which topics
-                    you should write about next
-                </h2>
-                <h3 class="mt-4 text-center">Make your blog more interesting and improve engagement</h3>
+<section class="bg-gradient-to-b from-gray-100 to-gray-200">
+    <div class="text-gray-700 container px-8 lg:px-4 py-32 lg:py-24 mx-auto bg-gray">
+        <div class="flex flex-col text-left lg:text-center w-full mb-12">
+            <h2 class="text-xs md:text-sm font-semibold text-iblue tracking-widest mb-1 uppercase">
+                What does your audience want to read?
+            </h2>
 
-                <div class="text-center mt-5">
-                    <a href="#how-it-works" class="btn btn-lg btn-blue m-1 font-weight-bold">Find out how it works</a>
-                    <a href="{{ SITEURL }}/stats" class="btn btn-lg btn-outline-blue m-1 font-weight-bold"
-                        >View live demo</a
-                    >
-                </div>
-            </div>
+            <h1 class="sm:text-3xl text-2xl font-semibold text-primary-800 mb-6">
+                Put vote icons in your text, find out what to write about next.
+            </h1>
+            <p class="text-base lg:text-lg lg:w-2/3 mx-auto leading-relaxed font-medium text-gray-700">
+                Put vote icons in your blog posts at places where you touch on a topic you can write more about. Your
+                blog readers can use them to quickly vote for topics that they find interesing.
+            </p>
+        </div>
+        <div class="flex lg:justify-center">
+            <a
+                class="mx-2 inline-flex py-3 px-4 shadow-lg font-semibold text-white focus:shadow-outline focus:outline-none rounded-lg bg-gradient-to-tr from-orange-500 to-yellow-500 hover:from-yellow-400 hover:to-orange-400"
+                href="#how-it-works"
+            >
+                How it works
+            </a>
+            <a
+                class="mx-2 inline-flex py-3 px-4 shadow-lg font-semibold text-gray-800 border border-gray-400 hover:border-0 bg-gradient-to-tr from-white to-white hover:from-yellow-400 hover:to-orange-400 hover:text-white focus:shadow-outline focus:outline-none rounded-lg"
+                href="{{ SITEURL }}/stats"
+            >
+                View live demo
+            </a>
         </div>
     </div>
-</div>
+</section>
 
 <!-- How It Works section -->
 <a name="how-it-works"></a>
-<div class="container-fluid pb-5">
-    <div class="container">
-        <h2 class="text-center py-5">You are not sure what your next article should be about?</h2>
+<section class="text-gray-700">
+    <div class="container px-10 lg:px-20 py-6 lg:py-10 mx-auto flex flex-wrap">
+        <h1 class="sm:text-3xl text-2xl font-semibold mb-2 md:w-3/5">How it works.</h1>
+        <div class="md:w-2/5 md:pl-6">
+            <p class="leading-relaxed text-base font-medium text-gray-700">
+                Integrate in your blog in 5 minutes and start collecting votes.
+            </p>
+        </div>
+        <div class="w-full mx-auto flex flex-wrap">
+            <div class="w-full lg:w-1/2 max-w-lg lg:pr-2 mt-10 mx-auto">
+                <h2 class="font-bold text-md mb-2 text-center">Your blog</h2>
+                <div class="rounded-lg h-64 border shadow-xl p-4">
+                    <div class="bg-gray-300 h-5 w-1/2 rounded-full mt-2"></div>
+                    <div class="bg-gray-300 h-3 w-full rounded-full mt-3"></div>
+                    <div class="bg-gray-300 h-3 w-8/12 rounded-full mt-3 inline-block"></div>
+                    <svg
+                        class="text-iblue fill-current inline-block"
+                        viewBox="0 0 22 27"
+                        style="height: 1rem; width: 0.815em"
+                    >
+                        <circle r="5" cx="11" cy="5" />
+                        <rect ry="1.5" x="3" y="9" height="18" width="16" style="stroke: #fff; stroke-width: 1.5" />
+                        <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2" />
+                        <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2" />
+                    </svg>
+                    <div class="bg-gray-300 h-3 w-3/12 rounded-full mt-3 inline-block"></div>
+                    <div class="bg-gray-300 h-3 w-4/5 rounded-full mt-2"></div>
 
-        <div class="row justify-content-around">
-            <div class="col-md-6 col-md-5 text-center">
-                <div class="mb-4 blog-examples">
-                    <i class="far fa-edit mr-2"></i> You write a <strong>blog</strong> and have
-                    <strong>many ideas</strong> for new articles?
-                </div>
-                <div class="blog-examples">
-                    <i class="fas fa-award mr-2"></i> But which topics will be most
-                    <strong>interesting to your readers</strong>?
+                    <div class="bg-gray-300 h-4 w-3/4 rounded-full mt-5"></div>
+
+                    <div class="bg-gray-300 h-3 w-full rounded-full mt-3"></div>
+                    <div class="bg-gray-300 h-3 w-full rounded-full mt-3"></div>
+                    <div class="bg-gray-300 h-3 w-2/5 rounded-full mt-3"></div>
                 </div>
             </div>
-
-            <div class="col-md-5 mt-4">
-                <blockquote class="blockquote text-right">
-                    <div class="font-italic blog-examples">
-                        "Next, I'll write about traveling in Japan and how I organize my trips."
-                    </div>
-                    <footer class="blockquote-footer">A travel blog on the <cite>Internet</cite></footer>
-                </blockquote>
+            <div class="lg:w-1/2 max-w-lg mx-auto lg:pl-2 mt-10">
+                <h2 class="font-bold text-md mb-2 text-center">Your statistics</h2>
+                <a href="{{ SITEURL }}/stats">
+                    <img
+                        class="rounded-lg border lg:max-h-64 shadow-xl mx-auto object-cover"
+                        src="{{ SITEURL }}/images/live-demo-screenshot.jpg"
+                        alt="Example statistics screen for I Want To Read More"
+                    />
+                </a>
             </div>
         </div>
-
-        <h2 class="text-center py-5 mt-5">Just ask your readers with I Want To Read More</h2>
-
-        <div class="row justify-content-around">
-            <div class="col-md-5 mb-4 mt-md-4">
-                <blockquote class="blockquote text-left">
-                    <div class="font-italic blog-examples">
-                        "Next, I'll write about traveling in Japan
-                        <span style="position: relative; white-space: nowrap; display: inline-block">
-                            <a href="#" aria-label="vote" data-vote="haltakov/iwanttoreadmore/example">
-                                <svg class="vote-link" viewBox="0 0 22 27" style="height: 1em; width: 0.815em">
-                                    <circle r="5" cx="11" cy="5" />
-                                    <rect
-                                        ry="1.5"
-                                        x="3"
-                                        y="9"
-                                        height="18"
-                                        width="16"
-                                        style="stroke: #fff; stroke-width: 1.5"
-                                    />
-                                    <ellipse rx="3" ry="4" cx="3" cy="18.5" style="stroke: #fff; stroke-width: 2" />
-                                    <ellipse rx="3" ry="4" cx="19" cy="18.5" style="stroke: #fff; stroke-width: 2" />
-                                </svg>
-                            </a>
-                            <span
-                                data-aos="fade-right"
-                                data-aos-anchor-placement="center-center"
-                                data-aos-offset="-200"
-                                data-aos-duration="1000"
-                                data-aos-id="mouse-pointer"
-                                style="position: absolute; left: -7px; bottom: -30px; pointer-events: none"
-                            >
-                                <img
-                                    src="{{ SITEURL }}/images/hand-cursor.svg"
-                                    alt="Hand cursor"
-                                    style="height: 3rem"
-                                />
-                            </span>
-                            <div
-                                data-aos="zoom-in"
-                                data-aos-anchor-placement="center-center"
-                                data-aos-offset="-200"
-                                data-aos-delay="800"
-                                class="tooltip fade bs-tooltip-top show"
-                                style="
-                                    position: absolute;
-                                    transform: translate3d(-90px, -80px, 0px);
-                                    top: 0px;
-                                    left: 0px;
-                                    will-change: transform;
-                                    width: 200px;
-                                "
-                            >
-                                <div class="arrow" style="left: 94px"></div>
-                                <div class="tooltip-inner">
-                                    Click if you want me to write more about this topic in the future.
-                                </div>
-                            </div>
-                        </span>
-                        and how I organize {{ vote("haltakov","iwanttoreadmore","example") }} my trips."
-                    </div>
-                    <footer class="blockquote-footer">A travel blog using <cite>I Want To Read More</cite></footer>
-                </blockquote>
-            </div>
-
-            <div class="col-md-6 text-center">
-                <div class="mb-4 blog-examples">
-                    <i class="far fa-hand-pointer mr-2"></i> Put <strong>vote icons</strong> in your text so people can
-                    <strong>click</strong> them if they are interested
+        <div class="flex flex-wrap sm:m-4 mx-4 mb-10 mt-4 pt-12">
+            <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex">
+                <div
+                    class="w-12 h-12 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white mb-4 flex-shrink-0 p-3"
+                >
+                    {{ icons.embed("w-6") }}
                 </div>
-                <div class="blog-examples">
-                    <i class="far fa-chart-bar mr-2"></i> Decide what to write about next by looking which topic got the
-                    <strong>most votes</strong>
+                <div class="flex-grow pl-6">
+                    <h1 class="text-primary-800 text-lg font-semibold mb-2">EMBED</h1>
+                    <p class="leading-relaxed text-base text-gray-900 lg:text-1xl">
+                        You can easily embed the vote links in your text using our simple code snippets and our
+                        JavaScript library.
+                    </p>
                 </div>
             </div>
-        </div>
-
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8 col-lg-6">
-                <img class="img-fluid shadow" src="{{ SITEURL }}/images/demo-travel-blog.jpg" alt="Image Description" />
+            <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex md:border-l">
+                <div
+                    class="w-12 h-12 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white mb-4 flex-shrink-0 p-3"
+                >
+                    {{ icons.click("w-6") }}
+                </div>
+                <div class="flex-grow pl-6">
+                    <h1 class="text-primary-800 text-lg font-semibold mb-2">COLLECT</h1>
+                    <p class="leading-relaxed text-base text-gray-900 lg:text-1xl">
+                        Your blog readers can vote for topics that they find interesing and want to read more about in
+                        the future.
+                    </p>
+                </div>
             </div>
-        </div>
-
-        <div class="row justify-content-center mt-5">
-            <a href="#subscribe" class="btn btn-blue m-1 font-weight-bold">Get started for free</a>
-            <a href="{{ SITEURL }}/stats" class="btn btn-outline-blue m-1 font-weight-bold">View live demo</a>
+            <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex md:border-l">
+                <div
+                    class="w-12 h-12 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white mb-4 flex-shrink-0 p-3"
+                >
+                    {{ icons.analyze("w-6") }}
+                </div>
+                <div class="flex-grow pl-6">
+                    <h1 class="text-primary-800 text-lg font-semibold mb-2">ANALYZE</h1>
+                    <p class="leading-relaxed text-base text-gray-900 lg:text-1xl">
+                        In the dashboard, you can see which topics received the most vote and decide what to write about
+                        next.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Subscribe section -->
-<div class="container-fluid p-5 bg-blue text-white">
-    <a name="subscribe"></a>
-    <h1 class="text-center mb-4"><strong>Request a free trial</strong></h1>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8">
-                We still have a bit more work and polishing to do. Leave us your e-mail in the form below, if you want
-                to get early access to the free trial. We will get back to you soon. We care about privacy and we will
-                not use your e-mail address for anything else. You can read more about our approach
-                <a href="{{ SITEURL }}/blog" class="text-white" target="_blank">in our blog</a>.
-            </div>
-        </div>
-
+<a name="subscribe"></a>
+<section class="bg-iblue-dark text-gray-100">
+    <div class="container w-full lg:w-2/3 max-w-4xl px-10 lg:px-20 py-6 lg:py-10 mx-auto flex flex-wrap">
+        <h2 class="sm:text-3xl text-2xl font-semibold mb-2 md:w-3/5">Request a free trial</h2>
+        <p>
+            We have a bit more work and polishing to do. Leave us your e-mail, if you want to get early access to the
+            free trial. We will get back to you soon and your e-mail address won't be used for anything else.
+        </p>
         <form
+            class="w-full"
             action="https://iwanttoreadmore.us10.list-manage.com/subscribe/post?u=bc617085c7a8ca566fed9a16d&amp;id=efaae60cc5"
             method="post"
             id="mc-embedded-subscribe-form"
             name="mc-embedded-subscribe-form"
-            class="mt-4"
             novalidate
         >
-            <div class="form-group row justify-content-center">
+            <div class="flex flex-wrap w-full">
                 <input
-                    class="form-control col-11 col-sm-6 m-1"
+                    class="mt-4 mx-2 flex-grow bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                    placeholder="Your Email"
                     type="email"
                     value=""
                     name="EMAIL"
-                    class="required email"
-                    placeholder="E-Mail"
                     id="mce-EMAIL"
                     aria-label="E-Mail"
                 />
-
                 <div style="position: absolute; left: -5000px" aria-hidden="true">
                     <input type="text" name="b_bc617085c7a8ca566fed9a16d_efaae60cc5" tabindex="-1" value="" />
                 </div>
-                <button type="submit" class="btn btn-blue m-1">Request a free trail</button>
+                <button
+                    type="submit"
+                    class="mt-4 mx-2 flex-none mx-auto lg:mx-2 px-4 py-2 font-semibold shadow-lg bg-gradient-to-tr from-iblue hover:from-iblue-light to-iblue-light hover:to-iblue text-white focus:shadow-outline focus:outline-none rounded-lg"
+                >
+                    Request a free trial
+                </button>
             </div>
         </form>
     </div>
-</div>
+</section>
 
-<!-- Why to use section -->
-<div class="container p-5">
-    <a name="why-use"></a>
-    <h1 class="text-center mb-5"><strong>Why use I Want To Read More?</strong></h1>
-
-    <div class="row justify-content-lg-center">
-        <div class="col-md-4 col-lg-3 text-center pt-4">
-            <img class="w-25" src="{{ SITEURL }}/images/icon_simple.svg" alt="I Want To Read More is simple" />
+<!-- Why use section -->
+<section class="text-gray-700">
+    <div class="container px-5 py-12 mx-auto">
+        <div class="flex flex-col text-center w-full mb-5">
+            <h1 class="sm:text-3xl text-2xl font-semibold text-primary-800">Why use I Want To Read More?</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base font-medium text-gray-700">
+                Open source. Open statistics. Open development.
+            </p>
         </div>
-        <div class="col-md-8 col-lg-7">
-            <div>
-                <h2><strong>Simple</strong></h2>
-                <p class="mt-3">
-                    I Want To Read More is <strong>easy to start with</strong>. We provide you a
-                    <strong>short HTML snippet</strong> that you put in your text to create a vote icon like this {{
-                    vote("haltakov","iwanttoreadmore","example") }}. You
-                    <strong>don't need any external content</strong> - no images, CSS or JavaScript have to be loaded.
-                    You are in full control!
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row justify-content-lg-center mt-3">
-        <div class="col-md-4 col-lg-3 text-center pt-4">
-            <img class="w-25" src="{{ SITEURL }}/images/icon_open.svg" alt="I Want To Read More is open" />
-        </div>
-        <div class="col-md-8 col-lg-7">
-            <div>
-                <h2><strong>Open</strong></h2>
-                <p class="mt-3">
-                    We are building this service in the open. All code is <strong>open-sourced</strong> on
-                    <a href="https://github.com/haltakov/iwanttoreadmore" target="_blank" rel="noopener">GitHub</a>. Our
-                    <strong
-                        ><a href="https://plausible.io/iwanttoreadmore.com" target="_blank" rel="noopener"
-                            >statistics</a
-                        ></strong
-                    >
-                    are publicly available. We share the <strong>thought process</strong> behind technical and business
-                    decisions in our <a href="https://iwanttoreadmore.com/blog" target="_blank">blog</a>. We also want
-                    to help others <a href="https://iwanttoreadmore.com/blog" target="_blank">learn from us</a>, so we
-                    create a
-                    <strong
-                        ><a href="{{ SITEURL }}/blog/building-a-product-in-the-open/" target="_blank"
-                            >detailed tutorial</a
+        <div class="flex flex-wrap">
+            <div class="p-4 md:w-1/3">
+                <div class="flex px-8 py-8 rounded-lg text-left shadow-xl flex-col">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-12 h-12 p-3 mr-3 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white flex-shrink-0"
                         >
-                        how</strong
+                            {{ icons.puzzle("w-6") }}
+                        </div>
+                        <h1 class="text-primary-800 text-lg font-semibold">Simple</h1>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="leading-relaxed text-base">
+                            I Want To Read More is <strong>very easy to start</strong> with. Just include the
+                            <strong>JavaScript library</strong>
+                            and add the vote links like this one {{ vote("haltakov","iwanttoreadmore","example") }} by
+                            adding a data attribute. If you want to stay <strong>fully in control</strong> and not load
+                            any external content, we have a guide how to do that as well.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 md:w-1/3">
+                <div class="flex px-8 py-8 rounded-lg text-left shadow-xl flex-col">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-12 h-12 p-3 mr-3 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white flex-shrink-0"
+                        >
+                            {{ icons.lock("w-6") }}
+                        </div>
+                        <h1 class="text-primary-800 text-lg font-semibold">Open</h1>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="leading-relaxed text-base">
+                            We are building this service in the open. All code is <strong>open-sourced</strong> on
+                            <a
+                                class="link"
+                                href="https://github.com/haltakov/iwanttoreadmore"
+                                target="_blank"
+                                rel="noopener"
+                                >GitHub</a
+                            >. Our
+                            <strong
+                                ><a
+                                    class="link"
+                                    href="https://plausible.io/iwanttoreadmore.com"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >statistics</a
+                                ></strong
+                            >
+                            are publicly available. We share the <strong>thought process</strong> behind technical and
+                            business decisions and <strong>tutorials how and why</strong> we use specific technologies
+                            in our <a class="link" href="{{ SITEURL }}/blog" target="_blank">blog</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 md:w-1/3">
+                <div class="flex px-8 py-8 rounded-lg text-left shadow-xl flex-col">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-12 h-12 p-3 mr-3 inline-flex items-center justify-center rounded-full shadow-xl bg-gradient-to-br from-iblue to-iblue-light text-white flex-shrink-0"
+                        >
+                            {{ icons.privacy("w-6") }}
+                        </div>
+                        <h1 class="text-primary-800 text-lg font-semibold">Privacy Oriented</h1>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="leading-relaxed text-base">
+                            We <strong>don't collect any data</strong> about your readers, except their votes. We
+                            <strong>don't store cookies</strong> so you don't need to put an ugly cookie banner. We
+                            don't log IP addresses. We don't sell your or your readers' data. I Want To Read More is a
+                            <strong>paid service</strong>, so our <strong>incentives are aligned</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing section -->
+<section class="text-gray-700 bg-gradient-to-b from-gray-100 to-gray-200">
+    <div class="container px-5 py-12 mx-auto">
+        <div class="flex flex-col text-center w-full mb-5">
+            <h1 class="sm:text-3xl text-2xl font-semibold">Pricing</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base font-medium text-gray-700">
+                I Want To Read More is free during the beta stage.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center">
+            <div class="p-4 xl:w-1/4 md:w-1/3 w-full">
+                <div class="h-full p-6 rounded-lg shadow-md flex flex-col relative overflow-hidden bg-white">
+                    <h2 class="text-sm tracking-widest title-font mb-1 font-medium">BETA</h2>
+                    <h1 class="text-5xl pb-4 mb-4 font-black border-b border-gray-200 leading-none">Free</h1>
+                    <p class="flex items-center mb-2">✔ All features</p>
+                    <p class="flex items-center mb-2">✔ No votes limit</p>
+                    <p class="flex items-center mb-6">✔ Free while in beta</p>
+                    <a
+                        class="inline-flex mx-auto mt-auto justify-center py-2 px-8 w-full border font-semibold bg-gradient-to-tr from-iblue hover:from-iblue-light to-iblue-light hover:to-iblue text-white focus:shadow-outline focus:outline-none rounded-lg"
+                        href="#subscribe"
                     >
-                    we build every feature and <strong>why</strong> we use a particular technology.
-                </p>
+                        Try for free
+                    </a>
+                    <p class="text-xs text-gray-700 mt-3">
+                        The service will be completely free while it is in a beta stage.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-4 xl:w-1/4 md:w-1/3 w-full">
+                <div class="h-full p-6 rounded-lg shadow-md flex flex-col relative overflow-hidden bg-white">
+                    <h2 class="text-sm tracking-widest title-font mb-1 font-medium">STARTER BLOG</h2>
+                    <h1 class="text-5xl leading-none flex items-center pb-4 mb-4 font-black border-b border-gray-200">
+                        <span class="text-gray-600">$5</span>
+                        <span class="text-xl font-bold ml-1 font-normal text-gray-600">/mo</span>
+                    </h1>
+                    <p class="flex items-center mb-2">✔ All features</p>
+                    <p class="flex items-center mb-2">✔ 1.000 votes per month</p>
+                    <span
+                        class="inline-flex mx-auto mt-auto justify-center py-2 px-8 w-full border font-semibold text-gray-700 cursor-default rounded-lg"
+                        disabled
+                    >
+                        Not available yet
+                    </span>
+                    <p class="text-xs text-gray-700 mt-3">
+                        Best for new or smaller blogs with not many votes per month
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-4 xl:w-1/4 md:w-1/3 w-full">
+                <div class="h-full p-6 rounded-lg shadow-md flex flex-col relative overflow-hidden bg-white">
+                    <h2 class="text-sm tracking-widest title-font mb-1 font-medium">POPULAR BLOG</h2>
+                    <h1 class="text-5xl leading-none flex items-center pb-4 mb-4 font-black border-b border-gray-200">
+                        <span class="text-gray-600">$10</span>
+                        <span class="text-xl font-bold ml-1 font-normal text-gray-600">/mo</span>
+                    </h1>
+                    <p class="flex items-center mb-2">✔ All features</p>
+                    <p class="flex items-center mb-2">✔ 10.000 votes per month</p>
+                    <span
+                        class="inline-flex mx-auto mt-auto justify-center py-2 px-8 w-full border font-semibold text-gray-700 cursor-default rounded-lg"
+                        disabled
+                    >
+                        Not available yet
+                    </span>
+                    <p class="text-xs text-gray-700 mt-3">Suitable for popular blogs with many visitors and votes</p>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="row justify-content-lg-center mt-3">
-        <div class="col-md-4 col-lg-3 text-center pt-4">
-            <img
-                class="w-25"
-                src="{{ SITEURL }}/images/icon_private.svg"
-                alt="I Want To Read More is privacy-oriented"
-            />
-        </div>
-        <div class="col-md-8 col-lg-7">
-            <div>
-                <h2><strong>Privacy Oriented</strong></h2>
-                <p class="mt-3">
-                    We <strong>don't collect any data</strong> about your readers, except their votes. We
-                    <strong>don't store cookies</strong> so you don't need to put an ugly cookie banner. We don't log IP
-                    addresses. We don't sell your or your readers' data. I Want To Read More is a
-                    <strong>paid service</strong>, so our <strong>incentives are aligned</strong>.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center mt-4">
-        <a href="#subscribe" class="btn btn-blue">Get started improving your blog for free</a>
-    </div>
-</div>
 {% endblock content %}

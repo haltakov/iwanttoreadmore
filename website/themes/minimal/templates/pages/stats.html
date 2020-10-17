@@ -7,77 +7,84 @@
 {% block url %}{{ SITEURL }}/stats{% endblock %}
 
 <!-- prettier-ignore -->
-{% block extra_head -%}
-<style>
-    body {
-        background: #eee;
-    }
-</style>
-{% endblock %}
-
-<!-- prettier-ignore -->
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <!-- Live demo explanation -->
-        <div class="col-lg-8">
-            <div class="alert alert-warning bg-yellow shadow-sm" role="alert">
-                <h5 class="text-center mb-3">Live Demo</h5>
 
+<div class="bg-gray-200 h-full">
+    <div class="py-6 mx-auto flex flex-wrap text-gray-700 h-full px-2 md:px-4">
+        <div class="hidden sm:flex sm:flex-col pr-2 w-1/2 h-full">
+            <div class="hidden sm:block w-full lg:w-3/4 mx-auto mb-6 shadow bg-iyellow p-3 text-iyellow-dark rounded">
+                <h2 class="font-bold mb-2 text-lg">This is how your blog will look like</h2>
                 <p>
-                    This is a live demo showing statistics for the
-                    <a href="https://iwanttoreadmore.com/blog" target="_blank">I Want To Read More blog</a>. All
-                    articles in the blog contain vote links that readers can click if they are interested in the
-                    particular topic. We use these statistics to decide what we should write about next.
-                </p>
-                <p>
-                    Here is one example vote link {{ vote("haltakov","iwanttoreadmore","example") }} that you can click
-                    to see how it works. Clicking it you will vote for the topic
-                    <strong>example</strong>. Reload the table below to see it in action.
+                    This is an example
+                    <a class="link" target="_blank" href="blog/building-a-product-in-the-open/">article</a> from the I
+                    Want To Read More blog that uses vote links inside the text. Click on one of the vote links and
+                    reload the statistics on the right to see it in action.
                 </p>
             </div>
+            <div class="w-full shadow-lg bg-white rounded-lg flex-grow overflow-y-scroll h-64 text-gray-700">
+                <article class="p-6">
+                    <header>
+                        <h1>
+                            <a
+                                href="{{ SITEURL }}/{{ articles[-1].url }}"
+                                class="text-4xl font-bold"
+                                rel="bookmark"
+                                title="Permalink to {{ articles[-1].title|striptags }}"
+                                >{{ articles[-1].title }}</a
+                            >
+                        </h1>
+                        <p class="text-gray-500">
+                            {{ articles[-1].locale_date }} by
+                            <a class="link" href="{{ SITEURL }}">{{ AUTHOR }}</a>
+                        </p>
+                    </header>
+
+                    <div class="markdown">{{ articles[-1].content }}</div>
+                </article>
+            </div>
         </div>
-
-        <!-- I Want To Read More statistics -->
-        <div class="col-lg-10">
-            <h3 class="text-center mt-5 mb-3">
-                Project:
-                <a href="https://iwanttoreadmore.com/blog" target="_blank">iwanttoreadmore.com</a>
-            </h3>
-            <div class="rounded shadow p-3 bg-white position-relative">
-                <button class="reload"><i class="fas fa-sync"></i></button>
-
-                <table class="table table-hover table-sm table-borderless" id="table-iwanttoreadmore">
+        <div class="w-full sm:w-1/2 sm:pl-2">
+            <div class="hidden sm:block w-full lg:w-3/4 mx-auto mb-6 shadow bg-iyellow p-3 text-iyellow-dark rounded">
+                <h2 class="font-bold mb-2 text-lg">This is how your statistics will look like</h2>
+                <p>
+                    The dashboard will show you all topics that you are currently tracking, the vote counts and the last
+                    time somebody voted. Here you see the live stats for the I Want To Read Mote
+                    <a class="link" target="_blank" href="blog/building-a-product-in-the-open/">blog</a>.
+                </p>
+            </div>
+            <div class="sm:hidden w-full mb-6 shadow bg-iyellow p-3 text-iyellow-dark rounded">
+                <h2 class="font-bold mb-2 text-lg">This is how your statistics will look like</h2>
+                <p>
+                    The dashboard will show you the votes for all tracked topics. You see the live stats for the I Want
+                    To Read More
+                    <a class="link" target="_blank" href="blog/">blog</a>. Check out
+                    <a class="link" target="_blank" href="blog/building-a-product-in-the-open/">this article</a> or
+                    click this voting link {{ vote("haltakov","iwanttoreadmore","example") }} as an example.
+                </p>
+            </div>
+            <div class="w-full lg:w-4/5 mx-auto p-5 bg-white rounded-lg shadow-lg relative">
+                <a class="reload-button absolute right-0 top-0 mr-2 mt-2" href="#"> {{ icons.reload("w-4") }} </a>
+                <table class="w-full" id="table-iwanttoreadmore">
                     <thead>
                         <tr>
-                            <th scope="col">
-                                Topic <a href="#"><i class="fas fa-sort pl-2"></i></a>
-                            </th>
-                            <th scope="col" class="text-right">
-                                Votes <a href="#"><i class="fas fa-sort pl-2"></i></a>
-                            </th>
-                            <th scope="col" class="text-center">
-                                Last Vote <a href="#"><i class="fas fa-sort pl-2"></i></a>
+                            <th scope="col" class="pb-3 text-left">Topic <a class="link text-sm" href="#">▼</a></th>
+                            <th scope="col" class="pb-3 text-right">Votes <a class="link text-sm" href="#">▼</a></th>
+                            <th scope="col" class="pb-3 text-center">
+                                Last Vote <a class="link text-sm" href="#">▼</a>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3" class="text-center py-5">
-                                <i class="fa fa-spinner fa-2x fa-spin"></i>
-                            </td>
+                            <td colspan="3" class="text-center h-64">{{ icons.dots("animate-pulse w-16 mx-auto") }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <div class="text-center mt-5">
-                <a href="{{ SITEURL }}#subscribe" class="btn btn-blue m-1">Get started improving your blog for free</a>
-                <a href="{{ SITEURL }}#why-use" class="btn btn-outline-blue m-1">Read more about I Want To Read More</a>
-            </div>
         </div>
     </div>
 </div>
+
 {% endblock content %}
 
 <!-- prettier-ignore -->
