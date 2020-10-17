@@ -1,8 +1,8 @@
 Title: Building a product in the open: open source, open metrics, open development.
 Date: 2020-07-05
 Slug: building-a-product-in-the-open
-Image: building-open-cover.jpg
-Summary: I had this idea, when I started my personal blog couple of months ago. I was writing on different topics like self-driving cars, technology and travel. Sometimes, I touched on topics about which I could write a whole new article. I had so many ideas, but how to decide, what to write about next? Wouldn't it be nice if I could just ask my readers?
+Image: open.jpg
+Summary: I had this idea, when I started my personal blog. I was writing on different topics like self-driving cars, technology and travel. Sometimes, I touched on topics I could write more about. I had many ideas, but how to decide, what to write about next? Only if I could ask my readers?
 
 ## The Idea
 
@@ -14,13 +14,11 @@ I started adding small icons like this {{ vote("haltakov","iwanttoreadmore","exa
 
 For example, I wrote an article about [travel planning](https://haltakov.net/blog/travel-planning/). My plan was to write a follow-up article about organizing the time during the trip. However, most people voted that they want to read about traveling with a baby instead and this is what I ended up [writing about](https://haltakov.net/blog/flying-with-baby/) next.
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
-  <div>
+<div class="p-3">
     <a href="https://haltakov.net/blog/travel-planning/" target="_blank">
-        <img class="m-2 image-500 shadow" src="{{ SITEURL }}/images/building-open-blog-example.jpg" alt="Example vote link in Vladimir Haltakov's blog">
+        <img class="w-full md:w-1/2 lg:w-2/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/building-open-blog-example.jpg" alt="Example vote link in Vladimir Haltakov's blog">
     </a>
     <p class="text-center">Vote link in one of the articles in my blog - most people clicked this one.</p>
-  </div>
 </div>
 
 ## The Prototype
@@ -33,13 +31,11 @@ When somebody clicks a vote link, a simple JavaScript code would just make a GET
 
 In the server side analytics, though, the original URL is counted every time somebody clicked on the vote link. I could then just look at the open counts for the `iwanttoreadmore` URLs and see which topics are more popular. In practice, getting the information was a bit cumbersome, because Netlify's analytics page only allows you to see the 15 URLs with the most visits. However, it fetches the data from a REST API, so I was able to call it with different parameters and get all the data {{ vote("haltakov","iwanttoreadmore","netlify-analytics") }} (thanks [Jim Nielsen](https://blog.jim-nielsen.com/2020/using-netlify-analytics-to-build-list-of-popular-posts/)). In the end, I had statistics about which topics my readers found most interesting, which I used to decide which topics I should write about on my blog.
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
-  <div>
+<div class="p-3">
     <a href="{{ SITEURL }}/images/building-open-netlify-stats.jpg" target="_blank">
-        <img class="m-2 image-500 shadow" src="{{ SITEURL }}/images/building-open-netlify-stats.jpg" alt="Netlify statistics for the first I Want To Read More prototype.">
+        <img class="w-full md:w-1/2 lg:w-2/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/building-open-netlify-stats.jpg" alt="Netlify statistics for the first I Want To Read More prototype.">
     </a>
     <p class="text-center">Netlify statistics for the vote links.</p>
-  </div>
 </div>
 
 ## The Product
@@ -55,4 +51,4 @@ I thought that if this tool is so useful to me, it may be useful to other blogge
 
 ## The Experiment
 
-I benefited a lot from the indie hackers community and I want to give back to it. While building this project I'm learning many new things, so will write a tutorial for every major feature I implement (you can start with the first one for [creating a static site with Pelican]({{ SITEURL }}/blog/building-a-product-in-the-open/)). There I will share why I chose specific design or technology and the steps to build it. The tutorials will use the exact same code I use to run the product. And of course, I will use [I Want To Read More](https://iwanttoreadmore.com) to get feedback on what topics to write about 😃.
+I benefited a lot from the indie hackers community and I want to give back. While building this project I'm learning many new things, so will write a tutorial for every major feature I implement (you can start with the first one for [creating a static site with Pelican]({{ SITEURL }}/blog/building-a-product-in-the-open/)). There I will share why I chose specific design or technology and the steps to build it. The tutorials will use the exact same code I use to run the product. And of course, I will use [I Want To Read More](https://iwanttoreadmore.com) to get feedback on what topics to write about 😃.

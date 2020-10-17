@@ -1,20 +1,18 @@
 Title: How to create a minimal static website with Pelican?
 Date: 2020-07-20
 Slug: create-minimal-static-website-pelican
-Image: create-pelican-website-iwtrm.jpg
-Summary: In this tutorial I will show you how to create a minimal static website and blog using [Pelican](https://blog.getpelican.com/) and deploy it on [Netlify](https://www.netlify.com/). To goal is to start simple with a minimal set of features and add more functionality later as needed. I will also explain why I decided to use a static site generator and why I chose Pelican.
+Image: pelican.jpg
+Summary: In this tutorial I will show you how to create a minimal static website and blog using [Pelican](https://blog.getpelican.com/) and deploy it on [Netlify](https://www.netlify.com/). To goal is to start simple and add more functionality later. I will also explain why I decided to use a static site generator and why Pelican.
 
 {% from 'iwrm_macros.j2' import vote %}
 
 In this tutorial, I will show you how to create a minimal static website and blog using [Pelican](https://blog.getpelican.com/) and deploy it on [Netlify](https://www.netlify.com/). To goal is to start simple with a minimal set of features and add more functionality later as needed. I will also explain why I decided to use a static site generator and why I chose Pelican. If you are not interested in the first part, you can directly jump to the [How To section](#how-to) of the tutorial.
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
-  <div>
+<div class="p-3">
     <a href="https://iwanttoreadmore.com/" target="_blank">
-        <img class="m-2 image-500 shadow" src="{{ SITEURL }}/images/create-pelican-website-iwtrm.jpg" alt="The I Want To Read More website generated with Pelican">
+        <img class="w-full md:w-1/2 lg:w-3/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/create-pelican-website-iwtrm.jpg" alt="The I Want To Read More website generated with Pelican">
     </a>
-    <p class="text-center">The I Want To Read More website generated with Pelican</p>
-  </div>
+    <p class="text-center">The I Want To Read More website generated with Pelican</p> 
 </div>
 
 ## Why static site generator?
@@ -43,13 +41,12 @@ When choosing a framework, I like to choose a mature and popular project. Such p
 
 I recommend checking [StaticGen](https://www.staticgen.com/), which is a list of static site generators. You can filter the different projects by their programming language and compare them by popularity and specialization.
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
-  <div>
+<div class="p-3">
     <a href="https://www.staticgen.com/" target="_blank">
-        <img class="m-2 image-500 shadow" src="{{ SITEURL }}/images/create-pelican-website-staticgen.jpg" alt="Choosing a statis site generator on StaticGen">
+        <img class="w-full md:w-1/2 lg:w-2/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/create-pelican-website-staticgen.jpg" alt="Choosing a statis site generator on StaticGen">
     </a>
     <p class="text-center">Choosing a static site generator on StaticGen</p>
-  </div>
+  
 </div>
 
 After I compared the different Python options, I decided to go with [Pelican](https://blog.getpelican.com/). Another popular Python generator is [MkDocs](https://www.mkdocs.org/), but it seems to be specialized for project documentation, instead on blogs. [Nikola](https://www.getnikola.com/) and [Hyde](https://hyde.github.io/) had much less start on GitHub, which I find to be a good proxy for popularity.
@@ -64,13 +61,11 @@ I found Pelican's default configuration and theme a bit overwhelming for a simpl
 
 I went through the code of the default [`notmyidea`](https://github.com/getpelican/pelican-themes/tree/master/notmyidea-cms) theme and stripped it down as much as possible. You can find the code of my `minimal` theme in the [I Want To Read More](https://iwanttoreadmore.com/) GitHub repository [here](https://github.com/haltakov/iwanttoreadmore/tree/minimalistic_pelican_site/website). This is the branch where the basic website is created and you can use it as a template for creating your own. Note, that this branch was merged into `master` and deployed in production. This is really the code used for the [I Want To Read Mode](https://iwanttoreadmore.com/) website.
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
-  <div>
+<div class="p-3">
     <a href="https://github.com/haltakov/iwanttoreadmore/tree/minimalistic_pelican_site/website" target="_blank">
-        <img class="m-2 image-750 shadow" src="{{ SITEURL }}/images/create-pelican-website-github.jpg" alt="The minimal website code on GitHub">
+        <img class="w-full md:w-3/4 lg:w-3/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/create-pelican-website-github.jpg" alt="The minimal website code on GitHub">
     </a>
     <p class="text-center">The minimal website code on GitHub</p>
-  </div>
 </div>
 
 ### 1\. Install Pelican
@@ -247,10 +242,10 @@ Netlify offers different options to deploy your website {{ vote("haltakov","iwan
 
 In the end, your deploy configuration should look something link this:
 
-<div class="d-md-flex justify-content-center flex-wrap my-4">
+<div class="p-3">
   <div>
     <a href="{{ SITEURL }}/images/create-pelican-website-netlify-config.jpg" target="_blank">
-        <img class="m-2 image-750 shadow" src="{{ SITEURL }}/images/create-pelican-website-netlify-config.jpg" alt="Netlify deploy configuration for I Want To Read More">
+        <img class="w-full md:w-3/4 lg:w-3/5 mx-auto my-4 shadow-xl rounded" src="{{ SITEURL }}/images/create-pelican-website-netlify-config.jpg" alt="Netlify deploy configuration for I Want To Read More">
     </a>
     <p class="text-center">Netlify deploy configuration for I Want To Read More.</p>
   </div>
