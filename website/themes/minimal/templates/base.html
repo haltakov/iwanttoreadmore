@@ -76,7 +76,7 @@
         {% endblock head %}
     </head>
 
-    <body class="font-body flex flex-col h-screen justify-between">
+    <body class="font-body flex flex-col h-screen">
         <!-- Navigation bar -->
         <header class="border-b border-gray-300 bg-white">
             <nav class="flex lg:container lg:mx-auto items-center font-bold text-gray-700 py-3 px-5 uppercase">
@@ -112,18 +112,22 @@
         {% include 'iwrm_toast.html' %}
 
         <!-- Footer -->
-        <footer class="border-t border-gray-300 text-center flex justify-center text-gray-700 bg-white py-3">
-            <span class="px-3"
-                ><span class="hidden sm:inline">I Want To Read More created</span
-                ><span class="sm:hidden">Created</span> by
-                <a class="link" href="https://haltakov.net" target="_blank" rel="noopener">Vladimir Haltakov</a></span
-            >
-            <a class="px-3 hover:text-iblue-light" href="https://twitter.com/haltakov" aria-label="Twitter account"
-                >{{ icons.twitter("w-4 mt-1 fill-current") }}</a
-            >
-            <a class="px-3 hover:text-iblue-light" href="https://github.com/haltakov" aria-label="Github account">
-                {{ icons.github("w-4 mt-1 fill-current") }}
-            </a>
+        <footer class="border-t border-gray-300 text-gray-700 bg-white h-12">
+            <div class="flex justify-center text-center my-3">
+                <span class="px-3 inline-block"
+                    ><span class="hidden sm:inline">I Want To Read More created</span
+                    ><span class="sm:hidden">Created</span> by
+                    <a class="link" href="https://haltakov.net" target="_blank" rel="noopener"
+                        >Vladimir Haltakov</a
+                    ></span
+                >
+                <a class="px-3 hover:text-iblue-light" href="https://twitter.com/haltakov" aria-label="Twitter account"
+                    >{{ icons.twitter("w-4 mt-1 fill-current") }}</a
+                >
+                <a class="px-3 hover:text-iblue-light" href="https://github.com/haltakov" aria-label="Github account">
+                    {{ icons.github("w-4 mt-1 fill-current") }}
+                </a>
+            </div>
         </footer>
 
         <!-- JavaScript -->

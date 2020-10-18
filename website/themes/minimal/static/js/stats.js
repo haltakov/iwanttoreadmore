@@ -38,7 +38,7 @@ function timestampToDate(timestamp) {
     const daysDiff = Math.floor((currentDate - voteDate) / (24 * 60 * 60 * 1000));
 
     var dateString = "";
-    if (daysDiff == 0) dateString = `Today ${hours}:${minutes}`;
+    if (daysDiff == 0) dateString = `${hours}:${minutes}`;
     else if (daysDiff == 1) dateString = `Yesterday`;
     else if (daysDiff < 7) dateString = `${daysDiff} days ago`;
     else dateString = `${day}.${month}.${year}`;
@@ -64,7 +64,7 @@ function fillVotesTable(votesData) {
         const voteRow = document.createElement("tr");
         voteRow.classList.add("hover:bg-gray-200");
         voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2">${vote.topic}</td>`);
-        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 text-right">${vote.vote_count}</td>`);
+        voteRow.insertAdjacentHTML("beforeend", `<td class="pl-1 pr-2 text-right">${vote.vote_count}</td>`);
         voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 text-center">${timestampToDate(vote.last_vote)}</td>`);
 
         document.querySelector(`#${tableId} tbody`).appendChild(voteRow);

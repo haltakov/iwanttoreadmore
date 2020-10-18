@@ -1,4 +1,4 @@
-Title: Building a product in the open: open source, open metrics, open development.
+Title: Building in the open: open source, open metrics, open development.
 Date: 2020-07-05
 Slug: building-a-product-in-the-open
 Image: open.jpg
