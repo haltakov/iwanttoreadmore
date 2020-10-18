@@ -43,7 +43,6 @@ function timestampToDate(timestamp) {
     else if (daysDiff < 7) dateString = `${daysDiff} days ago`;
     else dateString = `${day}.${month}.${year}`;
 
-    //    return '<abbr title="' + fullDateString + '">' + dateString + '</abbr>'
     return `<span title="${fullDateString}" data-toggle="tooltip" data-placement="right">${dateString}</span>`;
 }
 
@@ -71,9 +70,16 @@ function fillVotesTable(votesData) {
         document.querySelector(`#${tableId} tbody`).appendChild(voteRow);
     });
 
-    // Init reload buttons
+    // Stop spinning the reload buttons
     reloadButtons = Array.from(document.getElementsByClassName("reload-button"));
     reloadButtons.forEach((e) => e.classList.remove("animate-spin"));
+}
+
+/**
+ * Initialize the reload buttons
+ */
+function initReloadButtons() {
+    reloadButtons = Array.from(document.getElementsByClassName("reload-button"));
     reloadButtons.forEach((e) =>
         e.addEventListener(
             "click",
@@ -119,7 +125,9 @@ function initSorting() {
 if (document.readyState !== "loading") {
     loadVotes();
     initSorting();
+    initReloadButtons();
 } else {
     document.addEventListener("DOMContentLoaded", loadVotes);
     document.addEventListener("DOMContentLoaded", initSorting);
+    document.addEventListener("DOMContentLoaded", initReloadButtons);
 }
