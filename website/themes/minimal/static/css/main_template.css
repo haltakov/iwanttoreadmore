@@ -16,6 +16,30 @@ html {
     @apply text-iblue-light;
 }
 
+.button-orange {
+    @apply py-3 px-4 font-semibold text-white rounded-lg bg-gradient-to-tr from-orange-600 to-yellow-500;
+}
+
+.button-orange:hover {
+    @apply from-yellow-400 to-orange-400;
+}
+
+.button-orange:focus {
+    @apply shadow-outline outline-none;
+}
+
+.button-blue {
+    @apply px-4 py-2 font-semibold shadow-lg bg-gradient-to-tr from-iblue to-iblue-light text-white rounded-lg;
+}
+
+.button-blue:hover {
+    @apply to-iblue from-iblue-light;
+}
+
+.button-blue:focus {
+    @apply shadow-outline outline-none;
+}
+
 .markdown h2 {
     @apply text-3xl mb-2 mt-4;
 }
