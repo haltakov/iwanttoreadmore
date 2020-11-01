@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="bg-gray-200 flex-grow p-3">
+    <div
+        class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg my-8 lg:my-24 text-center p-8"
+    >
+        <h2 class="font-bold text-xl lg:text-2xl">Welcome to I Want To Read More</h2>
+
+        <form class="" action="#" id="login-form" name="login-form">
+            <div class="mt-8 w-full lg:w-3/4 xl:w-1/2 mx-auto">
+                <input
+                    class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                    placeholder="Email"
+                    type="email"
+                    value=""
+                    name="email"
+                    id="email"
+                    aria-label="E-Mail"
+                />
+                <input
+                    class="w-full mt-4 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                    name="password"
+                    id="password"
+                    aria-label="Password"
+                />
+                <button type="submit" class="button-orange w-32 mt-6 mx-2 mx-auto lg:mx-2">Sign In</button>
+            </div>
+        </form>
+
+        <div class="mt-8 justify-evenly flex">
+            <a class="link" href="{{ SITEURL }}/#subscribe">Create account</a>
+            <a class="link" href="{{ SITEURL }}/#subscribe">Forgot password</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
