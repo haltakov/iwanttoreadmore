@@ -1,0 +1,121 @@
+/*! Adapted from Cooltipz.css v:1.6.5 | github.com/jackdomleo7/Cooltipz.css */
+
+[title][data-vote] {
+    cursor: pointer;
+    position: relative;
+}
+
+[title][data-vote]:hover::before,
+[title][data-vote]:hover::after {
+    opacity: 1;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+[title][data-vote]::before,
+[title][data-vote]::after {
+    -webkit-transition: all 120ms ease-out 120ms;
+    transition: all 120ms ease-out 120ms;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+    bottom: calc(100% - (0.3125rem / 2));
+    left: 50%;
+    -webkit-transform: translate(-50%, 6px);
+    transform: translate(-50%, 6px);
+    -webkit-transform-origin: top;
+    transform-origin: top;
+}
+
+[title][data-vote]::before {
+    content: "";
+    z-index: 11;
+    border: 0.3125rem solid transparent;
+    height: 0;
+    width: 0;
+    border-top-color: #1f1f1f;
+    -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+[title][data-vote]::after {
+    background-color: #1f1f1f;
+    border-radius: 0.125rem;
+    -webkit-box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.3);
+    color: #fff;
+    content: attr(title);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    padding: 0.5em 1em;
+    text-indent: 0;
+    text-shadow: none;
+    white-space: nowrap;
+    z-index: 10;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+    margin-bottom: calc(0.3125rem * 2);
+    width: 12.5rem;
+}
+
+#iwanttoreadmore-vote-toast {
+    line-height: 1.5;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: #e2e8f0;
+    background-color: rgba(255, 255, 255, var(--bg-opacity));
+    --bg-opacity: 0.75;
+    border-radius: 0.5rem;
+    border-width: 1px;
+    display: none;
+    font-size: 0.875rem;
+    margin: 1.25rem;
+    max-width: 24rem;
+    padding: 0.5rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --text-opacity: 1;
+    color: rgba(74, 85, 104, var(--text-opacity));
+}
+
+#iwanttoreadmore-vote-toast h3 {
+    font-size: inherit;
+    font-weight: 700;
+}
+
+#iwanttoreadmore-vote-toast p {
+    font-size: 0.875rem;
+}
+
+#iwanttoreadmore-vote-toast small {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+#iwanttoreadmore-vote-toast small a {
+    background-color: transparent;
+    text-decoration: inherit;
+    color: rgba(26, 124, 189, var(--text-opacity));
+    font-weight: 700;
+}
+
+.iwanttoreadmore-vote-link svg {
+    display: inline;
+    fill: currentColor;
+    height: 1em;
+    width: 0.815em;
+}
