@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{% block title %}{{ page.title }}{% endblock %}
+{% block url %}{{ SITEURL }}/{{ page.url }}{% endblock %}
+
+{% if page.summary %}
+{% block description %}{{ page.summary | striptags | safe | truncate(300) }}{% endblock %}
+{% endif %}
+
+{% if page.image %}
+{% block image %}{{ SITEURL }}/images/{{ page.image }}{% endblock %}
+{% endif %}
+
+{% block content %}
+
+<main role="main" class="container md:px-3 lg:px-20 py-6 mx-auto text-gray-700">
+    <article class="p-3">
+        <header class="my-5">
+            <h1>
+                <a
+                    href="{{ SITEURL }}/{{ page.url }}"
+                    class="text-4xl font-bold"
+                    rel="bookmark"
+                    title="Permalink to {{ page.title|striptags }}"
+                    >{{ page.title }}</a
+                >
+            </h1>
+            <p class="text-gray-500">
+                {{ page.locale_date }} by
+                <a class="link" href="{{ SITEURL }}">{{ AUTHOR }}</a>
+            </p>
+        </header>
+
+        <div class="markdown">{{ page.content }}</div>
+    </article>
+</main>
+
+{% endblock %}
