@@ -1,17 +1,143 @@
 /**
-Fetch the votes from the backend and load them in the table
-*/
-function loadVotes() {
-    fetch("https://iwanttoreadmore.com/votes/haltakov/iwanttoreadmore")
+ * Fetch the votes for a user from the backend and load them in the table
+ * @param user - name of the user
+ * @param project - optional name of the user's project (if left empty, all projects for the given user are loaded)
+ */
+function loadVotes(user, project = "") {
+    fetch(`https://iwanttoreadmore.com/votes/${user}/${project || ""}`)
         .then((response) => response.json())
         .then((data) => {
-            fillVotesTable(data);
+            // Get list of all projects
+            // TODO: Optmize by providing the data already split from the API
+            const projects = new Set(data.map((vote) => vote["project_name"]));
+
+            // Create the tables for each project
+            createProjectsTables(user, projects);
+
+            // Populate the tables of each project with the data
+            projects.forEach((project) => fillVotesTable(data.filter((vote) => vote["project_name"] == project)));
         });
 }
 
 /**
+ * Fill the votes table with the provided data
+ * @param votesData - votes data for the give project
+ */
+function fillVotesTable(votesData) {
+    // Sort the data
+    votesData.sort((first, second) => second.vote_count - first.vote_count);
+
+    // Get the table for the corresponding project
+    const table = document.getElementById(`table-${votesData[0].project_name}`);
+    const tbody = table.getElementsByTagName("tbody")[0];
+
+    // Clear all tables
+    tbody.innerHTML = null;
+
+    // Fill the table with the new data
+    votesData.forEach((vote, i) => {
+        const voteRow = document.createElement("tr");
+        voteRow.classList.add("hover:bg-gray-200");
+        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2" data-value=${vote.topic}>${vote.topic}</td>`);
+        voteRow.insertAdjacentHTML(
+            "beforeend",
+            `<td class="pl-1 pr-2 text-right" data-value=${vote.vote_count}>${vote.vote_count}</td>`
+        );
+        voteRow.insertAdjacentHTML(
+            "beforeend",
+            `<td class="py-1 text-center" data-value="${vote.last_vote}">${timestampToDate(vote.last_vote)}</td>`
+        );
+
+        tbody.appendChild(voteRow);
+    });
+
+    // Stop spinning the reload button
+    table.parentElement.getElementsByClassName("reload-button")[0].classList.remove("animate-spin");
+}
+
+/**
+ * Create a table element for each project
+ * @param projects - list of the user's projects
+ */
+function createProjectsTables(user, projects) {
+    // Get the table that should be used as a template to create all other tables
+    const templateTable = document.getElementById("template-table");
+
+    // Check if tables were already created
+    if (!templateTable) return;
+
+    // Create the table for each project
+    projects.forEach((project) => {
+        // Copy the table container and set the title
+        const tableDiv = templateTable.parentElement.cloneNode(true);
+        tableDiv.getElementsByTagName("h3")[0].innerHTML = project.toUpperCase();
+
+        // Set the correct table ID
+        const table = tableDiv.getElementsByTagName("table")[0];
+        table.id = `table-${project}`;
+
+        // Append to the list
+        templateTable.parentElement.parentElement.appendChild(tableDiv);
+
+        // Initialize buttons
+        initSorting(table);
+        initReloadButton(table, () => loadVotes(user, project));
+    });
+
+    templateTable.parentElement.remove();
+}
+
+/**
+ * Initializing the sorting function for each column of a table
+ * @param table - node of the table that needs to be sorted
+ */
+function initSorting(table) {
+    const getCellValue = (tr, idx) => {
+        return tr.children[idx].getAttribute("data-value");
+    };
+
+    const comparer = (idx, desc) => (a, b) =>
+        ((v1, v2) => (v1 !== "" && v2 !== "" && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)))(
+            getCellValue(desc ? b : a, idx),
+            getCellValue(desc ? a : b, idx)
+        );
+
+    table.querySelectorAll("th button").forEach((button) => {
+        button.desc = true;
+        button.addEventListener("click", () => {
+            const tableBody = table.querySelector("tbody");
+            Array.from(tableBody.querySelectorAll("tr:nth-child(n+1)"))
+                .sort(
+                    comparer(
+                        Array.from(button.parentNode.parentNode.children).indexOf(button.parentNode),
+                        (button.desc = !button.desc)
+                    )
+                )
+                .forEach((tr) => tableBody.appendChild(tr));
+        });
+    });
+}
+
+/**
+ * Initialize the reload button for a table
+ * @param table - node of the table for which the sort button needs to be initialized
+ * @param loadVotes - function used to load the votes for the given table
+ */
+function initReloadButton(table, loadVotes) {
+    const reloadButton = table.parentElement.getElementsByClassName("reload-button")[0];
+    reloadButton.addEventListener(
+        "click",
+        (event) => {
+            reloadButton.classList.add("animate-spin");
+            loadVotes();
+        },
+        true
+    );
+}
+
+/**
  * Adds a leading zero to single digit numbers
- * @param {int} x - number
+ * @param x - number
  * @return padded string
  */
 function padZero(x) {
@@ -20,7 +146,7 @@ function padZero(x) {
 
 /**
  * Converts a UTC timestamp to a date string
- * @param {float} votesData - votes data
+ * @param votesData - votes data
  * @return date string
  */
 function timestampToDate(timestamp) {
@@ -44,90 +170,4 @@ function timestampToDate(timestamp) {
     else dateString = `${day}.${month}.${year}`;
 
     return `<span title="${fullDateString}" data-toggle="tooltip" data-placement="right">${dateString}</span>`;
-}
-
-/**
- * Fill the votes table with the provided data
- * @param {JSON} votesData - votes data
- */
-function fillVotesTable(votesData) {
-    // Sort the data
-    votesData.sort((first, second) => second.vote_count - first.vote_count);
-
-    // Clear all tables
-    document.querySelectorAll("tbody").forEach((x) => (x.innerHTML = null));
-
-    // Fill the table with the new data
-    votesData.forEach((vote, i) => {
-        const tableId = `table-${vote.project_name}`;
-
-        const voteRow = document.createElement("tr");
-        voteRow.classList.add("hover:bg-gray-200");
-        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2">${vote.topic}</td>`);
-        voteRow.insertAdjacentHTML("beforeend", `<td class="pl-1 pr-2 text-right">${vote.vote_count}</td>`);
-        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 text-center">${timestampToDate(vote.last_vote)}</td>`);
-
-        document.querySelector(`#${tableId} tbody`).appendChild(voteRow);
-    });
-
-    // Stop spinning the reload buttons
-    reloadButtons = Array.from(document.getElementsByClassName("reload-button"));
-    reloadButtons.forEach((e) => e.classList.remove("animate-spin"));
-}
-
-/**
- * Initialize the reload buttons
- */
-function initReloadButtons() {
-    reloadButtons = Array.from(document.getElementsByClassName("reload-button"));
-    reloadButtons.forEach((e) =>
-        e.addEventListener(
-            "click",
-            (event) => {
-                e.classList.add("animate-spin");
-                loadVotes();
-            },
-            true
-        )
-    );
-}
-
-/**
- * Initializing the sorting function for each column of the table
- */
-function initSorting() {
-    const getCellValue = (tr, idx) => {
-        console.log(tr.children[idx].innerHTML);
-        return tr.children[idx].innerHTML;
-    };
-
-    const comparer = (idx, desc) => (a, b) =>
-        ((v1, v2) => (v1 !== "" && v2 !== "" && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)))(
-            getCellValue(desc ? b : a, idx),
-            getCellValue(desc ? a : b, idx)
-        );
-
-    document.querySelectorAll("th a").forEach((a) =>
-        a.addEventListener("click", () => {
-            const table = a.closest("table").querySelector("tbody");
-            Array.from(table.querySelectorAll("tr:nth-child(n+1)"))
-                .sort(
-                    comparer(
-                        Array.from(a.parentNode.parentNode.children).indexOf(a.parentNode),
-                        (this.desc = !this.desc)
-                    )
-                )
-                .forEach((tr) => table.appendChild(tr));
-        })
-    );
-}
-
-if (document.readyState !== "loading") {
-    loadVotes();
-    initSorting();
-    initReloadButtons();
-} else {
-    document.addEventListener("DOMContentLoaded", loadVotes);
-    document.addEventListener("DOMContentLoaded", initSorting);
-    document.addEventListener("DOMContentLoaded", initReloadButtons);
 }
