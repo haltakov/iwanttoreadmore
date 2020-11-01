@@ -62,17 +62,20 @@
                     click this voting link {{ vote("haltakov","iwanttoreadmore","example") }} as an example.
                 </p>
             </div>
-            <div class="w-full xl:w-4/5 mx-auto px-2 md:px-5 pb-2 pt-8 md:pt-4 bg-white rounded-lg shadow-lg relative">
+            <div
+                class="w-full xl:w-4/5 mx-auto mt-6 px-2 md:px-5 pb-2 pt-8 md:pt-4 bg-white rounded-lg shadow-lg relative"
+            >
+                <h3 class="text-md font-bold text-center"></h3>
                 <a class="reload-button absolute right-0 top-0 mr-2 mt-2 animate-spin" href="#">
                     {{ icons.reload("w-4") }}
                 </a>
-                <table class="w-full" id="table-iwanttoreadmore">
+                <table class="w-full mt-6" id="template-table">
                     <thead>
                         <tr>
-                            <th scope="col" class="pb-3 text-left">Topic <a class="link text-sm" href="#">▼</a></th>
-                            <th scope="col" class="pb-3 text-right">Votes <a class="link text-sm" href="#">▼</a></th>
+                            <th scope="col" class="pb-3 text-left">Topic <button class="link text-sm">▼</button></th>
+                            <th scope="col" class="pb-3 text-right">Votes <button class="link text-sm">▼</button></th>
                             <th scope="col" class="pb-3 text-center">
-                                Last Vote <a class="link text-sm" href="#">▼</a>
+                                Last Vote <button class="link text-sm">▼</button>
                             </th>
                         </tr>
                     </thead>
@@ -92,4 +95,13 @@
 <!-- prettier-ignore -->
 {% block scripts %}
 <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/stats.js"></script>
+<script>
+    if (document.readyState !== "loading") {
+        loadVotes("haltakov", "iwanttoreadmore");
+    } else {
+        document.addEventListener("DOMContentLoaded", () => {
+            loadVotes("haltakov", "iwanttoreadmore");
+        });
+    }
+</script>
 {% endblock %}

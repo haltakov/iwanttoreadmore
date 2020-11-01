@@ -19,12 +19,13 @@ THEME = "themes/minimal/"
 # Static pages of the website that will be generated
 TEMPLATE_PAGES = {
     "pages/index.html": "index.html",
-    "pages/stats.html": "stats.html",
+    "pages/demo.html": "demo.html",
     "pages/email/confirm_email.html": "confirm_email.html",
     "pages/email/confirm_subscription.html": "confirm_subscription.html",
     "pages/email/confirm_subscription_beta.html": "confirm_subscription_beta.html",
     "pages/user/login.html": "login.html",
     "pages/user/settings.html": "settings.html",
+    "pages/user/stats.html": "stats.html",
     "pages/404.html": "404.html",
 }
 
