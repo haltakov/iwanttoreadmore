@@ -30,6 +30,35 @@ def add_vote(event, context):
     }
 
 
+def add_vote_and_redirect(event, context):
+    """
+    Handle add vote requests and redirect to a info page
+    :param event: event
+    :param context: context
+    :return: redirect to a page explaining that the vote was added
+    """
+    # Get all parameters
+    user = event["pathParameters"]["user"]
+    project = event["pathParameters"]["project"]
+    topic = event["pathParameters"]["topic"]
+
+    # Do the voting
+    vote = Vote()
+    vote.add_vote(user, project, topic)
+
+    # Return response
+    return {
+        "statusCode": 302,
+        "headers": {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+            "Location": "https://iwanttoreadmore.com/voted",
+        },
+        "body": "",
+    }
+
+
 def get_votes_for_user(event, context):
     """
     Handle get votes request for a user

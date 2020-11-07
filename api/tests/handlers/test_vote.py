@@ -5,6 +5,7 @@ from unittest import mock
 from moto import mock_dynamodb2
 from iwanttoreadmore.handlers.vote import (
     add_vote,
+    add_vote_and_redirect,
     get_votes_for_user,
     get_votes_for_project,
 )
@@ -82,8 +83,7 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(json.dumps([]), response_4["body"])
         self.assertEqual(json.dumps([]), response_5["body"])
 
-    @mock.patch("time.time", return_value=9999)
-    def test_add_vote(self, time):
+    def add_vote_helper(self, vote_handler, expected_return_code):
         expected_data_user_2 = get_expected_data("user_2")
         expected_data_user_2[0]["vote_count"] += 1
         expected_data_user_2[0]["last_vote"] = "9999"
@@ -101,11 +101,11 @@ class VoteHandlersTestCase(unittest.TestCase):
         event_1 = dict(
             pathParameters=dict(user="user_2", project="project_c", topic="topic_ddd")
         )
-        response_1 = add_vote(event_1, None)
+        response_1 = vote_handler(event_1, None)
         event_2 = dict(pathParameters=dict(user="user_2"))
         response_2 = get_votes_for_user(event_2, None)
 
-        self.assertEqual(200, response_1["statusCode"])
+        self.assertEqual(expected_return_code, response_1["statusCode"])
         self.assertEqual(200, response_2["statusCode"])
         self.assertEqual(json.dumps(expected_data_user_2), response_2["body"])
 
@@ -113,13 +113,21 @@ class VoteHandlersTestCase(unittest.TestCase):
         event_3 = dict(
             pathParameters=dict(user="user_3", project="project_x", topic="topic_xxx")
         )
-        response_3 = add_vote(event_3, None)
+        response_3 = vote_handler(event_3, None)
         event_4 = dict(pathParameters=dict(user="user_3"))
         response_4 = get_votes_for_user(event_4, None)
 
-        self.assertEqual(200, response_3["statusCode"])
+        self.assertEqual(expected_return_code, response_3["statusCode"])
         self.assertEqual(200, response_4["statusCode"])
         self.assertEqual(json.dumps(expected_data_user_3), response_4["body"])
+
+    @mock.patch("time.time", return_value=9999)
+    def test_add_vote(self, time):
+        self.add_vote_helper(add_vote, 200)
+
+    @mock.patch("time.time", return_value=9999)
+    def test_add_vote_and_redirect(self, time):
+        self.add_vote_helper(add_vote_and_redirect, 302)
 
 
 if __name__ == "__main__":

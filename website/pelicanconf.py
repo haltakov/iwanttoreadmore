@@ -27,6 +27,7 @@ TEMPLATE_PAGES = {
     "pages/user/settings.html": "settings.html",
     "pages/user/stats.html": "stats.html",
     "pages/404.html": "404.html",
+    "pages/voted.html": "voted.html",
 }
 
 # Static paths of the website
