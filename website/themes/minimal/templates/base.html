@@ -78,6 +78,7 @@
 
     <body class="font-body flex flex-col h-screen">
         <!-- Navigation bar -->
+        {% if not hide_navbar %}
         <header class="border-b border-gray-300 bg-white">
             <nav class="flex lg:container lg:mx-auto items-center font-bold text-gray-700 py-3 px-5 uppercase">
                 <div class="flex flex-grow">
@@ -104,11 +105,13 @@
                 </ul>
             </nav>
         </header>
+        {% endif %}
 
         <!-- Page content block -->
         {% block content %} {% endblock %}
 
         <!-- Footer -->
+        {% if not hide_navbar %}
         <footer class="border-t border-gray-300 text-gray-700 bg-white h-12">
             <div class="flex justify-center text-center my-3">
                 <span class="px-3 inline-block"
@@ -126,6 +129,7 @@
                 </a>
             </div>
         </footer>
+        {% endif %}
 
         <!-- JavaScript -->
         <script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
