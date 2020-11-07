@@ -5,6 +5,7 @@ from unittest import mock
 from moto import mock_dynamodb2
 from iwanttoreadmore.handlers.vote import (
     add_vote,
+    add_vote_and_redirect,
     get_votes_for_user,
     get_votes_for_project,
 )
@@ -124,6 +125,9 @@ class VoteHandlersTestCase(unittest.TestCase):
     def test_add_vote(self, time):
         self.add_vote_helper(add_vote, 200)
 
+    @mock.patch("time.time", return_value=9999)
+    def test_add_vote_and_redirect(self, time):
+        self.add_vote_helper(add_vote_and_redirect, 302)
 
 
 if __name__ == "__main__":
