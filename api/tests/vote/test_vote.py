@@ -28,10 +28,6 @@ class VoteTestCase(unittest.TestCase):
     def test_get_topic_key(self):
         self.assertEqual("project_a/topic_aaa", get_topic_key("project_a", "topic_aaa"))
 
-    @mock.patch("time.time", return_value=9999)
-    def test_get_current_timestamp(self, time):
-        self.assertEqual("9999", get_current_timestamp())
-
     def test_get_votes_for_user(self):
         vote = Vote()
         self.assertEqual(get_expected_data("user_1"), vote.get_votes_for_user("user_1"))
