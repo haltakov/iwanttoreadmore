@@ -35,7 +35,7 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(
             self.expected_users_data["user_2"], user.get_user_by_username("user_2")
         )
-        self.assertEqual([], user.get_user_by_username("user_3"))
+        self.assertFalse(user.get_user_by_username("user_3"))
 
     def test_get_user_by_email(self):
         expected_user_data = get_expected_users_data()
@@ -48,7 +48,7 @@ class UserTestCase(unittest.TestCase):
             self.expected_users_data["user_2"],
             user.get_user_by_email("user_2@gmail.com"),
         )
-        self.assertEqual([], user.get_user_by_username("user_3@gmail.com"))
+        self.assertFalse(user.get_user_by_username("user_3@gmail.com"))
 
     @mock.patch("time.time", return_value=9999)
     @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$nChdB1EJj1DZbtJgNSOFz.")
