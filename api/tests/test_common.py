@@ -5,6 +5,8 @@ from iwanttoreadmore.common import (
     check_email,
     check_password,
     check_username,
+    create_password_hash,
+    check_password_hash,
 )
 
 
@@ -49,6 +51,27 @@ class CommonTestCase(unittest.TestCase):
         self.assertFalse(check_username("aa"))
         self.assertFalse(check_username("aaa"))
         self.assertFalse(check_username("a" * 31))
+
+    @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$nChdB1EJj1DZbtJgNSOFz.")
+    def test_create_password_hash(self, bcrypt):
+        self.assertEqual(
+            "$2b$12$nChdB1EJj1DZbtJgNSOFz.fTxPXu565.ic3xtXJvjLf64F4ELnuXG",
+            create_password_hash("test3"),
+        )
+
+    def test_check_password_hash(self):
+        self.assertTrue(
+            check_password_hash(
+                "test3", "$2b$12$nChdB1EJj1DZbtJgNSOFz.fTxPXu565.ic3xtXJvjLf64F4ELnuXG"
+            )
+        )
+
+        self.assertFalse(
+            check_password_hash(
+                "test_wrong",
+                "$2b$12$nChdB1EJj1DZbtJgNSOFz.fTxPXu565.ic3xtXJvjLf64F4ELnuXG",
+            )
+        )
 
 
 if __name__ == "__main__":
