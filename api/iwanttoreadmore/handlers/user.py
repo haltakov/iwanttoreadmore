@@ -19,7 +19,7 @@ def login_user(event, _):
             cookie_content_signed = sign_cookie(cookie_content)
 
             expiration_date = datetime.now() + timedelta(days=30)
-            cookie = f"{cookie_content_signed};SameSite=Strict;Expires={get_cookie_date(expiration_date)}"
+            cookie = f"{cookie_content_signed};SameSite=Strict;Expires={get_cookie_date(expiration_date)};HttpOnly"
 
             return {
                 "statusCode": 200,
