@@ -53,7 +53,7 @@ class UserHandlersTestCase(unittest.TestCase):
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST",
                 "Access-Control-Allow-Credentials": "true",
-                "Set-Cookie": "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm;SameSite=Strict;Expires=Fri, 31 Jan 2020 01:23:34 GMT",
+                "Set-Cookie": "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm;SameSite=Strict;Expires=Fri, 31 Jan 2020 01:23:34 GMT;HttpOnly",
             },
             "body": "",
         }

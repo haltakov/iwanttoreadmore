@@ -71,8 +71,10 @@
             credentials: "same-origin",
             body: formContent,
         }).then((response) => {
-            if (response.ok) document.location = "/demo";
-            else {
+            if (response.ok) {
+                document.cookie = "loggedin";
+                document.location = "/settings";
+            } else {
                 document.getElementById("login-form-error-message").classList.remove("hidden");
                 submitButton.classList.add("button-orange");
                 submitButton.classList.remove("button-disabled");
