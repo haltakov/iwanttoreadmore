@@ -8,39 +8,60 @@
     >
         <h2 class="font-bold text-xl lg:text-2xl">User settings</h2>
 
-        <section class="mt-6">
-            <h3 class="mb-6 font-bold text-lg text-left">Change password</h3>
-            <form class="" action="" method="post" id="change-password-form" name="change-password-form">
-                <div class="w-full lg:w-3/4 xl:w-1/2 mx-auto">
-                    <input
-                        class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
-                        placeholder="Password"
-                        type="password"
-                        value=""
-                        name="password"
-                        id="password"
-                        aria-label="Password"
-                    />
-                    <input
-                        class="w-full mt-4 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
-                        placeholder="Repeat Password"
-                        type="password"
-                        value=""
-                        name="password2"
-                        id="password2"
-                        aria-label="Repeat Password"
-                    />
-                    <button type="submit" class="button-blue w-48 mt-6 mx-2">Change Password</button>
-                </div>
-            </form>
-        </section>
+        <div id="settings-panel-loading" class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
 
-        <section class="mt-8">
-            <h3 class="mb-6 font-bold text-lg text-left">Do you need help?</h3>
-            <div>
-                <a class="button-orange w-48 inline-block" href="mailto:vladimir@iwanttoreadmore.com">Get Help</a>
-            </div>
-        </section>
+        <div id="settings-panel" class="hidden">
+            <section class="mt-6">
+                <h3 class="mb-6 font-bold text-lg text-left">Change password</h3>
+                <form class="" action="" method="post" id="change-password-form" name="change-password-form">
+                    <div class="w-full lg:w-3/4 xl:w-1/2 mx-auto">
+                        <input
+                            class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                            placeholder="Password"
+                            type="password"
+                            value=""
+                            name="password"
+                            id="password"
+                            aria-label="Password"
+                        />
+                        <input
+                            class="w-full mt-4 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                            placeholder="Repeat Password"
+                            type="password"
+                            value=""
+                            name="password2"
+                            id="password2"
+                            aria-label="Repeat Password"
+                        />
+                        <button type="submit" class="button-blue w-48 mt-6 mx-2">Change Password</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="mt-8">
+                <h3 class="mb-6 font-bold text-lg text-left">Do you need help?</h3>
+                <div>
+                    <a class="button-orange w-48 inline-block" href="mailto:vladimir@iwanttoreadmore.com">Get Help</a>
+                </div>
+            </section>
+        </div>
     </div>
 </div>
+
+<script>
+    fetch("https://iwanttoreadmore.com/user/loggedin", {
+        method: "GET",
+        mode: "cors",
+        credentials: "same-origin",
+    })
+        .then((response) => {
+            if (response.ok) {
+                document.getElementById("settings-panel").classList.remove("hidden");
+                document.getElementById("settings-panel-loading").classList.add("hidden");
+            } else {
+                document.location = "/login";
+            }
+        })
+        .catch((error) => (document.location = "/login"));
+</script>
 {% endblock content %}
