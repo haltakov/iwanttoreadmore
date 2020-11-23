@@ -11,9 +11,9 @@ from iwanttoreadmore.handlers.vote import (
 )
 from tests.helpers import (
     create_votes_table,
-    create_test_data,
-    remove_votes_table,
-    get_expected_data,
+    create_test_votes_data,
+    remove_table,
+    get_expected_votes_data,
 )
 
 
@@ -26,10 +26,10 @@ class VoteHandlersTestCase(unittest.TestCase):
         os.environ["VOTES_TABLE"] = "iwanttoreadmore-votes-test"
 
         self.votes_table = create_votes_table(os.environ["VOTES_TABLE"])
-        create_test_data(self.votes_table)
+        create_test_votes_data(self.votes_table)
 
     def tearDown(self):
-        remove_votes_table(os.environ["VOTES_TABLE"])
+        remove_table(os.environ["VOTES_TABLE"])
 
     def test_get_votes_for_user(self):
         event_1 = dict(pathParameters=dict(user="user_1"))
@@ -45,8 +45,12 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(200, response_2["statusCode"])
         self.assertEqual(200, response_3["statusCode"])
 
-        self.assertEqual(json.dumps(get_expected_data("user_1")), response_1["body"])
-        self.assertEqual(json.dumps(get_expected_data("user_2")), response_2["body"])
+        self.assertEqual(
+            json.dumps(get_expected_votes_data("user_1")), response_1["body"]
+        )
+        self.assertEqual(
+            json.dumps(get_expected_votes_data("user_2")), response_2["body"]
+        )
         self.assertEqual(json.dumps([]), response_3["body"])
 
     def test_get_votes_for_project(self):
@@ -72,19 +76,22 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(200, response_5["statusCode"])
 
         self.assertEqual(
-            json.dumps(get_expected_data("user_1", "project_a")), response_1["body"]
+            json.dumps(get_expected_votes_data("user_1", "project_a")),
+            response_1["body"],
         )
         self.assertEqual(
-            json.dumps(get_expected_data("user_1", "project_b")), response_2["body"]
+            json.dumps(get_expected_votes_data("user_1", "project_b")),
+            response_2["body"],
         )
         self.assertEqual(
-            json.dumps(get_expected_data("user_2", "project_c")), response_3["body"]
+            json.dumps(get_expected_votes_data("user_2", "project_c")),
+            response_3["body"],
         )
         self.assertEqual(json.dumps([]), response_4["body"])
         self.assertEqual(json.dumps([]), response_5["body"])
 
     def add_vote_helper(self, vote_handler, expected_return_code):
-        expected_data_user_2 = get_expected_data("user_2")
+        expected_data_user_2 = get_expected_votes_data("user_2")
         expected_data_user_2[0]["vote_count"] += 1
         expected_data_user_2[0]["last_vote"] = "9999"
 

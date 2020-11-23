@@ -1,7 +1,7 @@
 import os
-import time
 import boto3
 from boto3.dynamodb.conditions import Key
+from iwanttoreadmore.common import get_current_timestamp
 
 
 def get_topic_key(project_name, topic):
@@ -12,14 +12,6 @@ def get_topic_key(project_name, topic):
     :return: topic key
     """
     return f"{project_name}/{topic}"
-
-
-def get_current_timestamp():
-    """
-    Get the current timestamp as a string
-    :return: current timestamp string
-    """
-    return str(time.time())
 
 
 class Vote:
@@ -110,7 +102,7 @@ class Vote:
             },
             ExpressionAttributeValues={
                 ":VoteCount": vote_count,
-                ":LastVote": str(time.time()),
+                ":LastVote": get_current_timestamp(),
             },
             UpdateExpression="SET #VoteCount = :VoteCount, #LastVote = :LastVote",
         )

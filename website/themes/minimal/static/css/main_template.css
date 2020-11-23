@@ -16,6 +16,10 @@ html {
     @apply text-iblue-light;
 }
 
+.button-disabled {
+    @apply py-3 px-4 font-semibold border text-gray-500 cursor-default rounded-lg;
+}
+
 .button-orange {
     @apply py-3 px-4 font-semibold text-white rounded-lg bg-gradient-to-tr from-orange-600 to-yellow-500;
 }

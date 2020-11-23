@@ -12,6 +12,7 @@ provider:
     cfnRole: arn:aws:iam::018469183656:role/IWTRMCloudFormationRole
     environment:
         VOTES_TABLE: ${self:service}-votes-${opt:stage, self:provider.stage}
+        USERS_TABLE: ${self:service}-users-${opt:stage, self:provider.stage}
     iamRoleStatements:
         - Effect: Allow
           Action:
@@ -22,6 +23,26 @@ provider:
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_TABLE}"
+        - Effect: Allow
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
+        - Effect: Allow
+          Action:
+              - ssm:GetParameter
+          Resource: "arn:aws:ssm:us-east-1:018469183656:parameter/IWANTTOREADMORE_COOKIE_SECRET"
+
+plugins:
+    - serverless-python-requirements
+
+custom:
+    pythonRequirements:
+        dockerizePip: non-linux
 
 functions:
     vote:
@@ -56,6 +77,23 @@ functions:
                   path: votes/{user}/{project}
                   method: get
                   cors: true
+    login_user:
+        handler: iwanttoreadmore/handlers/user.login_user
+        timeout: 30
+        memorySize: 512
+        events:
+            - http:
+                  path: user/login
+                  method: post
+                  cors: true
+    check_user_logged_in:
+        handler: iwanttoreadmore/handlers/user.check_user_logged_in
+        memorySize: 128
+        events:
+            - http:
+                  path: user/loggedin
+                  method: get
+                  cors: true
 
 resources:
     Resources:
@@ -77,3 +115,17 @@ resources:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
                 TableName: ${self:provider.environment.VOTES_TABLE}
+        IWTRMUsersDynamoDbTable:
+            Type: "AWS::DynamoDB::Table"
+            DeletionPolicy: Retain
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: User
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: User
+                      KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 1
+                    WriteCapacityUnits: 1
+                TableName: ${self:provider.environment.USERS_TABLE}

@@ -5,9 +5,9 @@ from moto import mock_dynamodb2
 from iwanttoreadmore.vote.vote import Vote, get_topic_key, get_current_timestamp
 from tests.helpers import (
     create_votes_table,
-    create_test_data,
-    remove_votes_table,
-    get_expected_data,
+    create_test_votes_data,
+    remove_table,
+    get_expected_votes_data,
 )
 
 
@@ -20,36 +20,36 @@ class VoteTestCase(unittest.TestCase):
         os.environ["VOTES_TABLE"] = "iwanttoreadmore-votes-test"
 
         self.votes_table = create_votes_table(os.environ["VOTES_TABLE"])
-        create_test_data(self.votes_table)
+        create_test_votes_data(self.votes_table)
 
     def tearDown(self):
-        remove_votes_table(os.environ["VOTES_TABLE"])
+        remove_table(os.environ["VOTES_TABLE"])
 
     def test_get_topic_key(self):
         self.assertEqual("project_a/topic_aaa", get_topic_key("project_a", "topic_aaa"))
 
-    @mock.patch("time.time", return_value=9999)
-    def test_get_current_timestamp(self, time):
-        self.assertEqual("9999", get_current_timestamp())
-
     def test_get_votes_for_user(self):
         vote = Vote()
-        self.assertEqual(get_expected_data("user_1"), vote.get_votes_for_user("user_1"))
-        self.assertEqual(get_expected_data("user_2"), vote.get_votes_for_user("user_2"))
+        self.assertEqual(
+            get_expected_votes_data("user_1"), vote.get_votes_for_user("user_1")
+        )
+        self.assertEqual(
+            get_expected_votes_data("user_2"), vote.get_votes_for_user("user_2")
+        )
         self.assertEqual([], vote.get_votes_for_user("user_3"))
 
     def test_get_votes_for_project(self):
         vote = Vote()
         self.assertEqual(
-            get_expected_data("user_1", "project_a"),
+            get_expected_votes_data("user_1", "project_a"),
             vote.get_votes_for_project("user_1", "project_a"),
         )
         self.assertEqual(
-            get_expected_data("user_1", "project_b"),
+            get_expected_votes_data("user_1", "project_b"),
             vote.get_votes_for_project("user_1", "project_b"),
         )
         self.assertEqual(
-            get_expected_data("user_2", "project_c"),
+            get_expected_votes_data("user_2", "project_c"),
             vote.get_votes_for_project("user_2", "project_c"),
         )
         self.assertEqual([], vote.get_votes_for_project("user_2", "project_y"))
@@ -86,7 +86,7 @@ class VoteTestCase(unittest.TestCase):
 
     @mock.patch("time.time", return_value=9999)
     def test_create_topic(self, time):
-        expected_votes_user_2 = get_expected_data("user_2") + [
+        expected_votes_user_2 = get_expected_votes_data("user_2") + [
             dict(
                 topic="topic_eee",
                 project_name="project_d",
