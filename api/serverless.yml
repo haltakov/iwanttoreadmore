@@ -12,6 +12,7 @@ provider:
     cfnRole: arn:aws:iam::018469183656:role/IWTRMCloudFormationRole
     environment:
         VOTES_TABLE: ${self:service}-votes-${opt:stage, self:provider.stage}
+        USERS_TABLE: ${self:service}-users-${opt:stage, self:provider.stage}
     iamRoleStatements:
         - Effect: Allow
           Action:
@@ -22,6 +23,15 @@ provider:
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_TABLE}"
+        - Effect: Allow
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
 
 functions:
     vote:
@@ -77,3 +87,17 @@ resources:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
                 TableName: ${self:provider.environment.VOTES_TABLE}
+        IWTRMUsersDynamoDbTable:
+            Type: "AWS::DynamoDB::Table"
+            DeletionPolicy: Retain
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: User
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: User
+                      KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 1
+                    WriteCapacityUnits: 1
+                TableName: ${self:provider.environment.USERS_TABLE}
