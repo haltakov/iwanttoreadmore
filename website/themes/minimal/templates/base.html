@@ -92,7 +92,7 @@
                     >
                 </div>
 
-                <ul class="flex text-sm">
+                <ul id="logged-out-nav" class="flex text-sm">
                     <li class="mx-3">
                         <a class="hover:text-iblue" href="{{ SITEURL }}/demo">Live Demo</a>
                     </li>
@@ -101,6 +101,21 @@
                     </li>
                     <li class="mx-3">
                         <a class="hover:text-iblue" href="{{ SITEURL }}/login">Login</a>
+                    </li>
+                </ul>
+
+                <ul id="logged-in-nav" class="flex text-sm hidden">
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/stats">Dashboard</a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/blog">Blog</a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/settings">Settings</a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="hover:text-iblue" href="{{ SITEURL }}/logout">Logout</a>
                     </li>
                 </ul>
             </nav>
