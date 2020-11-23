@@ -32,6 +32,17 @@ provider:
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
+        - Effect: Allow
+          Action:
+              - ssm:GetParameter
+          Resource: "arn:aws:ssm:us-east-1:018469183656:parameter/IWANTTOREADMORE_COOKIE_SECRET"
+
+plugins:
+    - serverless-python-requirements
+
+custom:
+    pythonRequirements:
+        dockerizePip: non-linux
 
 functions:
     vote:
@@ -64,6 +75,23 @@ functions:
         events:
             - http:
                   path: votes/{user}/{project}
+                  method: get
+                  cors: true
+    login_user:
+        handler: iwanttoreadmore/handlers/user.login_user
+        timeout: 30
+        memorySize: 512
+        events:
+            - http:
+                  path: user/login
+                  method: post
+                  cors: true
+    check_user_logged_in:
+        handler: iwanttoreadmore/handlers/user.check_user_logged_in
+        memorySize: 128
+        events:
+            - http:
+                  path: user/loggedin
                   method: get
                   cors: true
 
