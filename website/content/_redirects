@@ -1,3 +1,5 @@
 /vote/:user/:project/:topic  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/vote/:user/:project/:topic  200
 /votes/:user  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/votes/:user  200
 /votes/:user/:project  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/votes/:user/:project  200
+/user/login  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/login 200
+/user/loggedin  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/loggedin 200
