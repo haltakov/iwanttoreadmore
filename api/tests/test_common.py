@@ -126,6 +126,11 @@ class CommonTestCase(unittest.TestCase):
                 "user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC; loggedin="
             )
         )
+        self.assertTrue(
+            check_cookie_signature(
+                "loggedin; user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
+            )
+        )
         self.assertFalse(
             check_cookie_signature(
                 "user=otheruser&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"

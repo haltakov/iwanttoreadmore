@@ -2,6 +2,7 @@ import re
 import time
 import boto3
 import bcrypt
+import urllib.parse
 
 
 def get_current_timestamp():
@@ -89,16 +90,23 @@ def sign_cookie(cookie_content):
     return f"{cookie_content}&signature={signature.decode()}"
 
 
-def check_cookie_signature(cookie):
+def check_cookie_signature(cookie_string):
     """
     Verify that the content of the cookie wasn't changed by recomputing the signeture
-    :param cookie: cookie string containing a signature at the end
+    :param cookie_string: cookie string containing a signature at the end
     :return: True if the cookie signature is valid, Flase otherwise
     """
-    if not "&signature=" in cookie:
-        return False
 
-    cookie_without_signature, signature = cookie.split("&signature=")
-    signature = signature.split(";")[0]
-    cookie_with_secret = cookie_without_signature + get_cookie_secret()
-    return bcrypt.checkpw(cookie_with_secret.encode(), signature.encode())
+    cookies = cookie_string.split(";")
+
+    for cookie in cookies:
+        params = urllib.parse.parse_qs(cookie.strip())
+
+        if "signature" in params and "user" in params:
+            cookie_with_secret = f"user={params['user'][0]}" + get_cookie_secret()
+            return bcrypt.checkpw(
+                cookie_with_secret.encode(), params["signature"][0].encode()
+            )
+
+    return False
+
