@@ -55,7 +55,7 @@ functions:
                   cors: true
     vote_and_redirect:
         handler: iwanttoreadmore/handlers/vote.add_vote_and_redirect
-        memorySize: 128
+        memorySize: 1024
         events:
             - http:
                   path: vote/{user}/{project}/{topic}
@@ -63,7 +63,7 @@ functions:
                   cors: true
     get_votes_for_user:
         handler: iwanttoreadmore/handlers/vote.get_votes_for_user
-        memorySize: 128
+        memorySize: 1024
         events:
             - http:
                   path: votes/{user}
@@ -71,7 +71,7 @@ functions:
                   cors: true
     get_votes_for_project:
         handler: iwanttoreadmore/handlers/vote.get_votes_for_project
-        memorySize: 128
+        memorySize: 1024
         events:
             - http:
                   path: votes/{user}/{project}
@@ -79,8 +79,7 @@ functions:
                   cors: true
     login_user:
         handler: iwanttoreadmore/handlers/user.login_user
-        timeout: 30
-        memorySize: 512
+        memorySize: 2048
         events:
             - http:
                   path: user/login
@@ -88,7 +87,7 @@ functions:
                   cors: true
     check_user_logged_in:
         handler: iwanttoreadmore/handlers/user.check_user_logged_in
-        memorySize: 128
+        memorySize: 2048
         events:
             - http:
                   path: user/loggedin
