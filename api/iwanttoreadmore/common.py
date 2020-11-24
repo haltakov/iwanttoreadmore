@@ -99,5 +99,6 @@ def check_cookie_signature(cookie):
         return False
 
     cookie_without_signature, signature = cookie.split("&signature=")
+    signature = signature.split(";")[0]
     cookie_with_secret = cookie_without_signature + get_cookie_secret()
     return bcrypt.checkpw(cookie_with_secret.encode(), signature.encode())
