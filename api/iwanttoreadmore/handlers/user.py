@@ -50,22 +50,27 @@ def login_user(event, _):
     }
 
 
+def get_logged_in_user(event):
+    """
+    Get the logged in user from the provided cookie
+    :param event: event
+    :return: the username of the logged in user or None if no valid user is logged in
+    """
+
+    if not "Cookie" in event["headers"]:
+        return None
+
+    return check_cookie_signature(event["headers"]["Cookie"])
+
+
 def check_user_logged_in(event, _):
     """
     Check if a user is logged in based on the provided cookie
     :param event: event
     :return: 200 if th euser is logged in, 401 otherwise
     """
-    status_code = 401
-
-    if "Cookie" in event["headers"]:
-        cookie = event["headers"]["Cookie"]
-
-        if check_cookie_signature(cookie):
-            status_code = 200
-
     return {
-        "statusCode": status_code,
+        "statusCode": 200 if get_logged_in_user(event) else 401,
         "headers": {
             "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*",
