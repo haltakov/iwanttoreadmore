@@ -86,4 +86,60 @@ def change_password(event, _):
     :param event: event
     :return: 200 if the change was successful, 400 if there was a problem with the new password
     """
-    pass
+
+    # Parse the parameters
+    params = parse_qs(event["body"])
+
+    # Check if a password is missing or they don't match
+    if (
+        "password" not in params
+        or "password2" not in params
+        or params["password"][0] != params["password2"][0]
+    ):
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "The two passwords don't match",
+        }
+
+    # Check if the user is logged in correctly
+    username = get_logged_in_user(event)
+    if not username:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "User not logged in correctly",
+        }
+
+    # Try to change the password
+    user = User()
+    try:
+        user.update_user_password(username, params["password"][0])
+
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "",
+        }
+    except ValueError as error:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": str(error),
+        }
