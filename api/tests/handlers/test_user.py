@@ -4,7 +4,11 @@ from unittest import mock
 import boto3
 from moto import mock_dynamodb2
 from moto import mock_ssm
-from iwanttoreadmore.handlers.user import login_user, check_user_logged_in
+from iwanttoreadmore.handlers.user import (
+    login_user,
+    check_user_logged_in,
+    change_password,
+)
 from tests.helpers import (
     create_users_table,
     create_test_users_data,
@@ -102,6 +106,97 @@ class UserHandlersTestCase(unittest.TestCase):
 
         event_3 = dict(headers=dict(Cookie=""))
         self.assertEqual(401, check_user_logged_in(event_3, None)["statusCode"])
+
+    def test_change_password(self):
+        # Positive case
+        event_1 = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="password=newpassword;password2=newpassword",
+        )
+        response_1 = {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "",
+        }
+        self.assertEqual(response_1, change_password(event_1, None))
+
+        # Invalid password (too short)
+        event_2 = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="password=np;password2=np",
+        )
+        response_2 = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "Invalid password",
+        }
+        self.assertEqual(response_2, change_password(event_2, None))
+
+        # Password missmatch
+        event_3 = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="password=newpassword;password2=otherpassword",
+        )
+        response_3 = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "The two passwords don't match",
+        }
+        self.assertEqual(response_3, change_password(event_3, None))
+
+        # Bad password request
+        event_4 = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="password=newpassword",
+        )
+        response_4 = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "The two passwords don't match",
+        }
+        self.assertEqual(response_4, change_password(event_4, None))
+
+        # Wrong user cookie
+        event_5 = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="password=newpassword;password2=newpassword",
+        )
+        response_5 = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "User not logged in correctly",
+        }
+        self.assertEqual(response_5, change_password(event_5, None))
 
 
 if __name__ == "__main__":
