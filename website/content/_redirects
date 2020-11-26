@@ -3,3 +3,4 @@
 /votes/:user/:project  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/votes/:user/:project  200
 /user/login  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/login 200
 /user/loggedin  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/loggedin 200
+/user/changepassword  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/changepassword 200

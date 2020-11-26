@@ -5,6 +5,12 @@ from iwanttoreadmore.user.user import User
 
 
 def login_user(event, _):
+    """
+    Login a user
+    :param event: event
+    :return: 200 and a login cookie if successful, 401 otherwise
+    """
+
     # Parse the paramteres
     params = parse_qs(event["body"])
 
@@ -44,17 +50,27 @@ def login_user(event, _):
     }
 
 
+def get_logged_in_user(event):
+    """
+    Get the logged in user from the provided cookie
+    :param event: event
+    :return: the username of the logged in user or None if no valid user is logged in
+    """
+
+    if not "Cookie" in event["headers"]:
+        return None
+
+    return check_cookie_signature(event["headers"]["Cookie"])
+
+
 def check_user_logged_in(event, _):
-    status_code = 401
-
-    if "Cookie" in event["headers"]:
-        cookie = event["headers"]["Cookie"]
-
-        if check_cookie_signature(cookie):
-            status_code = 200
-
+    """
+    Check if a user is logged in based on the provided cookie
+    :param event: event
+    :return: 200 if th euser is logged in, 401 otherwise
+    """
     return {
-        "statusCode": status_code,
+        "statusCode": 200 if get_logged_in_user(event) else 401,
         "headers": {
             "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*",
@@ -63,3 +79,67 @@ def check_user_logged_in(event, _):
         "body": "",
     }
 
+
+def change_password(event, _):
+    """
+    Change the password of the user
+    :param event: event
+    :return: 200 if the change was successful, 400 if there was a problem with the new password
+    """
+
+    # Parse the parameters
+    params = parse_qs(event["body"])
+
+    # Check if a password is missing or they don't match
+    if (
+        "password" not in params
+        or "password2" not in params
+        or params["password"][0] != params["password2"][0]
+    ):
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "The two passwords don't match",
+        }
+
+    # Check if the user is logged in correctly
+    username = get_logged_in_user(event)
+    if not username:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "User not logged in correctly",
+        }
+
+    # Try to change the password
+    user = User()
+    try:
+        user.update_user_password(username, params["password"][0])
+
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": "",
+        }
+    except ValueError as error:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+            },
+            "body": str(error),
+        }

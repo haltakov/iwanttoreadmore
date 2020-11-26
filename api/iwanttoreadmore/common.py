@@ -94,7 +94,7 @@ def check_cookie_signature(cookie_string):
     """
     Verify that the content of the cookie wasn't changed by recomputing the signeture
     :param cookie_string: cookie string containing a signature at the end
-    :return: True if the cookie signature is valid, Flase otherwise
+    :return: The username of the logged in user if the cookie signature is valid, None otherwise
     """
 
     cookies = cookie_string.split(";")
@@ -104,9 +104,12 @@ def check_cookie_signature(cookie_string):
 
         if "signature" in params and "user" in params:
             cookie_with_secret = f"user={params['user'][0]}" + get_cookie_secret()
-            return bcrypt.checkpw(
+            if bcrypt.checkpw(
                 cookie_with_secret.encode(), params["signature"][0].encode()
-            )
+            ):
+                return params["user"][0]
+            else:
+                return None
 
-    return False
+    return None
 

@@ -116,27 +116,31 @@ class CommonTestCase(unittest.TestCase):
         )
 
     def test_check_cookie_signature(self):
-        self.assertTrue(
+        self.assertEqual(
+            "haltakov",
             check_cookie_signature(
                 "user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
-            )
+            ),
         )
-        self.assertTrue(
+        self.assertEqual(
+            "haltakov",
             check_cookie_signature(
                 "user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC; loggedin="
-            )
+            ),
         )
-        self.assertTrue(
+        self.assertEqual(
+            "haltakov",
             check_cookie_signature(
                 "loggedin; user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
-            )
+            ),
         )
-        self.assertFalse(
+        self.assertEqual(
+            None,
             check_cookie_signature(
                 "user=otheruser&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
-            )
+            ),
         )
-        self.assertFalse(check_cookie_signature("user=haltakov"))
+        self.assertEqual(None, check_cookie_signature("user=haltakov"))
 
 
 if __name__ == "__main__":
