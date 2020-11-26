@@ -5,6 +5,12 @@ from iwanttoreadmore.user.user import User
 
 
 def login_user(event, _):
+    """
+    Login a user
+    :param event: event
+    :return: 200 and a login cookie if successful, 401 otherwise
+    """
+
     # Parse the paramteres
     params = parse_qs(event["body"])
 
@@ -45,6 +51,11 @@ def login_user(event, _):
 
 
 def check_user_logged_in(event, _):
+    """
+    Check if a user is logged in based on the provided cookie
+    :param event: event
+    :return: 200 if th euser is logged in, 401 otherwise
+    """
     status_code = 401
 
     if "Cookie" in event["headers"]:
