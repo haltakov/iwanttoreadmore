@@ -92,9 +92,9 @@ def change_password(event, _):
 
     # Check if a password is missing or they don't match
     if (
-        "password" not in params
-        or "password2" not in params
-        or params["password"][0] != params["password2"][0]
+        "newpassword" not in params
+        or "newpassword2" not in params
+        or params["newpassword"][0] != params["newpassword2"][0]
     ):
         return {
             "statusCode": 400,
@@ -122,7 +122,7 @@ def change_password(event, _):
     # Try to change the password
     user = User()
     try:
-        user.update_user_password(username, params["password"][0])
+        user.update_user_password(username, params["newpassword"][0])
 
         return {
             "statusCode": 200,

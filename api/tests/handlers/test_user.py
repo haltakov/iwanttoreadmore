@@ -113,7 +113,7 @@ class UserHandlersTestCase(unittest.TestCase):
             headers=dict(
                 Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
-            body="password=newpassword;password2=newpassword",
+            body="newpassword=newpassword;newpassword2=newpassword",
         )
         response_1 = {
             "statusCode": 200,
@@ -131,7 +131,7 @@ class UserHandlersTestCase(unittest.TestCase):
             headers=dict(
                 Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
-            body="password=np;password2=np",
+            body="newpassword=np;newpassword2=np",
         )
         response_2 = {
             "statusCode": 400,
@@ -149,7 +149,7 @@ class UserHandlersTestCase(unittest.TestCase):
             headers=dict(
                 Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
-            body="password=newpassword;password2=otherpassword",
+            body="newpassword=newpassword;newpassword2=otherpassword",
         )
         response_3 = {
             "statusCode": 400,
@@ -167,7 +167,7 @@ class UserHandlersTestCase(unittest.TestCase):
             headers=dict(
                 Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
-            body="password=newpassword",
+            body="newpassword=newpassword",
         )
         response_4 = {
             "statusCode": 400,
@@ -185,7 +185,7 @@ class UserHandlersTestCase(unittest.TestCase):
             headers=dict(
                 Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
-            body="password=newpassword;password2=newpassword",
+            body="newpassword=newpassword;newpassword2=newpassword",
         )
         response_5 = {
             "statusCode": 400,

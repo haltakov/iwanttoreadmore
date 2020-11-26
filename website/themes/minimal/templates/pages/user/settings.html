@@ -33,8 +33,8 @@
                             placeholder="Password"
                             type="password"
                             value=""
-                            name="password"
-                            id="password"
+                            name="newpassword"
+                            id="newpassword"
                             aria-label="Password"
                             required
                             pattern="[a-zA-Z0-9!@#$%^&\*\-_\.,+=]{4,100}"
@@ -44,8 +44,8 @@
                             placeholder="Repeat Password"
                             type="password"
                             value=""
-                            name="password2"
-                            id="password2"
+                            name="newpassword2"
+                            id="newpassword2"
                             aria-label="Repeat Password"
                             required
                             pattern="[a-zA-Z0-9!@#$%^&\*\-_\.,+=]{4,100}"
@@ -93,8 +93,8 @@
         submitButton.classList.add("button-disabled");
         submitButton.getElementsByTagName("svg")[0].classList.remove("hidden");
 
-        let formContent = `password=${document.getElementById("password").value};password2=${
-            document.getElementById("password2").value
+        let formContent = `newpassword=${document.getElementById("newpassword").value};newpassword2=${
+            document.getElementById("newpassword2").value
         }`;
 
         document.getElementById("password-form-error-message").classList.add("hidden");
