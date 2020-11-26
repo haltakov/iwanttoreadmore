@@ -74,3 +74,11 @@ def check_user_logged_in(event, _):
         "body": "",
     }
 
+
+def change_password(event, _):
+    """
+    Change the password of the user
+    :param event: event
+    :return: 200 if the change was successful, 400 if there was a problem with the new password
+    """
+    pass
