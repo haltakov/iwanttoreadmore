@@ -93,6 +93,14 @@ functions:
                   path: user/loggedin
                   method: get
                   cors: true
+    chage_password:
+        handler: iwanttoreadmore/handlers/user.change_password
+        memorySize: 2048
+        events:
+            - http:
+                  path: user/changepassword
+                  method: post
+                  cors: true
 
 resources:
     Resources:
