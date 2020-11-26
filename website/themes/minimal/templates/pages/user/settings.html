@@ -97,6 +97,9 @@
             document.getElementById("password2").value
         }`;
 
+        document.getElementById("password-form-error-message").classList.add("hidden");
+        document.getElementById("password-form-success-message").classList.add("hidden");
+
         fetch("https://iwanttoreadmore.com/user/changepassword", {
             method: "POST",
             mode: "cors",
