@@ -14,7 +14,7 @@ from tests.data.data_test_vote import (
     create_test_votes_data,
     get_expected_votes_data,
 )
-from tests.helpers import remove_table
+from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
 
 
 @mock_dynamodb2
@@ -27,9 +27,11 @@ class VoteHandlersTestCase(unittest.TestCase):
 
         self.votes_table = create_votes_table(os.environ["VOTES_TABLE"])
         create_test_votes_data(self.votes_table)
+        create_cookie_parameter()
 
     def tearDown(self):
         remove_table(os.environ["VOTES_TABLE"])
+        delete_cookie_parameter()
 
     def test_get_votes_for_user(self):
         event_1 = dict(pathParameters=dict(user="user_1"))
