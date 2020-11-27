@@ -1,8 +1,8 @@
 import re
 import time
+import urllib.parse
 import boto3
 import bcrypt
-import urllib.parse
 
 
 def get_current_timestamp():
@@ -112,4 +112,3 @@ def check_cookie_signature(cookie_string):
                 return None
 
     return None
-

@@ -1,4 +1,4 @@
-def create_response(code, method="GET", body="", additional_headers={}):
+def create_response(code, method="GET", body="", additional_headers=None):
     """
     Create a HTTP repsonse dictionary
     :param code: HTTP response code
@@ -14,7 +14,8 @@ def create_response(code, method="GET", body="", additional_headers={}):
         "Access-Control-Allow-Methods": method,
     }
 
-    headers.update(additional_headers)
+    if additional_headers:
+        headers.update(additional_headers)
 
     return {
         "statusCode": code,

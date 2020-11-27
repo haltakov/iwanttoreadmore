@@ -92,4 +92,3 @@ def change_password(event, _):
 
     except ValueError as error:
         return create_response(400, "POST", str(error))
-
