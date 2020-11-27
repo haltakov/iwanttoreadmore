@@ -42,7 +42,10 @@
         </div>
     </div>
 </div>
+{% endblock content %}
 
+<!-- prettier-ignore -->
+{% block scripts %}
 <script>
     function init() {
         initAjaxForm("login-form", "https://iwanttoreadmore.com/user/login", (response, flash) => {
@@ -61,4 +64,4 @@
         document.addEventListener("DOMContentLoaded", init);
     }
 </script>
-{% endblock content %}
+{% endblock scripts %}
