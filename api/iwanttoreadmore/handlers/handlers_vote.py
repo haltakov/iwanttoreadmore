@@ -1,4 +1,5 @@
 import json
+from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote
 
 
@@ -19,15 +20,7 @@ def add_vote(event, context):
     vote.add_vote(user, project, topic)
 
     # Return response
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST",
-        },
-        "body": "",
-    }
+    return create_response(200, "POST")
 
 
 def add_vote_and_redirect(event, context):
@@ -47,16 +40,9 @@ def add_vote_and_redirect(event, context):
     vote.add_vote(user, project, topic)
 
     # Return response
-    return {
-        "statusCode": 302,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-            "Location": "https://iwanttoreadmore.com/voted",
-        },
-        "body": "",
-    }
+    return create_response(
+        302, additional_headers={"Location": "https://iwanttoreadmore.com/voted"}
+    )
 
 
 def get_votes_for_user(event, context):
@@ -73,17 +59,7 @@ def get_votes_for_user(event, context):
     vote = Vote()
     votes_data = vote.get_votes_for_user(user)
 
-    response = {
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-        },
-        "body": json.dumps(votes_data),
-    }
-
-    return response
+    return create_response(200, body=json.dumps(votes_data))
 
 
 def get_votes_for_project(event, context):
@@ -101,14 +77,4 @@ def get_votes_for_project(event, context):
     vote = Vote()
     votes_data = vote.get_votes_for_project(user, project)
 
-    response = {
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-        },
-        "body": json.dumps(votes_data),
-    }
-
-    return response
+    return create_response(200, body=json.dumps(votes_data))

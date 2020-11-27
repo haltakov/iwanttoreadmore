@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
+from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.common import get_cookie_date, sign_cookie, check_cookie_signature
 from iwanttoreadmore.models.user import User
 
@@ -27,27 +28,14 @@ def login_user(event, _):
             expiration_date = datetime.now() + timedelta(days=30)
             cookie = f"{cookie_content_signed};SameSite=Strict;Expires={get_cookie_date(expiration_date)};HttpOnly"
 
-            return {
-                "statusCode": 200,
-                "headers": {
-                    "Access-Control-Allow-Headers": "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST",
-                    "Access-Control-Allow-Credentials": "true",
-                    "Set-Cookie": cookie,
-                },
-                "body": "",
-            }
+            return create_response(
+                200,
+                "POST",
+                "",
+                {"Access-Control-Allow-Credentials": "true", "Set-Cookie": cookie},
+            )
 
-    return {
-        "statusCode": 401,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST",
-        },
-        "body": "",
-    }
+    return create_response(401, "POST")
 
 
 def get_logged_in_user(event):
@@ -69,15 +57,7 @@ def check_user_logged_in(event, _):
     :param event: event
     :return: 200 if th euser is logged in, 401 otherwise
     """
-    return {
-        "statusCode": 200 if get_logged_in_user(event) else 401,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-        },
-        "body": "",
-    }
+    return create_response(200 if get_logged_in_user(event) else 401)
 
 
 def change_password(event, _):
@@ -96,50 +76,20 @@ def change_password(event, _):
         or "newpassword2" not in params
         or params["newpassword"][0] != params["newpassword2"][0]
     ):
-        return {
-            "statusCode": 400,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
-            },
-            "body": "The two passwords don't match",
-        }
+        return create_response(400, "POST", "The two passwords don't match")
 
     # Check if the user is logged in correctly
     username = get_logged_in_user(event)
     if not username:
-        return {
-            "statusCode": 400,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
-            },
-            "body": "User not logged in correctly",
-        }
+        return create_response(400, "POST", "User not logged in correctly")
 
     # Try to change the password
     user = User()
     try:
         user.update_user_password(username, params["newpassword"][0])
 
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
-            },
-            "body": "",
-        }
+        return create_response(200, "POST")
+
     except ValueError as error:
-        return {
-            "statusCode": 400,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
-            },
-            "body": str(error),
-        }
+        return create_response(400, "POST", str(error))
+
