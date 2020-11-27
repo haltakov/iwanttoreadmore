@@ -112,3 +112,16 @@ def check_cookie_signature(cookie_string):
                 return None
 
     return None
+
+
+def get_logged_in_user(event):
+    """
+    Get the logged in user from the provided cookie
+    :param event: event
+    :return: the username of the logged in user or None if no valid user is logged in
+    """
+
+    if not "Cookie" in event["headers"]:
+        return None
+
+    return check_cookie_signature(event["headers"]["Cookie"])
