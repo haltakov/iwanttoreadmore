@@ -2,13 +2,13 @@ import unittest
 import os
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.models.vote import Vote, get_topic_key, get_current_timestamp
-from tests.helpers import (
+from iwanttoreadmore.models.vote import Vote, get_topic_key
+from tests.data.data_test_vote import (
     create_votes_table,
     create_test_votes_data,
-    remove_table,
     get_expected_votes_data,
 )
+from tests.helpers import remove_table
 
 
 @mock_dynamodb2
@@ -72,7 +72,7 @@ class VoteTestCase(unittest.TestCase):
         self.assertEqual(0, vote.get_vote_count("user_2", "project_c/topic_aaa"))
 
     @mock.patch("time.time", return_value=9999)
-    def test_set_vote_count(self, time):
+    def test_set_vote_count(self, _):
         vote = Vote()
 
         # Check votes count set correctly
@@ -85,7 +85,7 @@ class VoteTestCase(unittest.TestCase):
         self.assertEqual("9999", votes_user_1[0]["last_vote"])
 
     @mock.patch("time.time", return_value=9999)
-    def test_create_topic(self, time):
+    def test_create_topic(self, _):
         expected_votes_user_2 = get_expected_votes_data("user_2") + [
             dict(
                 topic="topic_eee",

@@ -9,11 +9,8 @@ from iwanttoreadmore.handlers.handlers_user import (
     check_user_logged_in,
     change_password,
 )
-from tests.helpers import (
-    create_users_table,
-    create_test_users_data,
-    remove_table,
-)
+from tests.data.data_test_user import create_users_table, create_test_users_data
+from tests.helpers import remove_table
 
 
 @mock_dynamodb2
