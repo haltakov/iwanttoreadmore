@@ -8,6 +8,9 @@ function init() {
     // Init the highlight.js library
     hljs.initHighlightingOnLoad();
 
+    // Init the logout button
+    initLogoutButton();
+
     // Init the I Want To Read More script
     iwanttoreadmore.init();
 }
@@ -19,6 +22,19 @@ function chooseNavbar() {
     if (document.cookie.includes("loggedin")) {
         document.getElementById("logged-out-nav").classList.add("hidden");
         document.getElementById("logged-in-nav").classList.remove("hidden");
+    }
+}
+
+/**
+ * Deletes the loggedin cookie when the logout button is clicked
+ */
+function initLogoutButton() {
+    const logoutButton = document.getElementById("logout-button");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", () => {
+            document.cookie = "";
+            document.location = logoutButton.href;
+        });
     }
 }
 
