@@ -44,6 +44,14 @@ html {
     @apply shadow-outline outline-none;
 }
 
+.flash-success {
+    @apply border-green-400 bg-green-200;
+}
+
+.flash-error {
+    @apply border-red-300 bg-red-200;
+}
+
 .markdown h2 {
     @apply text-3xl mb-2 mt-4;
 }

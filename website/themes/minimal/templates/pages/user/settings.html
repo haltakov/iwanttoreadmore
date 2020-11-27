@@ -8,23 +8,13 @@
     >
         <h2 class="font-bold text-xl lg:text-2xl">User settings</h2>
 
-        <div id="settings-panel-loading" class="my-24 hidden">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
+        <div id="settings-panel-loading" class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
 
-        <div id="settings-panel" class="">
+        <div id="settings-panel" class="hidden">
             <section class="mt-6">
                 <h3 class="mb-6 font-bold text-lg text-left">Change password</h3>
 
-                <div
-                    id="password-form-error-message"
-                    class="inline-block mx-auto my-5 p-3 border border-red-300 bg-red-200 rounded hidden"
-                ></div>
-
-                <div
-                    id="password-form-success-message"
-                    class="inline-block mx-auto my-5 p-3 border border-green-400 bg-green-200 rounded hidden"
-                >
-                    Password changed successfully
-                </div>
+                <div id="flash" class="inline-block mx-auto my-5 p-3 border rounded hidden"></div>
 
                 <form id="change-password-form" name="change-password-form">
                     <div class="w-full lg:w-3/4 xl:w-1/2 mx-auto">
@@ -50,9 +40,7 @@
                             required
                             pattern="[a-zA-Z0-9!@#$%^&\*\-_\.,+=]{4,100}"
                         />
-                        <button type="submit" id="password-form-submit-button" class="button-blue w-48 mt-6 mx-2">
-                            <span>{{ icons.loading("w-5 mr-2 inline animate-spin hidden") }}</span> Change Password
-                        </button>
+                        <button type="submit" class="button-blue w-48 mt-6 mx-2">Change Password</button>
                     </div>
                 </form>
             </section>
@@ -68,58 +56,27 @@
 </div>
 
 <script>
-    // Check if user is logged in
-    fetch("https://iwanttoreadmore.com/user/loggedin", {
-        method: "GET",
-        mode: "cors",
-        credentials: "same-origin",
-    })
-        .then((response) => {
-            if (response.ok) {
-                document.getElementById("settings-panel").classList.remove("hidden");
-                document.getElementById("settings-panel-loading").classList.add("hidden");
-            } else {
-                document.location = "/login";
-            }
-        })
-        .catch((error) => (document.location = "/login"));
-
-    // Submit the passwords
-    const passwordForm = document.getElementById("change-password-form");
-
-    passwordForm.onsubmit = () => {
-        let submitButton = document.getElementById("password-form-submit-button");
-        submitButton.classList.remove("button-blue");
-        submitButton.classList.add("button-disabled");
-        submitButton.getElementsByTagName("svg")[0].classList.remove("hidden");
-
-        let formContent = `newpassword=${document.getElementById("newpassword").value};newpassword2=${
-            document.getElementById("newpassword2").value
-        }`;
-
-        document.getElementById("password-form-error-message").classList.add("hidden");
-        document.getElementById("password-form-success-message").classList.add("hidden");
-
-        fetch("https://iwanttoreadmore.com/user/changepassword", {
-            method: "POST",
-            mode: "cors",
-            credentials: "same-origin",
-            body: formContent,
-        }).then((response) => {
-            if (response.ok) {
-                document.getElementById("password-form-success-message").classList.remove("hidden");
-            } else {
-                document.getElementById("password-form-error-message").classList.remove("hidden");
-                response
-                    .text()
-                    .then((text) => (document.getElementById("password-form-error-message").innerHTML = text));
-            }
-            submitButton.classList.add("button-blue");
-            submitButton.classList.remove("button-disabled");
-            submitButton.getElementsByTagName("svg")[0].classList.add("hidden");
+    function init() {
+        // Check if user is logged in
+        checkUserLoggedFast(() => {
+            document.getElementById("settings-panel").classList.remove("hidden");
+            document.getElementById("settings-panel-loading").classList.add("hidden");
         });
 
-        return false;
-    };
+        // Init the change password form
+        initAjaxForm("change-password-form", "https://iwanttoreadmore.com/user/changepassword", (response, flash) => {
+            if (response.ok) {
+                displaySuccess(flash, "Password changed");
+            } else {
+                response.text().then((text) => displayError(flash, text));
+            }
+        });
+    }
+
+    if (document.readyState !== "loading") {
+        init();
+    } else {
+        document.addEventListener("DOMContentLoaded", init);
+    }
 </script>
 {% endblock content %}
