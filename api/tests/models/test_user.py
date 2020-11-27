@@ -2,7 +2,7 @@ import unittest
 import os
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.user.user import User
+from iwanttoreadmore.models.user import User
 from tests.helpers import (
     create_users_table,
     create_test_users_data,

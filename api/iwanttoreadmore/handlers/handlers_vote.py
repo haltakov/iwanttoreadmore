@@ -1,5 +1,5 @@
 import json
-from iwanttoreadmore.vote.vote import Vote
+from iwanttoreadmore.models.vote import Vote
 
 
 def add_vote(event, context):

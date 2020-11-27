@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
 from iwanttoreadmore.common import get_cookie_date, sign_cookie, check_cookie_signature
-from iwanttoreadmore.user.user import User
+from iwanttoreadmore.models.user import User
 
 
 def login_user(event, _):

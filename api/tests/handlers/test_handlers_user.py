@@ -4,7 +4,7 @@ from unittest import mock
 import boto3
 from moto import mock_dynamodb2
 from moto import mock_ssm
-from iwanttoreadmore.handlers.user import (
+from iwanttoreadmore.handlers.handlers_user import (
     login_user,
     check_user_logged_in,
     change_password,
@@ -43,7 +43,7 @@ class UserHandlersTestCase(unittest.TestCase):
         client.delete_parameter(Name="IWANTTOREADMORE_COOKIE_SECRET")
 
     @mock.patch(
-        "iwanttoreadmore.handlers.user.get_cookie_date",
+        "iwanttoreadmore.handlers.handlers_user.get_cookie_date",
         return_value="Fri, 31 Jan 2020 01:23:34 GMT",
     )
     @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$oGAaQWkNrjCWI0ugg8Go8u")

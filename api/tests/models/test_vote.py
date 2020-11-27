@@ -2,7 +2,7 @@ import unittest
 import os
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.vote.vote import Vote, get_topic_key, get_current_timestamp
+from iwanttoreadmore.models.vote import Vote, get_topic_key, get_current_timestamp
 from tests.helpers import (
     create_votes_table,
     create_test_votes_data,

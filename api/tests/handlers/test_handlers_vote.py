@@ -3,7 +3,7 @@ import os
 import json
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.handlers.vote import (
+from iwanttoreadmore.handlers.handlers_vote import (
     add_vote,
     add_vote_and_redirect,
     get_votes_for_user,
