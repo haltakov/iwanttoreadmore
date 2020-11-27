@@ -46,7 +46,7 @@ custom:
 
 functions:
     vote:
-        handler: iwanttoreadmore/handlers/vote.add_vote
+        handler: iwanttoreadmore/handlers/handlers_vote.add_vote
         memorySize: 128
         events:
             - http:
@@ -54,7 +54,7 @@ functions:
                   method: post
                   cors: true
     vote_and_redirect:
-        handler: iwanttoreadmore/handlers/vote.add_vote_and_redirect
+        handler: iwanttoreadmore/handlers/handlers_vote.add_vote_and_redirect
         memorySize: 1024
         events:
             - http:
@@ -62,7 +62,7 @@ functions:
                   method: get
                   cors: true
     get_votes_for_user:
-        handler: iwanttoreadmore/handlers/vote.get_votes_for_user
+        handler: iwanttoreadmore/handlers/handlers_vote.get_votes_for_user
         memorySize: 1024
         events:
             - http:
@@ -70,7 +70,7 @@ functions:
                   method: get
                   cors: true
     get_votes_for_project:
-        handler: iwanttoreadmore/handlers/vote.get_votes_for_project
+        handler: iwanttoreadmore/handlers/handlers_vote.get_votes_for_project
         memorySize: 1024
         events:
             - http:
@@ -78,7 +78,7 @@ functions:
                   method: get
                   cors: true
     login_user:
-        handler: iwanttoreadmore/handlers/user.login_user
+        handler: iwanttoreadmore/handlers/handlers_user.login_user
         memorySize: 2048
         events:
             - http:
@@ -86,7 +86,7 @@ functions:
                   method: post
                   cors: true
     check_user_logged_in:
-        handler: iwanttoreadmore/handlers/user.check_user_logged_in
+        handler: iwanttoreadmore/handlers/handlers_user.check_user_logged_in
         memorySize: 2048
         events:
             - http:
@@ -94,7 +94,7 @@ functions:
                   method: get
                   cors: true
     chage_password:
-        handler: iwanttoreadmore/handlers/user.change_password
+        handler: iwanttoreadmore/handlers/handlers_user.change_password
         memorySize: 2048
         events:
             - http:

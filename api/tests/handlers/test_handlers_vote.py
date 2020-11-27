@@ -3,18 +3,18 @@ import os
 import json
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.handlers.vote import (
+from iwanttoreadmore.handlers.handlers_vote import (
     add_vote,
     add_vote_and_redirect,
     get_votes_for_user,
     get_votes_for_project,
 )
-from tests.helpers import (
+from tests.data.data_test_vote import (
     create_votes_table,
     create_test_votes_data,
-    remove_table,
     get_expected_votes_data,
 )
+from tests.helpers import remove_table
 
 
 @mock_dynamodb2
@@ -129,11 +129,11 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(json.dumps(expected_data_user_3), response_4["body"])
 
     @mock.patch("time.time", return_value=9999)
-    def test_add_vote(self, time):
+    def test_add_vote(self, _):
         self.add_vote_helper(add_vote, 200)
 
     @mock.patch("time.time", return_value=9999)
-    def test_add_vote_and_redirect(self, time):
+    def test_add_vote_and_redirect(self, _):
         self.add_vote_helper(add_vote_and_redirect, 302)
 
 

@@ -2,13 +2,13 @@ import unittest
 import os
 from unittest import mock
 from moto import mock_dynamodb2
-from iwanttoreadmore.user.user import User
-from tests.helpers import (
+from iwanttoreadmore.models.user import User
+from tests.data.data_test_user import (
     create_users_table,
     create_test_users_data,
-    remove_table,
     get_expected_users_data,
 )
+from tests.helpers import remove_table
 
 
 @mock_dynamodb2
@@ -27,7 +27,6 @@ class UserTestCase(unittest.TestCase):
         remove_table(os.environ["USERS_TABLE"])
 
     def test_get_user_by_username(self):
-        expected_user_data = get_expected_users_data()
         user = User()
         self.assertEqual(
             self.expected_users_data["user_1"], user.get_user_by_username("user_1")
@@ -38,7 +37,6 @@ class UserTestCase(unittest.TestCase):
         self.assertFalse(user.get_user_by_username("user_3"))
 
     def test_get_user_by_email(self):
-        expected_user_data = get_expected_users_data()
         user = User()
         self.assertEqual(
             self.expected_users_data["user_1"],
@@ -52,7 +50,7 @@ class UserTestCase(unittest.TestCase):
 
     @mock.patch("time.time", return_value=9999)
     @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$nChdB1EJj1DZbtJgNSOFz.")
-    def test_create_user(self, bcrypt, time):
+    def test_create_user(self, _, __):
         user = User()
         # Test creation of a valid user
         user.create_user("user_3", "user_3@gmail.com", "test3")
@@ -80,7 +78,7 @@ class UserTestCase(unittest.TestCase):
         )
 
     @mock.patch("time.time", return_value=9999)
-    def test_login_user(self, time):
+    def test_login_user(self, _):
         user = User()
         # Test correct identifier and password
         self.assertEqual("user_1", user.login_user("user_1", "test"))
@@ -118,7 +116,7 @@ class UserTestCase(unittest.TestCase):
         )
 
     @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$nChdB1EJj1DZbtJgNSOFz.")
-    def test_update_user_password(self, bcrypt):
+    def test_update_user_password(self, _):
         user = User()
 
         # Test valid password hash
@@ -145,7 +143,7 @@ class UserTestCase(unittest.TestCase):
         )
 
     @mock.patch("time.time", return_value=9999)
-    def test_update_user_last_active(self, time):
+    def test_update_user_last_active(self, _):
         user = User()
 
         # Test valid password hash
