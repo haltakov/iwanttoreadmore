@@ -1,4 +1,5 @@
 import json
+from iwanttoreadmore.common import get_logged_in_user
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote
 
@@ -51,6 +52,10 @@ def get_votes_for_user(event, _):
     """
     # Get all parameters
     user = event["pathParameters"]["user"]
+
+    # If the user not specified, retrieve it from the cookie
+    if user == "null":
+        user = get_logged_in_user(event)
 
     # Retrieve votes from the database
     vote = Vote()

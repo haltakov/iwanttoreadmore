@@ -43,9 +43,18 @@ class VoteHandlersTestCase(unittest.TestCase):
         event_3 = dict(pathParameters=dict(user="user_3"))
         response_3 = get_votes_for_user(event_3, None)
 
+        event_4 = dict(
+            pathParameters=dict(user="null"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm",
+            ),
+        )
+        response_4 = get_votes_for_user(event_4, None)
+
         self.assertEqual(200, response_1["statusCode"])
         self.assertEqual(200, response_2["statusCode"])
         self.assertEqual(200, response_3["statusCode"])
+        self.assertEqual(200, response_4["statusCode"])
 
         self.assertEqual(
             json.dumps(get_expected_votes_data("user_1")), response_1["body"]
@@ -54,6 +63,9 @@ class VoteHandlersTestCase(unittest.TestCase):
             json.dumps(get_expected_votes_data("user_2")), response_2["body"]
         )
         self.assertEqual(json.dumps([]), response_3["body"])
+        self.assertEqual(
+            json.dumps(get_expected_votes_data("user_1")), response_4["body"]
+        )
 
     def test_get_votes_for_project(self):
         event_1 = dict(pathParameters=dict(user="user_1", project="project_a"))
