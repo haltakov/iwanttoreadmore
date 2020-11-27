@@ -8,12 +8,7 @@
     >
         <h2 class="font-bold text-xl lg:text-2xl">Welcome to I Want To Read More</h2>
 
-        <div
-            id="login-form-error-message"
-            class="inline-block mx-auto mt-5 p-3 border border-red-300 bg-red-200 rounded hidden"
-        >
-            Wrong username or password
-        </div>
+        <div id="flash" class="inline-block mx-auto mt-5 p-3 border rounded hidden"></div>
 
         <form id="login-form" name="login-form">
             <div class="mt-8 w-full lg:w-3/4 xl:w-1/2 mx-auto">
@@ -25,6 +20,7 @@
                     name="identifier"
                     id="identifier"
                     aria-label="Email or Username"
+                    required
                 />
                 <input
                     class="w-full mt-4 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
@@ -34,14 +30,9 @@
                     name="password"
                     id="password"
                     aria-label="Password"
+                    required
                 />
-                <button
-                    type="submit"
-                    id="login-form-submit-button"
-                    class="button-orange w-32 mt-6 mx-2 mx-auto lg:mx-2"
-                >
-                    <span>{{ icons.loading("w-5 mr-2 inline animate-spin hidden") }}</span> Sign In
-                </button>
+                <button type="submit" class="button-orange w-32 mt-6 mx-2 mx-auto lg:mx-2">Sign In</button>
             </div>
         </form>
 
@@ -53,36 +44,21 @@
 </div>
 
 <script>
-    const loginForm = document.getElementById("login-form");
-
-    loginForm.onsubmit = () => {
-        let submitButton = document.getElementById("login-form-submit-button");
-        submitButton.classList.remove("button-orange");
-        submitButton.classList.add("button-disabled");
-        submitButton.getElementsByTagName("svg")[0].classList.remove("hidden");
-
-        let formContent = `identifier=${document.getElementById("identifier").value};password=${
-            document.getElementById("password").value
-        }`;
-
-        fetch("https://iwanttoreadmore.com/user/login", {
-            method: "POST",
-            mode: "cors",
-            credentials: "same-origin",
-            body: formContent,
-        }).then((response) => {
+    function init() {
+        initAjaxForm("login-form", "https://iwanttoreadmore.com/user/login", (response, flash) => {
             if (response.ok) {
                 document.cookie = "loggedin";
                 document.location = "/settings";
             } else {
-                document.getElementById("login-form-error-message").classList.remove("hidden");
-                submitButton.classList.add("button-orange");
-                submitButton.classList.remove("button-disabled");
-                submitButton.getElementsByTagName("svg")[0].classList.add("hidden");
+                displayError(flash, "Wrong username or password");
             }
         });
+    }
 
-        return false;
-    };
+    if (document.readyState !== "loading") {
+        init();
+    } else {
+        document.addEventListener("DOMContentLoaded", init);
+    }
 </script>
 {% endblock content %}
