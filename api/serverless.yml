@@ -101,6 +101,14 @@ functions:
                   path: user/changepassword
                   method: post
                   cors: true
+    logout_user:
+        handler: iwanttoreadmore/handlers/handlers_user.logout_user
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/logout
+                  method: get
+                  cors: true
 
 resources:
     Resources:

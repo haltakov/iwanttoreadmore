@@ -92,3 +92,21 @@ def change_password(event, _):
 
     except ValueError as error:
         return create_response(400, "POST", str(error))
+
+
+def logout_user(event, _):
+    """
+    Logout a user by expiring the login cookie
+    """
+    cookie = f"user=;SameSite=Strict;Expires={get_cookie_date(datetime.now() - timedelta(days=1))};HttpOnly"
+    return create_response(
+        302,
+        "GET",
+        "",
+        {
+            "Access-Control-Allow-Credentials": "true",
+            "Set-Cookie": cookie,
+            "Location": "https://iwanttoreadmore.com/",
+        },
+    )
+

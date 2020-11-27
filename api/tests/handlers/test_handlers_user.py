@@ -8,6 +8,7 @@ from iwanttoreadmore.handlers.handlers_user import (
     login_user,
     check_user_logged_in,
     change_password,
+    logout_user,
 )
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from tests.data.data_test_user import create_users_table, create_test_users_data
@@ -136,6 +137,9 @@ class UserHandlersTestCase(unittest.TestCase):
         )
         response_5 = create_response(400, "POST", "User not logged in correctly")
         self.assertEqual(response_5, change_password(event_5, None))
+
+    def test_logout_user(self):
+        self.assertEqual(302, logout_user(None, None)["statusCode"])
 
 
 if __name__ == "__main__":
