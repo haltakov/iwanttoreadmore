@@ -51,7 +51,7 @@
         initAjaxForm("login-form", "https://iwanttoreadmore.com/user/login", (response, flash) => {
             if (response.ok) {
                 document.cookie = "loggedin";
-                document.location = "/settings";
+                document.location = "/stats";
             } else {
                 displayError(flash, "Wrong username or password");
             }
