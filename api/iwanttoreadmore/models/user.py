@@ -23,6 +23,7 @@ def get_user_dict_from_table(user_from_query):
         password_hash=user_from_query["PasswordHash"],
         registered=user_from_query["Registered"],
         last_active=user_from_query["LastActive"],
+        is_public=user_from_query["IsPublic"],
     )
 
 
@@ -66,6 +67,7 @@ class User:
                 "PasswordHash": create_password_hash(password),
                 "Registered": get_current_timestamp(),
                 "LastActive": get_current_timestamp(),
+                "IsPublic": False,
             }
         )
 
@@ -129,7 +131,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.query(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
             ExpressionAttributeNames={"#User": "User"},
             KeyConditionExpression=Key("User").eq(username),
         )
@@ -146,7 +148,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.scan(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
             ExpressionAttributeNames={"#EMail": "EMail", "#User": "User"},
             ExpressionAttributeValues={":EMail": email,},
             FilterExpression="#EMail = :EMail",
@@ -194,3 +196,4 @@ class User:
         :param is_publuc: new value
         """
         pass
+
