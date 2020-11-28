@@ -26,7 +26,7 @@ def login_user(event, _):
             cookie_content_signed = sign_cookie(cookie_content)
 
             expiration_date = datetime.now() + timedelta(days=30)
-            cookie = f"{cookie_content_signed};SameSite=Strict;Expires={get_cookie_date(expiration_date)};HttpOnly"
+            cookie = f"{cookie_content_signed};SameSite=Strict;Path=/;Expires={get_cookie_date(expiration_date)};HttpOnly"
 
             return create_response(
                 200,
@@ -85,7 +85,7 @@ def logout_user(event, _):
     """
     Logout a user by expiring the login cookie
     """
-    cookie = f"user=;SameSite=Strict;Expires={get_cookie_date(datetime.now() - timedelta(days=1))};HttpOnly"
+    cookie = f"user=;SameSite=Strict;Path=/;Expires={get_cookie_date(datetime.now() - timedelta(days=1))};HttpOnly"
     return create_response(
         302,
         "GET",

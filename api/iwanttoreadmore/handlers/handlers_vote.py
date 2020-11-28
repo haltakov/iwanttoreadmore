@@ -56,7 +56,7 @@ def get_votes_for_user(event, _):
     """
     # Get all parameters
     user = event["pathParameters"]["user"]
-    log.debug(f"get_votes_for_user: {user}")
+    log.debug(f"User param: {user}")
 
     # If the user not specified, retrieve it from the cookie
     if not user or user == "null":
