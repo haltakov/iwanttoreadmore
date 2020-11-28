@@ -4,7 +4,11 @@
  * @param project - optional name of the user's project (if left empty, all projects for the given user are loaded)
  */
 function loadVotes(user, project = "") {
-    fetch(`https://iwanttoreadmore.com/votes/${user}/${project || ""}`, { mode: "cors", credentials: "same-origin" })
+    fetch(`https://iwanttoreadmore.com/votes/${user}/${project || ""}`, {
+        method: "GET",
+        mode: "cors",
+        credentials: "same-origin",
+    })
         .then((response) => response.json())
         .then((data) => {
             // Get list of all projects
