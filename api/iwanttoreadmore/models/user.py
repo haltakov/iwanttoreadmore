@@ -178,3 +178,19 @@ class User:
             return user["user"]
         else:
             return None
+
+    def is_account_public(self, user):
+        """
+        Check if the user account is public
+        :param user: user to check
+        :return: True if account is public, False otherwise
+        """
+        pass
+
+    def set_account_public(self, user, is_publuc):
+        """
+        Change if the user account is public or not
+        :param user: user to check
+        :param is_publuc: new value
+        """
+        pass
