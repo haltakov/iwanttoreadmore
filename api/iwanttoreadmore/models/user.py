@@ -187,7 +187,11 @@ class User:
         :param user: user to check
         :return: True if account is public, False otherwise
         """
-        pass
+        user = self.get_user_by_username(user)
+        if user:
+            return user["is_public"]
+        else:
+            return None
 
     def set_account_public(self, user, is_publuc):
         """
@@ -195,5 +199,13 @@ class User:
         :param user: user to check
         :param is_publuc: new value
         """
-        pass
+        if not self.get_user_by_username(user):
+            raise ValueError(f"Cannot find user {user}")
+
+        self.users_table.update_item(
+            Key={"User": user},
+            ExpressionAttributeNames={"#IsPublic": "IsPublic",},
+            ExpressionAttributeValues={":IsPublic": is_publuc},
+            UpdateExpression="SET #IsPublic = :IsPublic",
+        )
 
