@@ -54,7 +54,10 @@
         </div>
     </div>
 </div>
+{% endblock content %}
 
+<!-- prettier-ignore -->
+{% block scripts %}
 <script>
     function init() {
         // Check if user is logged in
@@ -79,4 +82,4 @@
         document.addEventListener("DOMContentLoaded", init);
     }
 </script>
-{% endblock content %}
+{% endblock scripts %}

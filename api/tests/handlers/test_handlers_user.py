@@ -12,7 +12,7 @@ from iwanttoreadmore.handlers.handlers_user import (
 )
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from tests.data.data_test_user import create_users_table, create_test_users_data
-from tests.helpers import remove_table
+from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
 
 
 @mock_dynamodb2
@@ -26,20 +26,11 @@ class UserHandlersTestCase(unittest.TestCase):
 
         self.users_table = create_users_table(os.environ["USERS_TABLE"])
         create_test_users_data(self.users_table)
-
-        client = boto3.client("ssm")
-        client.put_parameter(
-            Name="IWANTTOREADMORE_COOKIE_SECRET",
-            Description="",
-            Value="cookiesecret",
-            Type="String",
-        )
+        create_cookie_parameter()
 
     def tearDown(self):
         remove_table(os.environ["USERS_TABLE"])
-
-        client = boto3.client("ssm")
-        client.delete_parameter(Name="IWANTTOREADMORE_COOKIE_SECRET")
+        delete_cookie_parameter()
 
     @mock.patch(
         "iwanttoreadmore.handlers.handlers_user.get_cookie_date",

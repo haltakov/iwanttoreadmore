@@ -42,13 +42,16 @@
         </div>
     </div>
 </div>
+{% endblock content %}
 
+<!-- prettier-ignore -->
+{% block scripts %}
 <script>
     function init() {
         initAjaxForm("login-form", "https://iwanttoreadmore.com/user/login", (response, flash) => {
             if (response.ok) {
                 document.cookie = "loggedin";
-                document.location = "/settings";
+                document.location = "/stats";
             } else {
                 displayError(flash, "Wrong username or password");
             }
@@ -61,4 +64,4 @@
         document.addEventListener("DOMContentLoaded", init);
     }
 </script>
-{% endblock content %}
+{% endblock scripts %}

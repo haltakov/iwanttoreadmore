@@ -1,6 +1,11 @@
 import json
+import logging
+from iwanttoreadmore.common import get_logged_in_user
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote
+
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 
 def add_vote(event, _):
@@ -51,10 +56,19 @@ def get_votes_for_user(event, _):
     """
     # Get all parameters
     user = event["pathParameters"]["user"]
+    log.debug(f"get_votes_for_user: {user}")
+
+    # If the user not specified, retrieve it from the cookie
+    if not user or user == "null":
+        user = get_logged_in_user(event)
 
     # Retrieve votes from the database
-    vote = Vote()
-    votes_data = vote.get_votes_for_user(user)
+    log.debug(f"Retrieving logs for user: {user}")
+    votes_data = []
+
+    if user:
+        vote = Vote()
+        votes_data = vote.get_votes_for_user(user)
 
     return create_response(200, body=json.dumps(votes_data))
 

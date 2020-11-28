@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
 from iwanttoreadmore.handlers.handler_helpers import create_response
-from iwanttoreadmore.common import get_cookie_date, sign_cookie, check_cookie_signature
+from iwanttoreadmore.common import get_cookie_date, sign_cookie, get_logged_in_user
 from iwanttoreadmore.models.user import User
 
 
@@ -36,19 +36,6 @@ def login_user(event, _):
             )
 
     return create_response(401, "POST")
-
-
-def get_logged_in_user(event):
-    """
-    Get the logged in user from the provided cookie
-    :param event: event
-    :return: the username of the logged in user or None if no valid user is logged in
-    """
-
-    if not "Cookie" in event["headers"]:
-        return None
-
-    return check_cookie_signature(event["headers"]["Cookie"])
 
 
 def check_user_logged_in(event, _):
