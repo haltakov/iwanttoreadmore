@@ -101,6 +101,22 @@ functions:
                   path: user/changepassword
                   method: post
                   cors: true
+    change_account_public:
+        handler: iwanttoreadmore/handlers/handlers_user.change_account_public
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/changepublic
+                  method: post
+                  cors: true
+    get_user_data:
+        handler: iwanttoreadmore/handlers/handlers_user.get_user_data
+        memorySize: 2048
+        events:
+            - http:
+                  path: user/data
+                  method: get
+                  cors: true
     logout_user:
         handler: iwanttoreadmore/handlers/handlers_user.logout_user
         memorySize: 1024
