@@ -15,12 +15,16 @@ def create_cookie_parameter():
     Creates a SSM parameter for the cookie secret
     """
     client = boto3.client("ssm")
-    client.put_parameter(
-        Name="IWANTTOREADMORE_COOKIE_SECRET",
-        Description="",
-        Value="cookiesecret",
-        Type="String",
-    )
+
+    try:
+        client.put_parameter(
+            Name="IWANTTOREADMORE_COOKIE_SECRET",
+            Description="",
+            Value="cookiesecret",
+            Type="String",
+        )
+    except:
+        pass
 
 
 def delete_cookie_parameter():
