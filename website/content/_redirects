@@ -5,3 +5,5 @@
 /user/loggedin  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/loggedin 200
 /user/changepassword  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/changepassword 200
 /user/logout  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/logout 200
+/user/data  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/data 200
+/user/changepublic  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/changepublic 200

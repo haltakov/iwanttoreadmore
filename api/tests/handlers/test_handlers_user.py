@@ -1,17 +1,25 @@
 import unittest
 import os
+import json
 from unittest import mock
 import boto3
 from moto import mock_dynamodb2
 from moto import mock_ssm
+from iwanttoreadmore.models.user import User
 from iwanttoreadmore.handlers.handlers_user import (
     login_user,
     check_user_logged_in,
     change_password,
     logout_user,
+    get_user_data,
+    change_account_public,
 )
 from iwanttoreadmore.handlers.handler_helpers import create_response
-from tests.data.data_test_user import create_users_table, create_test_users_data
+from tests.data.data_test_user import (
+    create_users_table,
+    create_test_users_data,
+    get_expected_users_data,
+)
 from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
 
 
@@ -26,11 +34,16 @@ class UserHandlersTestCase(unittest.TestCase):
 
         self.users_table = create_users_table(os.environ["USERS_TABLE"])
         create_test_users_data(self.users_table)
+        self.expected_user_data = get_expected_users_data()
         create_cookie_parameter()
 
     def tearDown(self):
         remove_table(os.environ["USERS_TABLE"])
         delete_cookie_parameter()
+
+    def get_user_data(self, user):
+        full_user_data = self.expected_user_data[user]
+        return {key: full_user_data[key] for key in ["user", "email", "is_public"]}
 
     @mock.patch(
         "iwanttoreadmore.handlers.handlers_user.get_cookie_date",
@@ -131,6 +144,64 @@ class UserHandlersTestCase(unittest.TestCase):
 
     def test_logout_user(self):
         self.assertEqual(302, logout_user(None, None)["statusCode"])
+
+    def test_get_user_data(self):
+        # Positive case
+        event_1 = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        response_1 = create_response(200, body=json.dumps(self.get_user_data("user_1")))
+        self.assertEqual(response_1, get_user_data(event_1, None))
+
+        # Wrong cookie
+        event_2 = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        response_2 = create_response(200, body=json.dumps(dict()))
+        self.assertEqual(response_2, get_user_data(event_2, None))
+
+        # No cookie
+        event_3 = dict(headers=dict(),)
+        response_3 = create_response(200, body=json.dumps(dict()))
+        self.assertEqual(response_3, get_user_data(event_3, None))
+
+    def test_change_account_public(self):
+        user = User()
+        data = user.get_user_by_username("user_1")
+        self.assertTrue(data["is_public"])
+
+        event_change = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(200, change_account_public(event_change, None)["statusCode"])
+        data = user.get_user_by_username("user_1")
+        self.assertFalse(data["is_public"])
+
+        event_change = dict(
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="1",
+        )
+        self.assertEqual(200, change_account_public(event_change, None)["statusCode"])
+        data = user.get_user_by_username("user_1")
+        self.assertTrue(data["is_public"])
+
+        # Wrong cookie
+        event_2 = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(400, change_account_public(event_2, None)["statusCode"])
 
 
 if __name__ == "__main__":

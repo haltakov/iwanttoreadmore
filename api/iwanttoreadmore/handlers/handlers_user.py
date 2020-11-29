@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
 from iwanttoreadmore.handlers.handler_helpers import create_response
@@ -79,6 +80,48 @@ def change_password(event, _):
 
     except ValueError as error:
         return create_response(400, "POST", str(error))
+
+
+def get_user_data(event, _):
+    """
+    Get the data for the logged in user.
+    :param event: event
+    :return: dict with the main data attributes for the logged in user
+    """
+    # Check if the user is logged in correctly and return empty dict if not
+    username = get_logged_in_user(event)
+    if not username:
+        return create_response(200, body=json.dumps(dict()))
+
+    # Get the user data
+    user = User()
+    data = user.get_user_by_username(username)
+
+    # Choose fileds to provide
+    return create_response(
+        200, body=json.dumps({key: data[key] for key in ["user", "email", "is_public"]})
+    )
+
+
+def change_account_public(event, _):
+    """
+    Change the public visibility of an account
+    :param event: event
+    :return: 200 if the change was successful, 400 otherwise
+    """
+    # Check if the user is logged in correctly
+    username = get_logged_in_user(event)
+    if not username:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    # Get the new value of the public option
+    new_is_public = event["body"] == "1"
+
+    # Change the user public setting
+    user = User()
+    user.set_account_public(username, new_is_public)
+
+    return create_response(200, "POST")
 
 
 def logout_user(event, _):

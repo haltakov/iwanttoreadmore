@@ -28,6 +28,7 @@ def create_test_users_data(users_table):
             "PasswordHash": "$2b$12$O71GJeJ/8dbwS6q3sXab7.sdnczecXyQeWiLGxEeA9oClAvjeEcti",  # test
             "Registered": "1111",
             "LastActive": "1111",
+            "IsPublic": True,
         }
     )
     users_table.put_item(
@@ -37,6 +38,7 @@ def create_test_users_data(users_table):
             "PasswordHash": "$2b$12$G/Kb.r3YAJbenM7Ul9gQXO6bIjMZtVAt1uY.nKZMQL.1i6L50LLTW",  # test2
             "Registered": "1111",
             "LastActive": "1111",
+            "IsPublic": False,
         }
     )
 
@@ -53,6 +55,7 @@ def get_expected_users_data():
             password_hash="$2b$12$O71GJeJ/8dbwS6q3sXab7.sdnczecXyQeWiLGxEeA9oClAvjeEcti",  # test
             registered="1111",
             last_active="1111",
+            is_public=True,
         ),
         user_2=dict(
             user="user_2",
@@ -60,6 +63,7 @@ def get_expected_users_data():
             password_hash="$2b$12$G/Kb.r3YAJbenM7Ul9gQXO6bIjMZtVAt1uY.nKZMQL.1i6L50LLTW",  # test2
             registered="1111",
             last_active="1111",
+            is_public=False,
         ),
         user_3=dict(
             user="user_3",
@@ -67,6 +71,7 @@ def get_expected_users_data():
             password_hash="$2b$12$nChdB1EJj1DZbtJgNSOFz.fTxPXu565.ic3xtXJvjLf64F4ELnuXG",  # test3, salt: $2b$12$nChdB1EJj1DZbtJgNSOFz.
             registered="9999",
             last_active="9999",
+            is_public=False,
         ),
     )
 

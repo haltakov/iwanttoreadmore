@@ -153,6 +153,21 @@ class UserTestCase(unittest.TestCase):
         # Test invalid user
         self.assertRaises(ValueError, user.update_user_last_active, "user_x")
 
+    def test_is_account_public(self):
+        user = User()
+
+        self.assertTrue(user.is_account_public("user_1"))
+        self.assertFalse(user.is_account_public("user_2"))
+
+    def test_set_account_public(self):
+        user = User()
+
+        user.set_account_public("user_1", False)
+        user.set_account_public("user_2", True)
+
+        self.assertFalse(user.is_account_public("user_1"))
+        self.assertTrue(user.is_account_public("user_2"))
+
 
 if __name__ == "__main__":
     unittest.main()
