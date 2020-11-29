@@ -3,7 +3,7 @@ module.exports = {
         removeDeprecatedGapUtilities: true,
         purgeLayersByDefault: true,
     },
-    purge: { enabled: false, content: ["./**/*.html"] },
+    purge: { enabled: true, content: ["./**/*.html"] },
     theme: {
         fontFamily: {
             body: ["Source Sans Pro", "sans-serif"],

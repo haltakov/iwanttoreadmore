@@ -19,6 +19,32 @@
             </p>
         </section>
 
+        <!-- Public account option -->
+        <section
+            class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
+        >
+            <h2 class="font-bold text-xl lg:text-2xl">
+                Public dashboard
+                <a class="details-link" href="#">{{ icons.question("w-4 inline text-gray-500 mb-1 ml-2") }}</a>
+            </h2>
+
+            <p class="mt-2 text-left details-text hidden">
+                Enabling this option will make your dashboard publicly visible to everybody. If the option is disabled,
+                only you will be able to see your dashboard after login.
+            </p>
+            <div class="mt-5">
+                <label
+                    ><input
+                        id="account-public"
+                        name="account-public"
+                        type="checkbox"
+                        class="focus:ring-iblue h-5 w-5 text-iblue border-gray-300 rounded"
+                    />
+                    Make statistics publically visible</label
+                >
+            </div>
+        </section>
+
         <!-- Change password -->
         <section
             class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
@@ -75,12 +101,47 @@
 <!-- prettier-ignore -->
 {% block scripts %}
 <script>
-    function init() {
-        // Check if user is logged in
-        checkUserLoggedFast(() => {
-            document.getElementById("settings-panel").classList.remove("hidden");
-            document.getElementById("settings-panel-loading").classList.add("hidden");
+    function loadUserData() {
+        fetch("https://iwanttoreadmore.com/user/data", {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else document.location = "/login";
+            })
+            .then((data) => {
+                if (Object.keys(data).length == 0) document.location = "/login";
+                else {
+                    document.getElementById("account-public").checked = data["is_public"];
+                }
+            })
+            .catch((error) => (document.location = "/login"));
+
+        document.getElementById("settings-panel").classList.remove("hidden");
+        document.getElementById("settings-panel-loading").classList.add("hidden");
+    }
+
+    function initPublicAccountCheckbox() {
+        const publicCheckbox = document.getElementById("account-public");
+        publicCheckbox.addEventListener("change", () => {
+            fetch("https://iwanttoreadmore.com/user/changepublic", {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: publicCheckbox.checked ? 1 : 0,
+            });
         });
+    }
+
+    function init() {
+        // Check if user is logged in and fill the user data
+        loadUserData();
+
+        // Initialize the action of the public account checkbox
+        initPublicAccountCheckbox();
 
         // Init the change password form
         initAjaxForm("change-password-form", "https://iwanttoreadmore.com/user/changepassword", (response, flash) => {
