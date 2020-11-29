@@ -3,20 +3,43 @@
 <!-- prettier-ignore -->
 {% block content %}
 <div class="bg-gray-200 flex-grow p-3">
-    <div
-        class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg my-8 lg:my-24 text-center p-8"
-    >
-        <h2 class="font-bold text-xl lg:text-2xl">User settings</h2>
+    <div id="settings-panel-loading" class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
 
-        <div id="settings-panel-loading" class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
+    <div id="settings-panel" class="hidden">
+        <!-- Intro -->
+        <section
+            class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
+        >
+            <h2 class="font-bold text-xl lg:text-2xl">User settings</h2>
 
-        <div id="settings-panel" class="hidden">
-            <section class="mt-6">
-                <h3 class="mb-6 font-bold text-lg text-left">Change password</h3>
+            <p class="mt-2 text-left">
+                We are still in early beta, so don't hesitate to get in touch directly if you are missing an important
+                feature or need help:
+                <a class="link" href="mailto:vladimir@iwanttoreadmore.com">vladimir@iwanttoreadmore.com</a>
+            </p>
+        </section>
 
-                <div id="flash" class="inline-block mx-auto my-5 p-3 border rounded hidden"></div>
+        <!-- Change password -->
+        <section
+            class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
+        >
+            <h2 class="font-bold text-xl lg:text-2xl">
+                Change password
+                <a class="details-link" href="#">{{ icons.question("w-4 inline text-gray-500 mb-1 ml-2") }}</a>
+            </h2>
 
-                <form id="change-password-form" name="change-password-form">
+            <p class="mt-2 text-left details-text hidden">
+                The new password should be between 4 and 100 characters and may contain any of the following characters:
+                letters (<span class="font-mono text-sm">a-z</span>, <span class="font-mono text-sm">A-Z</span>), digits
+                (<span class="font-mono text-sm">0-9</span>), special characters (<span class="font-mono text-sm"
+                    >!@#$%^&*-_.,+=</span
+                >).
+            </p>
+
+            <div id="flash" class="inline-block mx-auto mt-5 p-3 border rounded hidden"></div>
+
+            <div class="mt-5">
+                <form id="change-password-form" name="change-password-form" autocomplete="off">
                     <div class="w-full lg:w-3/4 xl:w-1/2 mx-auto">
                         <input
                             class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
@@ -30,7 +53,7 @@
                             pattern="[a-zA-Z0-9!@#$%^&\*\-_\.,+=]{4,100}"
                         />
                         <input
-                            class="w-full mt-4 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                            class="w-full mt-2 bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
                             placeholder="Repeat Password"
                             type="password"
                             value=""
@@ -43,15 +66,8 @@
                         <button type="submit" class="button-blue w-48 mt-6 mx-2">Change Password</button>
                     </div>
                 </form>
-            </section>
-
-            <section class="mt-8">
-                <h3 class="mb-6 font-bold text-lg text-left">Do you need help?</h3>
-                <div>
-                    <a class="button-orange w-48 inline-block" href="mailto:vladimir@iwanttoreadmore.com">Get Help</a>
-                </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </div>
 </div>
 {% endblock content %}
@@ -74,6 +90,15 @@
                 response.text().then((text) => displayError(flash, text));
             }
         });
+
+        // Init details buttons
+        document.querySelectorAll(".details-link").forEach((element) =>
+            element.addEventListener("click", () => {
+                const details = element.parentNode.parentNode.querySelector(".details-text");
+                if (details.classList.contains("hidden")) details.classList.remove("hidden");
+                else details.classList.add("hidden");
+            })
+        );
     }
 
     if (document.readyState !== "loading") {
