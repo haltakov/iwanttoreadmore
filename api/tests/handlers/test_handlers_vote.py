@@ -123,6 +123,15 @@ class VoteHandlersTestCase(unittest.TestCase):
             ),
         ]
 
+        expected_data_user_4 = [
+            dict(
+                topic="topic_xxx",
+                project_name="project_x",
+                vote_count=2,
+                last_vote="9999",
+            ),
+        ]
+
         # Check existing topic
         event_1 = dict(
             pathParameters=dict(user="user_2", project="project_c", topic="topic_ddd")
@@ -146,6 +155,18 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(expected_return_code, response_3["statusCode"])
         self.assertEqual(200, response_4["statusCode"])
         self.assertEqual(json.dumps(expected_data_user_3), response_4["body"])
+
+        # Check uppercase letters
+        event_5 = dict(
+            pathParameters=dict(user="UseR_3", project="ProJect_X", topic="ToPiC_xXX")
+        )
+        response_5 = vote_handler(event_5, None)
+        event_6 = dict(pathParameters=dict(user="user_3"))
+        response_6 = get_votes_for_user(event_6, None)
+
+        self.assertEqual(expected_return_code, response_5["statusCode"])
+        self.assertEqual(200, response_6["statusCode"])
+        self.assertEqual(json.dumps(expected_data_user_4), response_6["body"])
 
     @mock.patch("time.time", return_value=9999)
     def test_add_vote(self, _):
