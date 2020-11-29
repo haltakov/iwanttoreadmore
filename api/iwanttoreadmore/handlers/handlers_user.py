@@ -109,7 +109,19 @@ def change_account_public(event, _):
     :param event: event
     :return: 200 if the change was successful, 400 otherwise
     """
-    pass
+    # Check if the user is logged in correctly
+    username = get_logged_in_user(event)
+    if not username:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    # Get the new value of the public option
+    new_is_public = event["body"] == "1"
+
+    # Change the user public setting
+    user = User()
+    user.set_account_public(username, new_is_public)
+
+    return create_response(200, "POST")
 
 
 def logout_user(event, _):

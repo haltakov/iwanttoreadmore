@@ -5,6 +5,7 @@ from unittest import mock
 import boto3
 from moto import mock_dynamodb2
 from moto import mock_ssm
+from iwanttoreadmore.models.user import User
 from iwanttoreadmore.handlers.handlers_user import (
     login_user,
     check_user_logged_in,
@@ -169,12 +170,8 @@ class UserHandlersTestCase(unittest.TestCase):
         self.assertEqual(response_3, get_user_data(event_3, None))
 
     def test_change_account_public(self):
-        event_get = dict(
-            headers=dict(
-                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
-            ),
-        )
-        data = get_user_data(event_get, None)
+        user = User()
+        data = user.get_user_by_username("user_1")
         self.assertTrue(data["is_public"])
 
         event_change = dict(
@@ -184,13 +181,8 @@ class UserHandlersTestCase(unittest.TestCase):
             body="0",
         )
         self.assertEqual(200, change_account_public(event_change, None)["statusCode"])
-        event_get = dict(
-            headers=dict(
-                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
-            ),
-        )
-        data = get_user_data(event, None)
-        self.assertFlase(data["is_public"])
+        data = user.get_user_by_username("user_1")
+        self.assertFalse(data["is_public"])
 
         event_change = dict(
             headers=dict(
@@ -199,12 +191,7 @@ class UserHandlersTestCase(unittest.TestCase):
             body="1",
         )
         self.assertEqual(200, change_account_public(event_change, None)["statusCode"])
-        event_get = dict(
-            headers=dict(
-                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
-            ),
-        )
-        data = get_user_data(event, None)
+        data = user.get_user_by_username("user_1")
         self.assertTrue(data["is_public"])
 
         # Wrong cookie
