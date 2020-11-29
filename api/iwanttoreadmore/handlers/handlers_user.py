@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
 from iwanttoreadmore.handlers.handler_helpers import create_response
@@ -87,7 +88,19 @@ def get_user_data(event, _):
     :param event: event
     :return: dict with the main data attributes for the logged in user
     """
-    pass
+    # Check if the user is logged in correctly and return empty dict if not
+    username = get_logged_in_user(event)
+    if not username:
+        return create_response(200, body=json.dumps(dict()))
+
+    # Get the user data
+    user = User()
+    data = user.get_user_by_username(username)
+
+    # Choose fileds to provide
+    return create_response(
+        200, body=json.dumps({key: data[key] for key in ["user", "email", "is_public"]})
+    )
 
 
 def change_account_public(event, _):

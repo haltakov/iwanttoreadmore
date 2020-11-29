@@ -151,9 +151,7 @@ class UserHandlersTestCase(unittest.TestCase):
                 Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
         )
-        response_1 = create_response(
-            200, json.dumps(dict(user=self.get_user_data("user_1")))
-        )
+        response_1 = create_response(200, body=json.dumps(self.get_user_data("user_1")))
         self.assertEqual(response_1, get_user_data(event_1, None))
 
         # Wrong cookie
@@ -162,12 +160,12 @@ class UserHandlersTestCase(unittest.TestCase):
                 Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
             ),
         )
-        response_2 = create_response(200, json.dumps(dict()))
+        response_2 = create_response(200, body=json.dumps(dict()))
         self.assertEqual(response_2, get_user_data(event_2, None))
 
         # No cookie
         event_3 = dict(headers=dict(),)
-        response_3 = create_response(200, json.dumps(dict()))
+        response_3 = create_response(200, body=json.dumps(dict()))
         self.assertEqual(response_3, get_user_data(event_3, None))
 
     def test_change_account_public(self):
