@@ -81,6 +81,24 @@ def change_password(event, _):
         return create_response(400, "POST", str(error))
 
 
+def get_user_data(event, _):
+    """
+    Get the data for the logged in user.
+    :param event: event
+    :return: dict with the main data attributes for the logged in user
+    """
+    pass
+
+
+def change_account_public(event, _):
+    """
+    Change the public visibility of an account
+    :param event: event
+    :return: 200 if the change was successful, 400 otherwise
+    """
+    pass
+
+
 def logout_user(event, _):
     """
     Logout a user by expiring the login cookie
