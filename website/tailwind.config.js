@@ -3,10 +3,11 @@ module.exports = {
         removeDeprecatedGapUtilities: true,
         purgeLayersByDefault: true,
     },
-    purge: { enabled: true, content: ["./**/*.html"] },
+    purge: { enabled: false, content: ["./**/*.html"] },
     theme: {
         fontFamily: {
             body: ["Source Sans Pro", "sans-serif"],
+            mono: ["SFMono-Regular", "Menlo", "monospace"],
         },
         extend: {
             colors: {
