@@ -3,7 +3,12 @@
 <!-- prettier-ignore -->
 {% block content %}
 <div class="bg-gray-200 flex-grow p-3">
-    <div id="settings-panel-loading" class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
+    <section
+        id="settings-panel-loading"
+        class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
+    >
+        <div class="my-24">{{ icons.dots("animate-pulse w-16 mx-auto") }}</div>
+    </section>
 
     <div id="settings-panel" class="hidden">
         <!-- Intro -->
