@@ -108,20 +108,16 @@
             credentials: "same-origin",
         })
             .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else document.location = "/login";
+                return response.json();
             })
             .then((data) => {
-                if (Object.keys(data).length == 0) document.location = "/login";
-                else {
+                if (Object.keys(data).length > 0) {
                     document.getElementById("account-public").checked = data["is_public"];
-                }
+                    document.getElementById("settings-panel").classList.remove("hidden");
+                    document.getElementById("settings-panel-loading").classList.add("hidden");
+                } else document.location = "/login";
             })
             .catch((error) => (document.location = "/login"));
-
-        document.getElementById("settings-panel").classList.remove("hidden");
-        document.getElementById("settings-panel-loading").classList.add("hidden");
     }
 
     function initPublicAccountCheckbox() {
