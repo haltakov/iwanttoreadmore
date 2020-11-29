@@ -101,12 +101,47 @@
 <!-- prettier-ignore -->
 {% block scripts %}
 <script>
-    function init() {
-        // Check if user is logged in
-        checkUserLoggedFast(() => {
-            document.getElementById("settings-panel").classList.remove("hidden");
-            document.getElementById("settings-panel-loading").classList.add("hidden");
+    function loadUserData() {
+        fetch("https://iwanttoreadmore.com/user/data", {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else document.location = "/login";
+            })
+            .then((data) => {
+                if (Object.keys(data).length == 0) document.location = "/login";
+                else {
+                    document.getElementById("account-public").checked = data["is_public"];
+                }
+            })
+            .catch((error) => (document.location = "/login"));
+
+        document.getElementById("settings-panel").classList.remove("hidden");
+        document.getElementById("settings-panel-loading").classList.add("hidden");
+    }
+
+    function initPublicAccountCheckbox() {
+        const publicCheckbox = document.getElementById("account-public");
+        publicCheckbox.addEventListener("change", () => {
+            fetch("https://iwanttoreadmore.com/user/changepublic", {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: publicCheckbox.checked ? 1 : 0,
+            });
         });
+    }
+
+    function init() {
+        // Check if user is logged in and fill the user data
+        loadUserData();
+
+        // Initialize the action of the public account checkbox
+        initPublicAccountCheckbox();
 
         // Init the change password form
         initAjaxForm("change-password-form", "https://iwanttoreadmore.com/user/changepassword", (response, flash) => {
