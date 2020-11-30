@@ -1,7 +1,17 @@
 [build]
 base = "website/"
-command = "make html && if [ $CONTEXT != 'production' ]; then mv output/_redirects_dev output/_redirects; fi"
+command = "make html"
 publish = "output/"
 
 [context.production]
 command = "make publish && if [ $CONTEXT = 'production' ]; then mv output/_redirects_prod output/_redirects; fi"
+
+[dev]
+autoLaunch = false
+command = "make devserver"
+framework = "#custom"
+jwtRolePath = "app_metadata.authorization.roles"
+jwtSecret = "MY_JWT_SECRET_VALUE"
+port = 8888
+publish = "output"
+targetPort = 8000
