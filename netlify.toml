@@ -3,5 +3,5 @@ base = "website/"
 command = "make html && if [ $CONTEXT != 'production' ]; then mv output/_redirects_dev output/_redirects; fi"
 publish = "output/"
 
-[context.deploy.production]
+[context.production]
 command = "make publish && if [ $CONTEXT = 'production' ]; then mv output/_redirects_prod output/_redirects; fi"
