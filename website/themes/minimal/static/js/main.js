@@ -43,7 +43,7 @@ function initLogoutButton() {
  * @param {*} successCallback function to call if successful
  */
 function checkUserLogged(successCallback) {
-    fetch("https://iwanttoreadmore.com/user/loggedin", {
+    fetch("/user/loggedin", {
         method: "GET",
         mode: "cors",
         credentials: "same-origin",

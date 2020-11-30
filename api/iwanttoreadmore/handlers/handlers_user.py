@@ -136,7 +136,7 @@ def logout_user(event, _):
         {
             "Access-Control-Allow-Credentials": "true",
             "Set-Cookie": cookie,
-            "Location": "https://iwanttoreadmore.com/",
+            "Location": "/",
         },
     )
 
