@@ -57,9 +57,7 @@ def add_vote_and_redirect(event, _):
     do_vote(event, None)
 
     # Return response
-    return create_response(
-        302, additional_headers={"Location": "https://iwanttoreadmore.com/voted"}
-    )
+    return create_response(302, additional_headers={"Location": "/voted"})
 
 
 def get_votes_for_user(event, _):

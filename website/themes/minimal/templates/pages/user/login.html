@@ -48,7 +48,7 @@
 {% block scripts %}
 <script>
     function init() {
-        initAjaxForm("login-form", "https://iwanttoreadmore.com/user/login", (response, flash) => {
+        initAjaxForm("login-form", "/user/login", (response, flash) => {
             if (response.ok) {
                 document.cookie = "loggedin";
                 document.location = "/stats";

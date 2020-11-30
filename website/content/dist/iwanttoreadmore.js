@@ -18,7 +18,7 @@ const iwanttoreadmore = {
             // Add onclick event
             voteLink.onclick = (event) => {
                 // Post the vote to the backend
-                const url = `https://iwanttoreadmore.com/vote/${voteLink.getAttribute("data-vote")}`;
+                const url = `/vote/${voteLink.getAttribute("data-vote")}`;
                 fetch(url, { method: "post" });
 
                 // Remove the link from the vote icon

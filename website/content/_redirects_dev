@@ -1,0 +1,9 @@
+/vote/:user/:project/:topic  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/vote/:user/:project/:topic  200
+/votes/:user  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/votes/:user  200
+/votes/:user/:project  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/votes/:user/:project  200
+/user/login  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/login 200
+/user/loggedin  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/loggedin 200
+/user/changepassword  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/changepassword 200
+/user/logout  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/logout 200
+/user/data  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/data 200
+/user/changepublic  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/changepublic 200

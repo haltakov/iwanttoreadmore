@@ -107,7 +107,7 @@
 {% block scripts %}
 <script>
     function loadUserData() {
-        fetch("https://iwanttoreadmore.com/user/data", {
+        fetch("/user/data", {
             method: "GET",
             mode: "cors",
             credentials: "same-origin",
@@ -128,7 +128,7 @@
     function initPublicAccountCheckbox() {
         const publicCheckbox = document.getElementById("account-public");
         publicCheckbox.addEventListener("change", () => {
-            fetch("https://iwanttoreadmore.com/user/changepublic", {
+            fetch("/user/changepublic", {
                 method: "POST",
                 mode: "cors",
                 credentials: "same-origin",
@@ -145,7 +145,7 @@
         initPublicAccountCheckbox();
 
         // Init the change password form
-        initAjaxForm("change-password-form", "https://iwanttoreadmore.com/user/changepassword", (response, flash) => {
+        initAjaxForm("change-password-form", "/user/changepassword", (response, flash) => {
             if (response.ok) {
                 displaySuccess(flash, "Password changed");
             } else {
