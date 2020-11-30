@@ -8,3 +8,4 @@ website/temp
 .DS_Store
 temp
 node_modules
+.netlify
