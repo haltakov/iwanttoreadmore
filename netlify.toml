@@ -21,3 +21,9 @@ force = true
 from = "/stats/:user/"
 status = 200
 to = "/internal/stats"
+
+[[redirects]]
+force = true
+from = "/stats"
+status = 200
+to = "/internal/stats"
