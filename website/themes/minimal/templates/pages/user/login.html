@@ -50,8 +50,10 @@
     function init() {
         initAjaxForm("login-form", "/user/login", (response, flash) => {
             if (response.ok) {
-                document.cookie = "loggedin";
-                document.location = "/stats";
+                response.text().then((text) => {
+                    document.cookie = "loggedin";
+                    document.location = `/stats/${text}`;
+                });
             } else {
                 displayError(flash, "Wrong username or password");
             }

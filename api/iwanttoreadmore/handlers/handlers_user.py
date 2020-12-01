@@ -32,7 +32,7 @@ def login_user(event, _):
             return create_response(
                 200,
                 "POST",
-                "",
+                username,
                 {"Access-Control-Allow-Credentials": "true", "Set-Cookie": cookie},
             )
 
