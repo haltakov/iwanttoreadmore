@@ -25,7 +25,7 @@ TEMPLATE_PAGES = {
     "pages/email/confirm_subscription_beta.html": "confirm_subscription_beta.html",
     "pages/user/login.html": "login.html",
     "pages/user/settings.html": "settings.html",
-    "pages/user/stats.html": "stats.html",
+    "pages/user/stats.html": "internal/stats.html",
     "pages/404.html": "404.html",
     "pages/voted.html": "voted.html",
 }

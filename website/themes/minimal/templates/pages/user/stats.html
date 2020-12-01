@@ -47,9 +47,8 @@
 <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/stats.js"></script>
 <script>
     function initStats() {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        loadVotes(urlParams.get("user"), urlParams.get("project"));
+        const user = String(window.location).split("/").pop();
+        loadVotes(user);
     }
 
     if (document.readyState !== "loading") {

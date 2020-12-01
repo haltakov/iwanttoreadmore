@@ -15,3 +15,9 @@ jwtSecret = "MY_JWT_SECRET_VALUE"
 port = 8888
 publish = "output"
 targetPort = 8000
+
+[[redirects]]
+force = true
+from = "/stats/:user/"
+status = 200
+to = "/internal/stats"
