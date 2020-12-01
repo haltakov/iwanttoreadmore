@@ -14,6 +14,7 @@ from tests.data.data_test_vote import (
     create_test_votes_data,
     get_expected_votes_data,
 )
+from iwanttoreadmore.models.user import User
 from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
 
 
@@ -33,6 +34,8 @@ class VoteHandlersTestCase(unittest.TestCase):
         remove_table(os.environ["VOTES_TABLE"])
         delete_cookie_parameter()
 
+    @mock.patch.object(User, "__init__", lambda _: None)
+    @mock.patch.object(User, "is_account_public", lambda _, __: True)
     def test_get_votes_for_user(self):
         event_1 = dict(pathParameters=dict(user="user_1"))
         response_1 = get_votes_for_user(event_1, None)
@@ -55,6 +58,32 @@ class VoteHandlersTestCase(unittest.TestCase):
         )
         self.assertEqual(json.dumps([]), response_3["body"])
 
+    @mock.patch.object(User, "__init__", lambda _: None)
+    @mock.patch.object(User, "is_account_public", lambda _, __: False)
+    def test_get_votes_for_user_private(self):
+        event_1 = dict(
+            pathParameters=dict(user="user_1"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        response_1 = get_votes_for_user(event_1, None)
+
+        event_2 = dict(
+            pathParameters=dict(user="user_2"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        response_2 = get_votes_for_user(event_2, None)
+
+        self.assertEqual(
+            json.dumps(get_expected_votes_data("user_1")), response_1["body"]
+        )
+        self.assertEqual(json.dumps([]), response_2["body"])
+
+    @mock.patch.object(User, "__init__", lambda _: None)
+    @mock.patch.object(User, "is_account_public", lambda _, __: True)
     def test_get_votes_for_project(self):
         event_1 = dict(pathParameters=dict(user="user_1", project="project_a"))
         response_1 = get_votes_for_project(event_1, None)
@@ -151,10 +180,14 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(200, response_6["statusCode"])
         self.assertEqual(json.dumps(expected_data_user_4), response_6["body"])
 
+    @mock.patch.object(User, "__init__", lambda _: None)
+    @mock.patch.object(User, "is_account_public", lambda _, __: True)
     @mock.patch("time.time", return_value=9999)
     def test_add_vote(self, _):
         self.add_vote_helper(add_vote, 200)
 
+    @mock.patch.object(User, "__init__", lambda _: None)
+    @mock.patch.object(User, "is_account_public", lambda _, __: True)
     @mock.patch("time.time", return_value=9999)
     def test_add_vote_and_redirect(self, _):
         self.add_vote_helper(add_vote_and_redirect, 302)
