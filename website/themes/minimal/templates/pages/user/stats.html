@@ -13,6 +13,15 @@
     <div class="py-6 mx-auto flex flex-wrap text-gray-700 px-2 md:px-4">
         <div class="w-full md:w-3/4 lg:w-1/2 lg:pl-2 mx-auto">
             <div
+                id="no-user-found-message"
+                class="w-full xl:w-4/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg my-8 lg:my-24 text-center p-8 hidden"
+            >
+                <h2 class="font-bold text-2xl">User not found</h2>
+                <p class="mt-5 text-lg">This user either doesn't exist or hasn't made their statistics public.</p>
+                <p class="mt-5 text-orange-600">{{ icons.ban("w-12 mx-auto") }}</p>
+            </div>
+
+            <div
                 class="w-full xl:w-4/5 mx-auto mt-6 px-2 md:px-5 pb-2 pt-8 md:pt-4 bg-white rounded-lg shadow-lg relative"
             >
                 <h3 class="text-md font-bold text-center"></h3>
