@@ -16,12 +16,16 @@ function init() {
 }
 
 /**
- * Chooses which navbar to show depending on if the user is loggen in or not
+ * Chooses which navbar to show depending on if the user is loggen in or not and sets the link to the user dashboard
  */
 function chooseNavbar() {
-    if (document.cookie.includes("loggedin")) {
+    if (document.cookie.includes("loggedinuser")) {
         document.getElementById("logged-out-nav").classList.add("hidden");
         document.getElementById("logged-in-nav").classList.remove("hidden");
+
+        // Set the link to the user dashboard
+        const username = document.cookie.split("=").pop();
+        document.getElementById("nav-dashboard-link").href = `/stats/${username}`;
     }
 }
 
@@ -32,7 +36,7 @@ function initLogoutButton() {
     const logoutButton = document.getElementById("logout-button");
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
-            document.cookie = "";
+            document.cookie = "loggedinuser=; Path=/; Max-Age=-99999999;";
             document.location = logoutButton.href;
         });
     }
@@ -60,7 +64,7 @@ function checkUserLogged(successCallback) {
  * @param {*} successCallback function to call if successful
  */
 function checkUserLoggedFast(successCallback) {
-    if (document.cookie.includes("loggedin")) successCallback();
+    if (document.cookie.includes("loggedinuser")) successCallback();
     else document.location = "/login";
 }
 

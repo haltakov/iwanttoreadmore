@@ -51,7 +51,9 @@
         initAjaxForm("login-form", "/user/login", (response, flash) => {
             if (response.ok) {
                 response.text().then((text) => {
-                    document.cookie = "loggedin";
+                    const expirationDate = new Date();
+                    expirationDate.setDate(expirationDate.getDate() + 30);
+                    document.cookie = `loggedinuser=${text};Expires=${expirationDate.toUTCString()}`;
                     document.location = `/stats/${text}`;
                 });
             } else {
