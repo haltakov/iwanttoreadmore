@@ -43,7 +43,10 @@ class UserHandlersTestCase(unittest.TestCase):
 
     def get_user_data(self, user):
         full_user_data = self.expected_user_data[user]
-        return {key: full_user_data[key] for key in ["user", "email", "is_public"]}
+        return {
+            key: full_user_data[key]
+            for key in ["user", "email", "is_public", "voted_message", "voted_redirect"]
+        }
 
     @mock.patch(
         "iwanttoreadmore.handlers.handlers_user.get_cookie_date",

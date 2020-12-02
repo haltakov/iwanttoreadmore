@@ -99,7 +99,19 @@ def get_user_data(event, _):
 
     # Choose fileds to provide
     return create_response(
-        200, body=json.dumps({key: data[key] for key in ["user", "email", "is_public"]})
+        200,
+        body=json.dumps(
+            {
+                key: data[key]
+                for key in [
+                    "user",
+                    "email",
+                    "is_public",
+                    "voted_message",
+                    "voted_redirect",
+                ]
+            }
+        ),
     )
 
 
