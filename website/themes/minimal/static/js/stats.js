@@ -88,6 +88,11 @@ function createProjectsTables(user, projects) {
         initReloadButton(table, () => loadVotes(user, project));
     });
 
+    // Display error message if no projects were found
+    if (projects.size == 0) {
+        document.getElementById("no-user-found-message").classList.remove("hidden");
+    }
+
     templateTable.parentElement.remove();
 }
 

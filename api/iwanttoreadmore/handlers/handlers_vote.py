@@ -4,6 +4,7 @@ import logging
 from iwanttoreadmore.common import get_logged_in_user
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote
+from iwanttoreadmore.models.user import User
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
@@ -67,20 +68,19 @@ def get_votes_for_user(event, _):
     :return: votes data as JSON
     """
     # Get all parameters
-    user = event["pathParameters"]["user"]
-    log.debug(f"User param: {user}")
-
-    # If the user not specified, retrieve it from the cookie
-    if not user or user == "null":
-        user = get_logged_in_user(event)
+    username = event["pathParameters"]["user"]
+    log.debug(f"User param: {username}")
 
     # Retrieve votes from the database
-    log.debug(f"Retrieving logs for user: {user}")
+    log.debug(f"Retrieving logs for user: {username}")
+
     votes_data = []
 
-    if user:
+    # Check if the user stats are public or the user is logged in
+    user = User()
+    if user.is_account_public(username) or username == get_logged_in_user(event):
         vote = Vote()
-        votes_data = vote.get_votes_for_user(user)
+        votes_data = vote.get_votes_for_user(username)
 
     return create_response(200, body=json.dumps(votes_data))
 
@@ -92,11 +92,15 @@ def get_votes_for_project(event, _):
     :return: votes data as JSON
     """
     # Get all parameters
-    user = event["pathParameters"]["user"]
+    username = event["pathParameters"]["user"]
     project = event["pathParameters"]["project"]
 
-    # Retrieve votes from the database
-    vote = Vote()
-    votes_data = vote.get_votes_for_project(user, project)
+    votes_data = []
+
+    # Check if the user stats are public or the user is logged in
+    user = User()
+    if user.is_account_public(username) or username == get_logged_in_user(event):
+        vote = Vote()
+        votes_data = vote.get_votes_for_project(username, project)
 
     return create_response(200, body=json.dumps(votes_data))

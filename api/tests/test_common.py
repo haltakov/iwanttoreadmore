@@ -125,13 +125,13 @@ class CommonTestCase(unittest.TestCase):
         self.assertEqual(
             "haltakov",
             check_cookie_signature(
-                "user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC; loggedin="
+                "user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC; loggedinuser=haltakov"
             ),
         )
         self.assertEqual(
             "haltakov",
             check_cookie_signature(
-                "loggedin; user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
+                "loggedinuser=haltakov; user=haltakov&signature=$2b$12$FTU0sMh7DANHArQW1CBGiuKdkfpeViomU/Smp2TFBwv0wmBhMEizC"
             ),
         )
         self.assertEqual(
