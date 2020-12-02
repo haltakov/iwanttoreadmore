@@ -168,6 +168,78 @@ class UserTestCase(unittest.TestCase):
         self.assertFalse(user.is_account_public("user_1"))
         self.assertTrue(user.is_account_public("user_2"))
 
+    def set_voted_message_and_redirect(self):
+        user = User()
+
+        # Positive cases voted message
+        user.set_voted_message_and_redirect("user_1", "New voted message", None)
+        user_data = user.get_user_by_username("user_1")
+        self.assertEqual(user_data["voted_message"], "New voted message")
+        self.assertEqual(user_data["voted_redirect"], None)
+
+        user.set_voted_message_and_redirect("user_2", "Other new voted message", None)
+        user_data = user.get_user_by_username("user_2")
+        self.assertEqual(user_data["voted_message"], "Other new voted message")
+        self.assertEqual(user_data["voted_redirect"], None)
+
+        # Positive cases voted redirect
+        user.set_voted_message_and_redirect(
+            "user_1", None, "https://iwanttoreadmore.com/voted"
+        )
+        user_data = user.get_user_by_username("user_1")
+        self.assertEqual(
+            user_data["voted_redirect"], "https://iwanttoreadmore.com/voted"
+        )
+        self.assertEqual(user_data["voted_message"], None)
+
+        # Positive cases both
+        user.set_voted_message_and_redirect(
+            "user_1", "Some message", "https://iwanttoreadmore.com/voted"
+        )
+        user_data = user.get_user_by_username("user_1")
+        self.assertEqual(user_data["voted_message"], "Some message")
+        self.assertEqual(
+            user_data["voted_redirect"], "https://iwanttoreadmore.com/voted"
+        )
+
+        # Negative case user
+        self.assertRaises(
+            ValueError, user.set_voted_message_and_redirect, "user_X", "Message", None
+        )
+
+        # Negative cases voted message
+        self.assertRaises(
+            ValueError,
+            user.set_voted_message_and_redirect,
+            "user_1",
+            "<b>Tags</b>",
+            None,
+        )
+        self.assertRaises(
+            ValueError, user.set_voted_message_and_redirect, "user_1", "M" * 501, None
+        )
+
+        # Negative cases voted redirect
+        user.set_voted_message_and_redirect(
+            "user_2", None, "https://iwanttoreadmore.com/voted2"
+        )
+        user_data = user.get_user_by_username("user_2")
+        self.assertEqual(
+            user_data["voted_redirect"], "https://iwanttoreadmore.com/voted2"
+        )
+        self.assertEqual(user_data["voted_message"], None)
+
+        self.assertRaises(
+            ValueError,
+            user.set_voted_message_and_redirect,
+            "user_1",
+            None,
+            "nonurltext",
+        )
+        self.assertRaises(
+            ValueError, user.set_voted_message_and_redirect, "user_1", None, "a" * 501
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
