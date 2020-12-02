@@ -10,7 +10,7 @@
         class="w-full sm:w-1/2 lg:w-1/3 mx-auto bg-white text-gray-700 rounded-lg shadow-lg my-8 lg:my-24 text-center py-8 pt-8 pb-4"
     >
         <h2 class="font-bold text-2xl">Thank you for voting!</h2>
-        <p class="mt-5 text-lg">You will be able to read more on this topic in the future!</p>
+        <p id="voted-message" class="mt-5 text-lg">You will be able to read more on this topic in the future!</p>
         <small class="mt-6 block text-right pr-4"
             >Powered by
             <a href="https://iwanttoreadmore.com" class="link" target="_blank" rel="noopener"
@@ -20,3 +20,21 @@
     </div>
 </div>
 {% endblock content %}
+
+<!-- prettier-ignore -->
+{% block scripts %}
+<script>
+    function init() {
+        // Relace the voted message if specified
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("message"))
+            document.getElementById("voted-message").innerHTML = decodeURI(params.get("message"));
+    }
+
+    if (document.readyState !== "loading") {
+        init();
+    } else {
+        document.addEventListener("DOMContentLoaded", init);
+    }
+</script>
+{% endblock scripts %}

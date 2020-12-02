@@ -8,6 +8,8 @@ from iwanttoreadmore.common import (
     check_username,
     create_password_hash,
     check_password_hash,
+    check_voted_message,
+    check_url,
 )
 
 
@@ -24,6 +26,8 @@ def get_user_dict_from_table(user_from_query):
         registered=user_from_query["Registered"],
         last_active=user_from_query["LastActive"],
         is_public=user_from_query["IsPublic"],
+        voted_message=user_from_query["VotedMessage"],
+        voted_redirect=user_from_query["VotedRedirect"],
     )
 
 
@@ -68,6 +72,8 @@ class User:
                 "Registered": get_current_timestamp(),
                 "LastActive": get_current_timestamp(),
                 "IsPublic": False,
+                "VotedMessage": None,
+                "VotedRedirect": None,
             }
         )
 
@@ -131,7 +137,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.query(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
             ExpressionAttributeNames={"#User": "User"},
             KeyConditionExpression=Key("User").eq(username),
         )
@@ -148,7 +154,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.scan(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
             ExpressionAttributeNames={"#EMail": "EMail", "#User": "User"},
             ExpressionAttributeValues={":EMail": email,},
             FilterExpression="#EMail = :EMail",
@@ -209,3 +215,31 @@ class User:
             UpdateExpression="SET #IsPublic = :IsPublic",
         )
 
+    def set_voted_message_and_redirect(self, user, voted_message, voted_redirect):
+        """
+        Set the custom voted message and redirect
+        :param user: username
+        :param voted_message: new voted message
+        :param voted_redirect: new voted redirect
+        """
+        if not self.get_user_by_username(user):
+            raise ValueError(f"Cannot find user {user}")
+
+        if not check_voted_message(voted_message):
+            raise ValueError(f"Invalid voted massage (don't use HTML tags)")
+
+        if not check_url(voted_redirect):
+            raise ValueError(f"Invalid URL")
+
+        self.users_table.update_item(
+            Key={"User": user},
+            ExpressionAttributeNames={
+                "#VotedMessage": "VotedMessage",
+                "#VotedRedirect": "VotedRedirect",
+            },
+            ExpressionAttributeValues={
+                ":VotedMessage": voted_message,
+                ":VotedRedirect": voted_redirect,
+            },
+            UpdateExpression="SET #VotedMessage = :VotedMessage, #VotedRedirect = :VotedRedirect",
+        )

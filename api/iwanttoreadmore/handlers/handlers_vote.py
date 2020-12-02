@@ -1,6 +1,7 @@
 import re
 import json
 import logging
+from urllib.parse import quote_plus
 from iwanttoreadmore.common import get_logged_in_user
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote
@@ -57,8 +58,22 @@ def add_vote_and_redirect(event, _):
     # Save the vote
     do_vote(event, None)
 
+    redirect_url = "/voted"
+
+    # Find the user and determine the redirect page
+    username = event["pathParameters"]["user"].lower()
+    user = User()
+    user_data = user.get_user_by_username(username)
+
+    if user_data:
+        # If the user has a redirect page configured
+        if user_data["voted_redirect"]:
+            redirect_url = user_data["voted_redirect"]
+        elif user_data["voted_message"]:
+            redirect_url = f"/voted?message={quote_plus(user_data['voted_message'])}"
+
     # Return response
-    return create_response(302, additional_headers={"Location": "/voted"})
+    return create_response(302, additional_headers={"Location": redirect_url})
 
 
 def get_votes_for_user(event, _):

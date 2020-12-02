@@ -8,6 +8,8 @@ from iwanttoreadmore.common import (
     check_email,
     check_password,
     check_username,
+    check_voted_message,
+    check_url,
     create_password_hash,
     check_password_hash,
     get_cookie_date,
@@ -72,6 +74,25 @@ class CommonTestCase(unittest.TestCase):
         self.assertFalse(check_username("aa"))
         self.assertFalse(check_username("aaa"))
         self.assertFalse(check_username("a" * 31))
+
+    def test_check_voted_message(self):
+        self.assertTrue(check_voted_message(None))
+        self.assertTrue(check_voted_message(""))
+        self.assertTrue(check_voted_message("Some message"))
+        self.assertTrue(check_voted_message("Message 0342042 _+[]()./?,*^%$#@!\{\}"))
+        self.assertTrue(check_voted_message("S" * 500))
+
+        self.assertFalse(check_voted_message("Message with <tags>"))
+        self.assertFalse(check_voted_message("Message with = or &"))
+        self.assertFalse(check_voted_message("S" * 501))
+
+    def test_check_url(self):
+        self.assertTrue(check_url(None))
+        self.assertTrue(check_url(""))
+        self.assertTrue(check_url("https://iwanttoreadmore.com/voted"))
+
+        self.assertFalse(check_url("wrongurl"))
+        self.assertFalse(check_url("S" * 501))
 
     @mock.patch("bcrypt.gensalt", return_value=b"$2b$12$nChdB1EJj1DZbtJgNSOFz.")
     def test_create_password_hash(self, _):

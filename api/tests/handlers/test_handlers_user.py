@@ -13,6 +13,7 @@ from iwanttoreadmore.handlers.handlers_user import (
     logout_user,
     get_user_data,
     change_account_public,
+    change_voted_message_and_redirect,
 )
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from tests.data.data_test_user import (
@@ -43,7 +44,10 @@ class UserHandlersTestCase(unittest.TestCase):
 
     def get_user_data(self, user):
         full_user_data = self.expected_user_data[user]
-        return {key: full_user_data[key] for key in ["user", "email", "is_public"]}
+        return {
+            key: full_user_data[key]
+            for key in ["user", "email", "is_public", "voted_message", "voted_redirect"]
+        }
 
     @mock.patch(
         "iwanttoreadmore.handlers.handlers_user.get_cookie_date",
@@ -203,6 +207,79 @@ class UserHandlersTestCase(unittest.TestCase):
             body="0",
         )
         self.assertEqual(400, change_account_public(event_2, None)["statusCode"])
+
+    def test_change_voted_message_and_redirect(self):
+        cookie = "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+
+        # Correct empty
+        event = dict(
+            headers=dict(Cookie=cookie), body="voted_message=&voted_redirect=",
+        )
+        self.assertEqual(
+            200, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+        # Correct voted message
+        event = dict(
+            headers=dict(Cookie=cookie),
+            body="voted_message=New voted message&voted_redirect=",
+        )
+        self.assertEqual(
+            200, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+        # Correct voted redirect
+        event = dict(
+            headers=dict(Cookie=cookie),
+            body="voted_message=&voted_redirect=http://iwanttoreadmore.com/voted",
+        )
+        self.assertEqual(
+            200, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+        # Correct voted message and redirect
+        event = dict(
+            headers=dict(Cookie=cookie),
+            body="voted_message=Some message&voted_redirect=http://iwanttoreadmore.com/voted",
+        )
+        self.assertEqual(
+            200, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+        user = User()
+        user_data = user.get_user_by_username("user_1")
+        self.assertEqual("Some message", user_data["voted_message"])
+        self.assertEqual(
+            "http://iwanttoreadmore.com/voted", user_data["voted_redirect"]
+        )
+
+        # Wrong cookie
+        event = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="voted_message=New voted message&voted_redirect=",
+        )
+        self.assertEqual(
+            400, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+        # Invalid message
+        event = dict(
+            headers=dict(Cookie=cookie),
+            body="voted_message=Invalid <message>&voted_redirect=",
+        )
+        self.assertEqual(
+            400, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+        # Invalid redirect
+        event = dict(
+            headers=dict(Cookie=cookie),
+            body="voted_message=&voted_redirect=invalidurl",
+        )
+        self.assertEqual(
+            400, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
 
 
 if __name__ == "__main__":

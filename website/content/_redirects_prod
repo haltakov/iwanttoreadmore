@@ -7,3 +7,4 @@
 /user/logout  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/logout 200
 /user/data  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/data 200
 /user/changepublic  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/changepublic 200
+/user/changevoted  https://v417lsjob9.execute-api.us-east-1.amazonaws.com/prod/user/changevoted 200

@@ -125,6 +125,14 @@ functions:
                   path: user/logout
                   method: get
                   cors: true
+    change_voted_message_and_redirect:
+        handler: iwanttoreadmore/handlers/handlers_user.change_voted_message_and_redirect
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/changevoted
+                  method: post
+                  cors: true
 
 resources:
     Resources:
