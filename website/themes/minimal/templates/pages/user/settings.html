@@ -2,7 +2,7 @@
 
 <!-- prettier-ignore -->
 {% block content %}
-<div class="bg-gray-200 flex-grow p-3">
+<div class="bg-gray-200 flex-grow p-3 pb-6">
     <section
         id="settings-panel-loading"
         class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
@@ -50,6 +50,59 @@
             </div>
         </section>
 
+        <!-- Change voted message or redirect -->
+        <section
+            class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
+        >
+            <h2 class="font-bold text-xl lg:text-2xl">
+                Configure voted message
+                <a class="details-link" href="#">{{ icons.question("w-4 inline text-gray-500 mb-1 ml-2") }}</a>
+            </h2>
+
+            <p class="mt-2 text-left details-text hidden">
+                If you are using direct voting links, instead of the JS library, you can configure the message that
+                appears on the page after a user votes. Alternatively, you can configure a page to which the user will
+                be redirected after voting.
+            </p>
+
+            <div id="voted-flash" class="inline-block mx-auto mt-5 p-3 border rounded hidden"></div>
+
+            <div class="mt-5">
+                <form id="change-voted-message-form" name="change-voted-message-form" autocomplete="off">
+                    <div class="w-full lg:w-3/4 mx-auto">
+                        <label class="text-left block">
+                            <strong class="font-bold mr-2">Redirect URL</strong>
+                            <span class="text-gray-600 text-sm">user redirected here after voting</span>
+                            <input
+                                class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                                placeholder="https://example.com"
+                                type="url"
+                                value=""
+                                name="voted_redirect"
+                                id="voted_redirect"
+                                aria-label="Voted Redirect"
+                                pattern="https://.*"
+                        /></label>
+                        <label class="text-left block mt-3">
+                            <strong class="font-bold mr-2">Voted message</strong>
+                            <span class="text-gray-600 text-sm">displayed after voting</span>
+                            <input
+                                class="w-full bg-gray-100 text-primary-700 rounded-lg border border-gray-400 focus:outline-none focus:border-primary-500 text-base px-4 py-2 focus:bg-white text-gray-700"
+                                placeholder="Message text..."
+                                type="text"
+                                value=""
+                                name="voted_message"
+                                id="voted_message"
+                                aria-label="Voted Message"
+                                pattern="[a-zA-Z0-9\.\-_+\(\)*^%$#@!,/\\\[\]\{\}\? ]{0,500}"
+                            />
+                        </label>
+                        <button type="submit" class="button-blue w-48 mt-6 mx-2">Change message</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
         <!-- Change password -->
         <section
             class="w-full sm:w-1/2 lg:w-2/5 mx-auto bg-white text-gray-700 rounded-lg shadow-lg mt-4 lg:mt-8 text-center px-6 pt-4 pb-6"
@@ -67,7 +120,7 @@
                 >).
             </p>
 
-            <div id="flash" class="inline-block mx-auto mt-5 p-3 border rounded hidden"></div>
+            <div id="password-flash" class="inline-block mx-auto mt-5 p-3 border rounded hidden"></div>
 
             <div class="mt-5">
                 <form id="change-password-form" name="change-password-form" autocomplete="off">
@@ -118,6 +171,8 @@
             .then((data) => {
                 if (Object.keys(data).length > 0) {
                     document.getElementById("account-public").checked = data["is_public"];
+                    document.getElementById("voted_message").value = data["voted_message"];
+                    document.getElementById("voted_redirect").value = data["voted_redirect"];
                     document.getElementById("settings-panel").classList.remove("hidden");
                     document.getElementById("settings-panel-loading").classList.add("hidden");
                 } else document.location = "/login";
@@ -145,13 +200,32 @@
         initPublicAccountCheckbox();
 
         // Init the change password form
-        initAjaxForm("change-password-form", "/user/changepassword", (response, flash) => {
-            if (response.ok) {
-                displaySuccess(flash, "Password changed");
-            } else {
-                response.text().then((text) => displayError(flash, text));
-            }
-        });
+        initAjaxForm(
+            "change-password-form",
+            "/user/changepassword",
+            (response, flash) => {
+                if (response.ok) {
+                    displaySuccess(flash, "Password changed");
+                } else {
+                    response.text().then((text) => displayError(flash, text));
+                }
+            },
+            "password-flash"
+        );
+
+        // Init the change voted message form
+        initAjaxForm(
+            "change-voted-message-form",
+            "/user/changevoted",
+            (response, flash) => {
+                if (response.ok) {
+                    displaySuccess(flash, "Voted message and redirect changed");
+                } else {
+                    response.text().then((text) => displayError(flash, text));
+                }
+            },
+            "voted-flash"
+        );
 
         // Init details buttons
         document.querySelectorAll(".details-link").forEach((element) =>
