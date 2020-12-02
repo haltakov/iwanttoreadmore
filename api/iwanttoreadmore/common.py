@@ -59,6 +59,38 @@ def check_password_hash(password, password_hash):
     return bcrypt.checkpw(password.encode(), password_hash.encode())
 
 
+def check_voted_message(message):
+    """
+    Check if the voted message is valid
+    :param message: message to be checked
+    :return: True if the message is valid, False otherwise
+    """
+    return not message or bool(
+        re.fullmatch(r"[a-zA-Z0-9\.\-_+\(\)*^%$#@!,/\\\[\]\{\}\? ]{0,500}", message)
+    )
+
+
+def check_url(url):
+    """
+    Check if a URL is valid
+    Source: https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
+    :param url: url to be checked
+    :return: True if the url is valid, False otherwise
+    """
+    return not url or bool(
+        re.fullmatch(
+            r"^(?:http|ftp)s?://"  # http:// or https://
+            r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"  # domain...
+            r"localhost|"  # localhost...
+            r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
+            r"(?::\d+)?"  # optional port
+            r"(?:/?|[/?]\S+)$",
+            url,
+            re.IGNORECASE,
+        )
+    )
+
+
 def get_cookie_date(date):
     """
     Return a date string in a format suitable for cookies (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date)
