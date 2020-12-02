@@ -152,3 +152,30 @@ def logout_user(event, _):
         },
     )
 
+
+def change_voted_message_and_redirect(event, _):
+    """
+    Change the user's voted message and redirect.
+    """
+    # Parse the parameters
+    params = parse_qs(event["body"])
+
+    # Check if the user is logged in correctly
+    username = get_logged_in_user(event)
+    if not username:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    # Set the voted message and redirect
+    voted_params = dict(user=username, voted_message=None, voted_redirect=None)
+    if "voted_redirect" in params and params["voted_redirect"]:
+        voted_params["voted_redirect"] = params["voted_redirect"][0]
+    if "voted_message" in params and params["voted_message"]:
+        voted_params["voted_message"] = params["voted_message"][0]
+
+    user = User()
+    try:
+        user.set_voted_message_and_redirect(**voted_params)
+    except ValueError as error:
+        return create_response(400, "POST", str(error))
+
+    return create_response(200, "POST")
