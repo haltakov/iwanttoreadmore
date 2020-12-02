@@ -24,6 +24,8 @@ def get_user_dict_from_table(user_from_query):
         registered=user_from_query["Registered"],
         last_active=user_from_query["LastActive"],
         is_public=user_from_query["IsPublic"],
+        voted_message=user_from_query["VotedMessage"],
+        voted_redirect=user_from_query["VotedRedirect"],
     )
 
 
@@ -68,6 +70,8 @@ class User:
                 "Registered": get_current_timestamp(),
                 "LastActive": get_current_timestamp(),
                 "IsPublic": False,
+                "VotedMessage": None,
+                "VotedRedirect": None,
             }
         )
 
@@ -131,7 +135,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.query(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
             ExpressionAttributeNames={"#User": "User"},
             KeyConditionExpression=Key("User").eq(username),
         )
@@ -148,7 +152,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.scan(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
             ExpressionAttributeNames={"#EMail": "EMail", "#User": "User"},
             ExpressionAttributeValues={":EMail": email,},
             FilterExpression="#EMail = :EMail",
