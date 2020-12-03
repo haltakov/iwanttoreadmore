@@ -4,7 +4,8 @@ import logging
 from urllib.parse import quote_plus
 from iwanttoreadmore.common import get_logged_in_user
 from iwanttoreadmore.handlers.handler_helpers import create_response
-from iwanttoreadmore.models.vote import Vote
+from iwanttoreadmore.models.vote import Vote, get_topic_key
+from iwanttoreadmore.models.vote_history import VoteHistory
 from iwanttoreadmore.models.user import User
 
 log = logging.getLogger()
@@ -31,9 +32,17 @@ def do_vote(event, _):
     if not re.fullmatch(r"[a-z0-9_\.\-]{1,100}", topic):
         return
 
+    # Check if this IP address already voted for this topic
+    ip_address = event["requestContext"]["identity"]["sourceIp"]
+
+    vote_history = VoteHistory()
+    if vote_history.check_ip_voted(user, get_topic_key(project, topic), ip_address):
+        return
+
     # Do the voting
     vote = Vote()
     vote.add_vote(user, project, topic)
+    vote_history.add_vote_history(user, get_topic_key(project, topic), ip_address)
 
 
 def add_vote(event, _):
