@@ -15,7 +15,13 @@ from tests.data.data_test_vote import (
     get_expected_votes_data,
 )
 from iwanttoreadmore.models.user import User
+from iwanttoreadmore.models.vote_history import VoteHistory
 from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
+
+
+def add_ip_address(event):
+    event["requestContext"] = dict(identity=dict(sourceIp="192.168.0.1"))
+    return event
 
 
 @mock_dynamodb2
@@ -145,11 +151,15 @@ class VoteHandlersTestCase(unittest.TestCase):
         ]
 
         # Check existing topic
-        event_1 = dict(
-            pathParameters=dict(user="user_2", project="project_c", topic="topic_ddd")
+        event_1 = add_ip_address(
+            dict(
+                pathParameters=dict(
+                    user="user_2", project="project_c", topic="topic_ddd"
+                )
+            )
         )
         response_1 = vote_handler(event_1, None)
-        event_2 = dict(pathParameters=dict(user="user_2"))
+        event_2 = add_ip_address(dict(pathParameters=dict(user="user_2")))
         response_2 = get_votes_for_user(event_2, None)
 
         self.assertEqual(expected_return_code, response_1["statusCode"])
@@ -157,11 +167,15 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(json.dumps(expected_data_user_2), response_2["body"])
 
         # Check non-existing topic
-        event_3 = dict(
-            pathParameters=dict(user="user_3", project="project_x", topic="topic_xxx")
+        event_3 = add_ip_address(
+            dict(
+                pathParameters=dict(
+                    user="user_3", project="project_x", topic="topic_xxx"
+                )
+            )
         )
         response_3 = vote_handler(event_3, None)
-        event_4 = dict(pathParameters=dict(user="user_3"))
+        event_4 = add_ip_address(dict(pathParameters=dict(user="user_3")))
         response_4 = get_votes_for_user(event_4, None)
 
         self.assertEqual(expected_return_code, response_3["statusCode"])
@@ -169,11 +183,15 @@ class VoteHandlersTestCase(unittest.TestCase):
         self.assertEqual(json.dumps(expected_data_user_3), response_4["body"])
 
         # Check uppercase letters
-        event_5 = dict(
-            pathParameters=dict(user="UseR_3", project="ProJect_X", topic="ToPiC_xXX")
+        event_5 = add_ip_address(
+            dict(
+                pathParameters=dict(
+                    user="UseR_3", project="ProJect_X", topic="ToPiC_xXX"
+                )
+            )
         )
         response_5 = vote_handler(event_5, None)
-        event_6 = dict(pathParameters=dict(user="user_3"))
+        event_6 = add_ip_address(dict(pathParameters=dict(user="user_3")))
         response_6 = get_votes_for_user(event_6, None)
 
         self.assertEqual(expected_return_code, response_5["statusCode"])
@@ -182,12 +200,23 @@ class VoteHandlersTestCase(unittest.TestCase):
 
     @mock.patch.object(User, "__init__", lambda _: None)
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
+    @mock.patch.object(VoteHistory, "__init__", lambda _: None)
+    @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
+    @mock.patch.object(VoteHistory, "add_vote_history", lambda _, __, ___, ____: None)
     @mock.patch("time.time", return_value=9999)
     def test_add_vote(self, _):
         self.add_vote_helper(add_vote, 200)
 
     @mock.patch.object(User, "__init__", lambda _: None)
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
+    @mock.patch.object(VoteHistory, "__init__", lambda _: None)
+    @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
+    @mock.patch.object(VoteHistory, "add_vote_history", lambda _, __, ___, ____: None)
+    @mock.patch.object(
+        User,
+        "get_user_by_username",
+        lambda _, __: dict(voted_message=None, voted_redirect=None),
+    )
     @mock.patch("time.time", return_value=9999)
     def test_add_vote_and_redirect(self, _):
         self.add_vote_helper(add_vote_and_redirect, 302)

@@ -13,6 +13,7 @@ provider:
     environment:
         VOTES_TABLE: ${self:service}-votes-${opt:stage, self:provider.stage}
         USERS_TABLE: ${self:service}-users-${opt:stage, self:provider.stage}
+        VOTE_HISTORY_TABLE: ${self:service}-vote-history-${opt:stage, self:provider.stage}
     iamRoleStatements:
         - Effect: Allow
           Action:
@@ -32,6 +33,15 @@ provider:
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
+        - Effect: Allow
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTE_HISTORY_TABLE}"
         - Effect: Allow
           Action:
               - ssm:GetParameter
@@ -168,3 +178,35 @@ resources:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
                 TableName: ${self:provider.environment.USERS_TABLE}
+        IWTRMVoteHistoryDynamoDbTable:
+            Type: "AWS::DynamoDB::Table"
+            DeletionPolicy: Retain
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: IPHash
+                      AttributeType: N
+                    - AttributeName: User
+                      AttributeType: S
+                    - AttributeName: TopicKey
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: IPHash
+                      KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 2
+                    WriteCapacityUnits: 2
+                TableName: ${self:provider.environment.VOTE_HISTORY_TABLE}
+                GlobalSecondaryIndexes:
+                    - IndexName: UserTopicKey
+                      KeySchema:
+                          - AttributeName: User
+                            KeyType: HASH
+                          - AttributeName: TopicKey
+                            KeyType: RANGE
+                      Projection:
+                          NonKeyAttributes:
+                              - VoteTimestamp
+                          ProjectionType: INCLUDE
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: "2"
+                          WriteCapacityUnits: "2"
