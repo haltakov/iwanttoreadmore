@@ -13,7 +13,7 @@ provider:
     environment:
         VOTES_TABLE: ${self:service}-votes-${opt:stage, self:provider.stage}
         USERS_TABLE: ${self:service}-users-${opt:stage, self:provider.stage}
-        VOTE_HISTORY_TABLE: ${self:service}-vote-history-${opt:stage, self:provider.stage}
+        VOTES_HISTORY_TABLE: ${self:service}-votes-history-${opt:stage, self:provider.stage}
     iamRoleStatements:
         - Effect: Allow
           Action:
@@ -41,7 +41,7 @@ provider:
               - dynamodb:PutItem
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTE_HISTORY_TABLE}"
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_HISTORY_TABLE}"
         - Effect: Allow
           Action:
               - ssm:GetParameter
@@ -178,13 +178,13 @@ resources:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
                 TableName: ${self:provider.environment.USERS_TABLE}
-        IWTRMVoteHistoryDynamoDbTable:
+        IWTRMVotesHistoryDynamoDbTable:
             Type: "AWS::DynamoDB::Table"
             DeletionPolicy: Retain
             Properties:
                 AttributeDefinitions:
                     - AttributeName: IPHash
-                      AttributeType: N
+                      AttributeType: S
                     - AttributeName: User
                       AttributeType: S
                     - AttributeName: TopicKey
@@ -195,7 +195,7 @@ resources:
                 ProvisionedThroughput:
                     ReadCapacityUnits: 2
                     WriteCapacityUnits: 2
-                TableName: ${self:provider.environment.VOTE_HISTORY_TABLE}
+                TableName: ${self:provider.environment.VOTES_HISTORY_TABLE}
                 GlobalSecondaryIndexes:
                     - IndexName: UserTopicKey
                       KeySchema:

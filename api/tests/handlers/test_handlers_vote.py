@@ -20,7 +20,9 @@ from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_p
 
 
 def add_ip_address(event):
-    event["requestContext"] = dict(identity=dict(sourceIp="192.168.0.1"))
+    if "headers" not in event:
+        event["headers"] = dict()
+    event["headers"]["Client-Ip"] = "192.168.0.1"
     return event
 
 

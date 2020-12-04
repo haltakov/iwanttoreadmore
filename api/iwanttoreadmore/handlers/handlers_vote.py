@@ -2,7 +2,7 @@ import re
 import json
 import logging
 from urllib.parse import quote_plus
-from iwanttoreadmore.common import get_logged_in_user
+from iwanttoreadmore.common import get_logged_in_user, get_ip_address
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from iwanttoreadmore.models.vote import Vote, get_topic_key
 from iwanttoreadmore.models.vote_history import VoteHistory
@@ -33,7 +33,8 @@ def do_vote(event, _):
         return
 
     # Check if this IP address already voted for this topic
-    ip_address = event["requestContext"]["identity"]["sourceIp"]
+    log.debug(f"Event: {event}")
+    ip_address = get_ip_address(event)
 
     vote_history = VoteHistory()
     if vote_history.check_ip_voted(user, get_topic_key(project, topic), ip_address):

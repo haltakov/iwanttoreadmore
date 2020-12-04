@@ -17,15 +17,15 @@ class VoteHistoryTestCase(unittest.TestCase):
         """
         Create a vote history table and populate it with example data
         """
-        os.environ["VOTE_HISTORY_TABLE"] = "iwanttoreadmore-vote-history-test"
+        os.environ["VOTES_HISTORY_TABLE"] = "iwanttoreadmore-votes-history-test"
 
         self.vote_history_table = create_vote_history_table(
-            os.environ["VOTE_HISTORY_TABLE"]
+            os.environ["VOTES_HISTORY_TABLE"]
         )
         create_test_vote_history_data(self.vote_history_table)
 
     def tearDown(self):
-        remove_table(os.environ["VOTE_HISTORY_TABLE"])
+        remove_table(os.environ["VOTES_HISTORY_TABLE"])
 
     def test_get_vote_history(self):
         vote_history = VoteHistory()
