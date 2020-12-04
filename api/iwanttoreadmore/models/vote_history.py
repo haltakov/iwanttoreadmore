@@ -2,7 +2,7 @@ import os
 from decimal import Decimal
 import boto3
 from boto3.dynamodb.conditions import Key
-from iwanttoreadmore.common import get_current_timestamp
+from iwanttoreadmore.common import get_current_timestamp, hash_string
 
 
 class VoteHistory:
@@ -15,7 +15,7 @@ class VoteHistory:
         Initialize a new VoteHistory object, containing a reference to the vote history DynamoDB table
         """
         self.votes_history_table = boto3.resource("dynamodb").Table(
-            os.environ["VOTE_HISTORY_TABLE"]
+            os.environ["VOTES_HISTORY_TABLE"]
         )
 
     def add_vote_history(self, user, topic_key, ip_address):
@@ -31,7 +31,7 @@ class VoteHistory:
                     "User": user,
                     "TopicKey": topic_key,
                     "VoteTimestamp": get_current_timestamp(),
-                    "IPHash": hash(user + topic_key + ip_address),
+                    "IPHash": hash_string(user + topic_key + ip_address),
                 }
             )
 
@@ -60,7 +60,7 @@ class VoteHistory:
         :param ip_address: IP address to check
         :return: False if the IP address hasn't vote for this topic yet, True otherwise
         """
-        ip_hash = hash(user + topic_key + ip_address)
+        ip_hash = hash_string(user + topic_key + ip_address)
 
         vote = self.votes_history_table.query(
             ProjectionExpression="IPHash",

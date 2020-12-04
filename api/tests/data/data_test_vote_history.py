@@ -1,5 +1,6 @@
 import boto3
 from decimal import Decimal
+from iwanttoreadmore.common import hash_string
 
 
 def create_vote_history_table(table_name):
@@ -12,7 +13,7 @@ def create_vote_history_table(table_name):
     return dynamodb.create_table(
         TableName=table_name,
         KeySchema=[{"AttributeName": "IPHash", "KeyType": "HASH"},],
-        AttributeDefinitions=[{"AttributeName": "User", "AttributeType": "N"},],
+        AttributeDefinitions=[{"AttributeName": "User", "AttributeType": "S"},],
         GlobalSecondaryIndexes=[
             {
                 "IndexName": "UserTopicKey",
@@ -46,7 +47,7 @@ def create_test_vote_history_data(votes_table):
             "ProjectName": "project_a",
             "Topic": "topic_aaa",
             "VoteTimestamp": Decimal(1111),
-            "IPHash": hash("user_1" + "project_a/topic_aaa" + "192.168.0.1"),
+            "IPHash": hash_string("user_1" + "project_a/topic_aaa" + "192.168.0.1"),
         }
     )
     votes_table.put_item(
@@ -56,7 +57,7 @@ def create_test_vote_history_data(votes_table):
             "ProjectName": "project_a",
             "Topic": "topic_aaa",
             "VoteTimestamp": Decimal(2222),
-            "IPHash": hash("user_1" + "project_a/topic_aaa" + "192.168.0.2"),
+            "IPHash": hash_string("user_1" + "project_a/topic_aaa" + "192.168.0.2"),
         }
     )
     votes_table.put_item(
@@ -66,7 +67,7 @@ def create_test_vote_history_data(votes_table):
             "ProjectName": "project_a",
             "Topic": "topic_bbb",
             "VoteTimestamp": Decimal(3333),
-            "IPHash": hash("user_1" + "project_a/topic_bbb" + "192.168.0.2"),
+            "IPHash": hash_string("user_1" + "project_a/topic_bbb" + "192.168.0.2"),
         }
     )
 

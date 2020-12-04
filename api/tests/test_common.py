@@ -16,6 +16,8 @@ from iwanttoreadmore.common import (
     get_cookie_secret,
     sign_cookie,
     check_cookie_signature,
+    hash_string,
+    get_ip_address,
 )
 
 
@@ -162,6 +164,42 @@ class CommonTestCase(unittest.TestCase):
             ),
         )
         self.assertEqual(None, check_cookie_signature("user=haltakov"))
+
+    def test_hash_string(self):
+        self.assertEqual(
+            "67e97cce0420c8def20b568c93e97f86c186b35c", hash_string("test_string_1")
+        )
+        self.assertNotEqual(hash_string("test_string_1"), hash_string("test_string_2"))
+        self.assertNotEqual(hash_string("a" * 10000), hash_string("a" * 9999 + "b"))
+
+    def get_ip_address(self):
+        self.assertEqual(
+            "192.168.0.1",
+            {
+                "headers": {
+                    "Client-Ip": "192.168.0.1",
+                    "X-Forwarded-For": "192.168.0.2, 10.10.10.10",
+                },
+                "requestContext": {"identity": {"sourceIp": "192.168.0.3",},},
+            },
+        )
+
+        self.assertEqual(
+            "192.168.0.2",
+            {
+                "headers": {"X-Forwarded-For": "192.168.0.2, 10.10.10.10",},
+                "requestContext": {"identity": {"sourceIp": "192.168.0.3",},},
+            },
+        )
+
+        self.assertEqual(
+            "192.168.0.3",
+            {"requestContext": {"identity": {"sourceIp": "192.168.0.3",},},},
+        )
+
+        self.assertEqual(
+            "", {},
+        )
 
 
 if __name__ == "__main__":

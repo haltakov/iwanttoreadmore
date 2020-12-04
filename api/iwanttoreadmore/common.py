@@ -1,5 +1,6 @@
 import re
 import time
+import hashlib
 import urllib.parse
 import boto3
 import bcrypt
@@ -157,3 +158,35 @@ def get_logged_in_user(event):
         return None
 
     return check_cookie_signature(event["headers"]["Cookie"])
+
+
+def hash_string(data):
+    """
+    Create a generic hash for the given string
+    :param data: string to be hashed
+    :return: hash
+    """
+    return hashlib.sha1(data.encode()).hexdigest()
+
+
+def get_ip_address(event):
+    """
+    Retrieves the client IP address from an event
+    :param event: event
+    :return: client IP address
+    """
+    if "headers" in event:
+        if "Client-Ip" in event["headers"]:
+            return event["headers"]["Client-Ip"]
+        if "X-Forwarded-For" in event["headers"]:
+            return event["headers"]["X-Forwarded-For"].split(",")[0]
+
+    if (
+        "requestContext" in event
+        and "identity" in event["requestContext"]
+        and "sourceIp" in event["requestContext"]["identity"]
+    ):
+        return event["requestContext"]["identity"]["sourceIp"]
+
+    return ""
+
