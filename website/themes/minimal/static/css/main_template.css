@@ -44,6 +44,18 @@ html {
     @apply shadow-outline outline-none;
 }
 
+.button-white {
+    @apply py-3 px-4 font-semibold text-gray-800 border border-gray-400 rounded-lg bg-gradient-to-tr from-white to-white;
+}
+
+.button-white:hover {
+    @apply from-yellow-400 to-orange-400 border-0;
+}
+
+.button-white:focus {
+    @apply shadow-outline outline-none;
+}
+
 .flash-success {
     @apply border-green-400 bg-green-200;
 }
@@ -80,6 +92,6 @@ html {
     @apply list-disc ml-8;
 }
 
-.markdown code {
-    @apply text-sm;
+.markdown pre {
+    @apply text-sm mb-2;
 }

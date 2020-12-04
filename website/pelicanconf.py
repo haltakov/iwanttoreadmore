@@ -39,8 +39,8 @@ ARTICLE_PATHS = ["blog"]
 ARTICLE_URL = "blog/{slug}/"
 ARTICLE_SAVE_AS = "blog/{slug}/index.html"
 PAGE_PATHS = ["pages"]
-PAGE_URL = "{slug}/"
-PAGE_SAVE_AS = "{slug}/index.html"
+PAGE_URL = "docs/{slug}/"
+PAGE_SAVE_AS = "docs/{slug}/index.html"
 INDEX_SAVE_AS = "blog.html"
 
 # Enable the jinja2content plugin

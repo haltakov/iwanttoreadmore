@@ -152,6 +152,10 @@
                 </form>
             </div>
         </section>
+
+        <div class="sm:hidden text-center mt-6">
+            <a class="button-white" id="logout-button-settings" href="{{ SITEURL }}/user/logout">Logout</a>
+        </div>
     </div>
 </div>
 {% endblock content %}
@@ -198,6 +202,15 @@
 
         // Initialize the action of the public account checkbox
         initPublicAccountCheckbox();
+
+        // Init the logout button
+        const logoutButton = document.getElementById("logout-button-settings");
+        if (logoutButton) {
+            logoutButton.addEventListener("click", () => {
+                document.cookie = "loggedinuser=; Path=/; Max-Age=-99999999;";
+                document.location = logoutButton.href;
+            });
+        }
 
         // Init the change password form
         initAjaxForm(
