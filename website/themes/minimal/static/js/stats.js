@@ -42,6 +42,7 @@ function fillVotesTable(votesData) {
     votesData.forEach((vote, i) => {
         const voteRow = document.createElement("tr");
         voteRow.classList.add("hover:bg-gray-200");
+
         voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2" data-value=${vote.topic}>${vote.topic}</td>`);
         voteRow.insertAdjacentHTML(
             "beforeend",
@@ -51,9 +52,28 @@ function fillVotesTable(votesData) {
             "beforeend",
             `<td class="py-1 text-center" data-value="${vote.last_vote}">${timestampToDate(vote.last_vote)}</td>`
         );
+        voteRow.insertAdjacentHTML(
+            "beforeend",
+            `<td>
+                <a href="#" class="link vote-config">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+                <div class="vote-config-menu absolute right-0 mr-3 hidden rounded-lg shadow-lg uppercase text-sm font-bold text-center text-gray-700 bg-white">
+                    <a class="vote-config-hide   rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block" href="#">Hide</a>
+                    <a class="vote-config-show   rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block hidden" href="#">Show</a>
+                    <a class="vote-config-delete rounded-lg rounded-t-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block border-t-0" href="#">Delete</a>
+                </div>
+            </td>`
+        );
 
         tbody.appendChild(voteRow);
     });
+
+    // Init the vote menus
+    initVoteMenus(table);
 
     // Stop spinning the reload button
     table.parentElement.getElementsByClassName("reload-button")[0].classList.remove("animate-spin");
@@ -144,6 +164,105 @@ function initReloadButton(table, loadVotes) {
         },
         true
     );
+}
+
+/**
+ * Initialize the vote menus
+ * @param table - node of the table for which the menus need to be initialized
+ */
+function initVoteMenus(table) {
+    const projectElement = table.parentElement;
+
+    // Toggle the menu visibility
+    projectElement.querySelectorAll(".vote-config").forEach((configLink) => {
+        configLink.addEventListener("click", (event) => {
+            const menu = configLink.parentElement.querySelector(".vote-config-menu");
+
+            // Hide all other menus
+            document.querySelectorAll(".vote-config-menu").forEach((element) => {
+                if (element != menu) element.classList.add("hidden");
+            });
+
+            // Toggle the visibility
+            if (menu.classList.contains("hidden")) menu.classList.remove("hidden");
+            else menu.classList.add("hidden");
+
+            // Choose the show or hide element
+            if (configLink.parentElement.parentElement.hasAttribute("data-hidden")) {
+                menu.querySelector(".vote-config-show").classList.remove("hidden");
+                menu.querySelector(".vote-config-hide").classList.add("hidden");
+            } else {
+                menu.querySelector(".vote-config-show").classList.add("hidden");
+                menu.querySelector(".vote-config-hide").classList.remove("hidden");
+            }
+
+            event.stopPropagation();
+        });
+    });
+
+    // Hide all menus on click on the page
+    document.addEventListener("click", () => {
+        document.querySelectorAll(".vote-config-menu").forEach((element) => {
+            element.classList.add("hidden");
+        });
+    });
+
+    // Handle a click of the hide button
+    projectElement.querySelectorAll(".vote-config-hide").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            link.parentElement.parentElement.parentElement.classList.add("text-gray-500");
+            link.parentElement.parentElement.parentElement.setAttribute("data-hidden", "");
+
+            if (projectElement.querySelector(".hide-hidden-link").classList.contains("hidden"))
+                link.parentElement.parentElement.parentElement.classList.add("hidden");
+
+            // TODO - Call the API...
+        });
+    });
+
+    // Handle a click of the show button
+    projectElement.querySelectorAll(".vote-config-show").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            link.parentElement.parentElement.parentElement.classList.remove("text-gray-500");
+            link.parentElement.parentElement.parentElement.removeAttribute("data-hidden");
+            link.parentElement.parentElement.parentElement.classList.remove("hidden");
+
+            // TODO - Call the API...
+        });
+    });
+
+    // Handle a click of the delete button
+    projectElement.querySelectorAll(".vote-config-delete").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            link.parentElement.parentElement.parentElement.remove();
+
+            // TODO - Call the API...
+        });
+    });
+
+    // Handle the Show hidden click
+    projectElement.querySelectorAll(".show-hidden-link").forEach((link) => {
+        link.addEventListener("click", () => {
+            link.classList.add("hidden");
+            link.parentElement.querySelector(".hide-hidden-link").classList.remove("hidden");
+
+            link.parentElement.parentElement.querySelectorAll("tr[data-hidden]").forEach((row) => {
+                row.classList.remove("hidden");
+            });
+        });
+    });
+
+    // Handle the Hide hidden click
+    projectElement.querySelectorAll(".hide-hidden-link").forEach((link) => {
+        link.addEventListener("click", () => {
+            link.classList.add("hidden");
+            link.parentElement.querySelector(".show-hidden-link").classList.remove("hidden");
+
+            link.parentElement.parentElement.querySelectorAll("tr[data-hidden]").forEach((row) => {
+                row.classList.add("hidden");
+            });
+        });
+    });
 }
 
 /**
