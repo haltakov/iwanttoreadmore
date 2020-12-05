@@ -57,7 +57,7 @@ custom:
 functions:
     vote:
         handler: iwanttoreadmore/handlers/handlers_vote.add_vote
-        memorySize: 128
+        memorySize: 1024
         events:
             - http:
                   path: vote/{user}/{project}/{topic}
@@ -86,6 +86,22 @@ functions:
             - http:
                   path: votes/{user}/{project}
                   method: get
+                  cors: true
+    set_hidden_vote:
+        handler: iwanttoreadmore/handlers/handlers_vote.set_vote_hidden
+        memorySize: 1024
+        events:
+            - http:
+                  path: votes/hidden/{user}/{project}/{topic}
+                  method: post
+                  cors: true
+    delete_vote:
+        handler: iwanttoreadmore/handlers/handlers_vote.delete_vote
+        memorySize: 1024
+        events:
+            - http:
+                  path: votes/delete/{user}/{project}/{topic}
+                  method: post
                   cors: true
     login_user:
         handler: iwanttoreadmore/handlers/handlers_user.login_user
