@@ -14,6 +14,25 @@ def get_topic_key(project_name, topic):
     return f"{project_name}/{topic}"
 
 
+def get_vote_dict_from_table(vote_from_query):
+    """
+    Returns a dict representation of a vote given a result from the table query
+    :param vote_from_query: a signle result from a query to the votes table
+    :return: dict representation of the vote
+    """
+    result = dict(
+        topic=vote_from_query["Topic"],
+        project_name=vote_from_query["ProjectName"],
+        vote_count=int(vote_from_query["VoteCount"]),
+        last_vote=vote_from_query["LastVote"],
+    )
+
+    if "Hidden" in vote_from_query:
+        result["hidden"] = vote_from_query["Hidden"]
+
+    return result
+
+
 class Vote:
     """
     This class contains the logic for retrieving and modifying votes data
@@ -32,19 +51,11 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, Hidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
-        votes_data = [
-            dict(
-                topic=vote["Topic"],
-                project_name=vote["ProjectName"],
-                vote_count=int(vote["VoteCount"]),
-                last_vote=vote["LastVote"],
-            )
-            for vote in votes["Items"]
-        ]
+        votes_data = [get_vote_dict_from_table(vote) for vote in votes["Items"]]
 
         return sorted(votes_data, key=lambda x: x["vote_count"], reverse=True)
 
@@ -56,17 +67,12 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, Hidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
         votes_data = [
-            dict(
-                topic=vote["Topic"],
-                project_name=vote["ProjectName"],
-                vote_count=int(vote["VoteCount"]),
-                last_vote=vote["LastVote"],
-            )
+            get_vote_dict_from_table(vote)
             for vote in votes["Items"]
             if vote["ProjectName"] == project_name
         ]

@@ -55,6 +55,7 @@ def create_test_votes_data(votes_table):
             "Topic": "topic_ccc",
             "LastVote": "3333",
             "VoteCount": 30,
+            "Hidden": True,
         }
     )
     votes_table.put_item(
@@ -95,6 +96,7 @@ def get_expected_votes_data(user, project=None):
                 project_name="project_b",
                 vote_count=30,
                 last_vote="3333",
+                hidden=True,
             ),
         ],
         user_2=[
