@@ -147,3 +147,29 @@ class Vote:
             self.set_vote_count(user, topic_key, vote_count + 1)
         else:
             self.create_topic(user, topic, project_name)
+
+    def set_vote_hidden(self, user, project_name, topic, hidden):
+        """
+        Hide the specified topic
+        :param user: user which the topic belongs to
+        :param project_name: project name
+        :param topic: topic
+        :param hidden: if the topic should be hidden or not
+        """
+        self.votes_table.update_item(
+            Key={"User": user, "TopicKey": get_topic_key(project_name, topic)},
+            ExpressionAttributeNames={"#Hidden": "Hidden",},
+            ExpressionAttributeValues={":Hidden": hidden,},
+            UpdateExpression="SET #Hidden = :Hidden",
+        )
+
+    def delete_vote(self, user, project_name, topic):
+        """
+        Delete the specified topic
+        :param user: user which the topic belongs to
+        :param project_name: project name
+        :param topic: topic
+        """
+        self.votes_table.delete_item(
+            Key={"User": user, "TopicKey": get_topic_key(project_name, topic)},
+        )

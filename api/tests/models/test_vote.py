@@ -126,6 +126,21 @@ class VoteTestCase(unittest.TestCase):
         vote.add_vote("user_1", "project_a", "topic_xxx")
         self.assertEqual(2, vote.get_vote_count("user_1", "project_a/topic_xxx"))
 
+    def test_set_vote_hidden(self):
+        vote = Vote()
+
+        vote.set_vote_hidden("user_1", "project_a", "topic_bbb", True)
+        self.assertTrue(vote.get_votes_for_project("user_1", "project_a")[0]["hidden"])
+
+        vote.set_vote_hidden("user_1", "project_b", "topic_ccc", False)
+        self.assertFalse(vote.get_votes_for_project("user_1", "project_b")[0]["hidden"])
+
+    def test_delete_vote(self):
+        vote = Vote()
+
+        vote.delete_vote("user_1", "project_b", "topic_ccc")
+        self.assertEqual([], vote.get_votes_for_project("user_1", "project_b"))
+
 
 if __name__ == "__main__":
     unittest.main()
