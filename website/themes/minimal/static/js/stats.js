@@ -90,7 +90,9 @@ function createProjectsTables(user, projects) {
 
     // Display error message if no projects were found
     if (projects.size == 0) {
-        document.getElementById("no-user-found-message").classList.remove("hidden");
+        // Check if this is a logged in user that has no votes yet
+        if (document.cookie.endsWith(`=${user}`)) document.location = "/docs/getting-started";
+        else document.getElementById("no-user-found-message").classList.remove("hidden");
     }
 
     templateTable.parentElement.remove();
