@@ -19,21 +19,31 @@ function loadVotes(user, project = "") {
             createProjectsTables(user, projects);
 
             // Populate the tables of each project with the data
-            projects.forEach((project) => fillVotesTable(data.filter((vote) => vote["project_name"] == project)));
+            projects.forEach((project) =>
+                fillVotesTable(
+                    user,
+                    data.filter((vote) => vote["project_name"] == project)
+                )
+            );
         });
 }
 
 /**
  * Fill the votes table with the provided data
- * @param votesData - votes data for the give project
+ * @param user - user whos dashboard is shown
+ * @param votesData - votes data for the given project
  */
-function fillVotesTable(votesData) {
+function fillVotesTable(user, votesData) {
     // Sort the data
     votesData.sort((first, second) => second.vote_count - first.vote_count);
 
     // Get the table for the corresponding project
     const table = document.getElementById(`table-${votesData[0].project_name}`);
     const tbody = table.getElementsByTagName("tbody")[0];
+
+    // Set the table meta data
+    table.setAttribute("data-user", user);
+    table.setAttribute("data-project", votesData[0].project_name);
 
     // Clear all tables
     tbody.innerHTML = null;
@@ -43,7 +53,15 @@ function fillVotesTable(votesData) {
         const voteRow = document.createElement("tr");
         voteRow.classList.add("hover:bg-gray-200");
 
-        voteRow.insertAdjacentHTML("beforeend", `<td class="py-1 pl-2" data-value=${vote.topic}>${vote.topic}</td>`);
+        if (vote.hidden) {
+            voteRow.classList.add("hidden", "text-gray-500");
+            voteRow.setAttribute("data-hidden", "");
+        }
+
+        voteRow.insertAdjacentHTML(
+            "beforeend",
+            `<td class="topic-cell py-1 pl-2" data-value=${vote.topic}>${vote.topic}</td>`
+        );
         voteRow.insertAdjacentHTML(
             "beforeend",
             `<td class="pl-1 pr-2 text-right" data-value=${vote.vote_count}>${vote.vote_count}</td>`
@@ -62,8 +80,8 @@ function fillVotesTable(votesData) {
                     </svg>
                 </a>
                 <div class="vote-config-menu absolute right-0 mr-3 hidden rounded-lg shadow-lg uppercase text-sm font-bold text-center text-gray-700 bg-white">
-                    <a class="vote-config-hide   rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block" href="#">Hide</a>
-                    <a class="vote-config-show   rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block hidden" href="#">Show</a>
+                    <a class="vote-config-hide rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block" href="#">Hide</a>
+                    <a class="vote-config-show rounded-lg rounded-b-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block hidden" href="#">Show</a>
                     <a class="vote-config-delete rounded-lg rounded-t-none hover:bg-gray-200 border border-3 border-gray-400 w-32 p-2 block border-t-0" href="#">Delete</a>
                 </div>
             </td>`
@@ -210,33 +228,62 @@ function initVoteMenus(table) {
     // Handle a click of the hide button
     projectElement.querySelectorAll(".vote-config-hide").forEach((link) => {
         link.addEventListener("click", (event) => {
-            link.parentElement.parentElement.parentElement.classList.add("text-gray-500");
-            link.parentElement.parentElement.parentElement.setAttribute("data-hidden", "");
+            const row = link.parentElement.parentElement.parentElement;
+
+            row.classList.add("text-gray-500");
+            row.setAttribute("data-hidden", "");
 
             if (projectElement.querySelector(".hide-hidden-link").classList.contains("hidden"))
-                link.parentElement.parentElement.parentElement.classList.add("hidden");
+                row.classList.add("hidden");
 
-            // TODO - Call the API...
+            const user = table.getAttribute("data-user");
+            const project = table.getAttribute("data-project");
+            const topic = row.querySelector(".topic-cell").getAttribute("data-value");
+            fetch(`/votes/hidden/${user}/${project}/${topic}`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: "1",
+            });
         });
     });
 
     // Handle a click of the show button
     projectElement.querySelectorAll(".vote-config-show").forEach((link) => {
         link.addEventListener("click", (event) => {
-            link.parentElement.parentElement.parentElement.classList.remove("text-gray-500");
-            link.parentElement.parentElement.parentElement.removeAttribute("data-hidden");
-            link.parentElement.parentElement.parentElement.classList.remove("hidden");
+            const row = link.parentElement.parentElement.parentElement;
 
-            // TODO - Call the API...
+            row.classList.remove("text-gray-500");
+            row.removeAttribute("data-hidden");
+            row.classList.remove("hidden");
+
+            const user = table.getAttribute("data-user");
+            const project = table.getAttribute("data-project");
+            const topic = row.querySelector(".topic-cell").getAttribute("data-value");
+            fetch(`/votes/hidden/${user}/${project}/${topic}`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: "0",
+            });
         });
     });
 
     // Handle a click of the delete button
     projectElement.querySelectorAll(".vote-config-delete").forEach((link) => {
         link.addEventListener("click", (event) => {
-            link.parentElement.parentElement.parentElement.remove();
+            const row = link.parentElement.parentElement.parentElement;
 
-            // TODO - Call the API...
+            const user = table.getAttribute("data-user");
+            const project = table.getAttribute("data-project");
+            const topic = row.querySelector(".topic-cell").getAttribute("data-value");
+            fetch(`/votes/delete/${user}/${project}/${topic}`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+            });
+
+            row.remove();
         });
     });
 

@@ -36,7 +36,9 @@
                             <th scope="col" class="pb-3 text-center">
                                 Last Vote <button class="link text-sm">▼</button>
                             </th>
-                            <th scope="col" class=""></th>
+                            <th scope="col" class="">
+                                <div class="hidden rounded-b-none rounded-t-none hover:bg-gray-200 border-t-0"></div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +63,7 @@
 <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/stats.js"></script>
 <script>
     function initStats() {
-        const user = String(window.location).split("/").pop();
+        const user = String(window.location).split("/").pop().split("#")[0].split("?")[0];
         loadVotes(user);
     }
 
