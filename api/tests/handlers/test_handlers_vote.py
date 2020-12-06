@@ -8,6 +8,8 @@ from iwanttoreadmore.handlers.handlers_vote import (
     add_vote_and_redirect,
     get_votes_for_user,
     get_votes_for_project,
+    set_vote_hidden,
+    delete_vote,
 )
 from tests.data.data_test_vote import (
     create_votes_table,
@@ -15,6 +17,7 @@ from tests.data.data_test_vote import (
     get_expected_votes_data,
 )
 from iwanttoreadmore.models.user import User
+from iwanttoreadmore.models.vote import Vote
 from iwanttoreadmore.models.vote_history import VoteHistory
 from tests.helpers import remove_table, create_cookie_parameter, delete_cookie_parameter
 
@@ -222,6 +225,85 @@ class VoteHandlersTestCase(unittest.TestCase):
     @mock.patch("time.time", return_value=9999)
     def test_add_vote_and_redirect(self, _):
         self.add_vote_helper(add_vote_and_redirect, 302)
+
+    @mock.patch.object(Vote, "set_vote_hidden")
+    def test_set_vote_hidden(self, set_vote_hidden_model):
+        # Hide
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_bbb"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="1",
+        )
+        self.assertEqual(200, set_vote_hidden(event, None)["statusCode"])
+        set_vote_hidden_model.assert_called_with(
+            "user_1", "project_a", "topic_bbb", True
+        )
+
+        # Show
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_bbb"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(200, set_vote_hidden(event, None)["statusCode"])
+        set_vote_hidden_model.assert_called_with(
+            "user_1", "project_a", "topic_bbb", False
+        )
+
+        # Wrong user
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_bbb"),
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(400, set_vote_hidden(event, None)["statusCode"])
+
+        # Wrong topic
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_xxx"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(400, set_vote_hidden(event, None)["statusCode"])
+
+    @mock.patch.object(Vote, "delete_vote")
+    def test_delete_vote(self, delete_vote_model):
+        # Delete
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_bbb"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        self.assertEqual(200, delete_vote(event, None)["statusCode"])
+        delete_vote_model.assert_called_once_with("user_1", "project_a", "topic_bbb")
+
+        # Wrong user
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_bbb"),
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="0",
+        )
+        self.assertEqual(400, delete_vote(event, None)["statusCode"])
+
+        # Wrong topic
+        event = dict(
+            pathParameters=dict(user="user_1", project="project_a", topic="topic_xxx"),
+            headers=dict(
+                Cookie="user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+        )
+        self.assertEqual(400, delete_vote(event, None)["statusCode"])
 
 
 if __name__ == "__main__":

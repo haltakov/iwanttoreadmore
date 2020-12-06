@@ -14,6 +14,25 @@ def get_topic_key(project_name, topic):
     return f"{project_name}/{topic}"
 
 
+def get_vote_dict_from_table(vote_from_query):
+    """
+    Returns a dict representation of a vote given a result from the table query
+    :param vote_from_query: a signle result from a query to the votes table
+    :return: dict representation of the vote
+    """
+    result = dict(
+        topic=vote_from_query["Topic"],
+        project_name=vote_from_query["ProjectName"],
+        vote_count=int(vote_from_query["VoteCount"]),
+        last_vote=vote_from_query["LastVote"],
+    )
+
+    if "VoteHidden" in vote_from_query:
+        result["hidden"] = vote_from_query["VoteHidden"]
+
+    return result
+
+
 class Vote:
     """
     This class contains the logic for retrieving and modifying votes data
@@ -32,19 +51,11 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, VoteHidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
-        votes_data = [
-            dict(
-                topic=vote["Topic"],
-                project_name=vote["ProjectName"],
-                vote_count=int(vote["VoteCount"]),
-                last_vote=vote["LastVote"],
-            )
-            for vote in votes["Items"]
-        ]
+        votes_data = [get_vote_dict_from_table(vote) for vote in votes["Items"]]
 
         return sorted(votes_data, key=lambda x: x["vote_count"], reverse=True)
 
@@ -56,17 +67,12 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, VoteHidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
         votes_data = [
-            dict(
-                topic=vote["Topic"],
-                project_name=vote["ProjectName"],
-                vote_count=int(vote["VoteCount"]),
-                last_vote=vote["LastVote"],
-            )
+            get_vote_dict_from_table(vote)
             for vote in votes["Items"]
             if vote["ProjectName"] == project_name
         ]
@@ -141,3 +147,29 @@ class Vote:
             self.set_vote_count(user, topic_key, vote_count + 1)
         else:
             self.create_topic(user, topic, project_name)
+
+    def set_vote_hidden(self, user, project_name, topic, hidden):
+        """
+        Hide the specified topic
+        :param user: user which the topic belongs to
+        :param project_name: project name
+        :param topic: topic
+        :param hidden: if the topic should be hidden or not
+        """
+        self.votes_table.update_item(
+            Key={"User": user, "TopicKey": get_topic_key(project_name, topic)},
+            ExpressionAttributeNames={"#VoteHidden": "VoteHidden",},
+            ExpressionAttributeValues={":VoteHidden": hidden,},
+            UpdateExpression="SET #VoteHidden = :VoteHidden",
+        )
+
+    def delete_vote(self, user, project_name, topic):
+        """
+        Delete the specified topic
+        :param user: user which the topic belongs to
+        :param project_name: project name
+        :param topic: topic
+        """
+        self.votes_table.delete_item(
+            Key={"User": user, "TopicKey": get_topic_key(project_name, topic)},
+        )

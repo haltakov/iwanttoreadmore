@@ -129,3 +129,54 @@ def get_votes_for_project(event, _):
         votes_data = vote.get_votes_for_project(username, project)
 
     return create_response(200, body=json.dumps(votes_data))
+
+
+def set_vote_hidden(event, _):
+    """
+    Handle changing the hidden state of a vote
+    :param event: event
+    :return: votes data as JSON
+    """
+    user = event["pathParameters"]["user"].lower()
+    project = event["pathParameters"]["project"].lower()
+    topic = event["pathParameters"]["topic"].lower()
+    hidden = event["body"] == "1"
+
+    # Check if we are changing the currently logged in user
+    loggedin_user = get_logged_in_user(event)
+    if user != loggedin_user:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    vote = Vote()
+
+    # Check if the topic exists
+    if vote.get_vote_count(user, get_topic_key(project, topic)) > 0:
+        vote.set_vote_hidden(user, project, topic, hidden)
+        return create_response(200, "POST")
+    else:
+        return create_response(400, "POST", "Topic doesn't exist")
+
+
+def delete_vote(event, _):
+    """
+    Delete a vote
+    :param event: event
+    :return: votes data as JSON
+    """
+    user = event["pathParameters"]["user"].lower()
+    project = event["pathParameters"]["project"].lower()
+    topic = event["pathParameters"]["topic"].lower()
+
+    # Check if we are changing the currently logged in user
+    loggedin_user = get_logged_in_user(event)
+    if user != loggedin_user:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    vote = Vote()
+
+    # Check if the topic exists
+    if vote.get_vote_count(user, get_topic_key(project, topic)) > 0:
+        vote.delete_vote(user, project, topic)
+        return create_response(200, "POST")
+    else:
+        return create_response(400, "POST", "Topic doesn't exist")
