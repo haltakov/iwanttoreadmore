@@ -27,8 +27,8 @@ def get_vote_dict_from_table(vote_from_query):
         last_vote=vote_from_query["LastVote"],
     )
 
-    if "Hidden" in vote_from_query:
-        result["hidden"] = vote_from_query["Hidden"]
+    if "VoteHidden" in vote_from_query:
+        result["hidden"] = vote_from_query["VoteHidden"]
 
     return result
 
@@ -51,7 +51,7 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, Hidden",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, VoteHidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
@@ -67,7 +67,7 @@ class Vote:
         :return: List of dictionaries describing the votes
         """
         votes = self.votes_table.query(
-            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, Hidden",
+            ProjectionExpression="Topic, ProjectName, VoteCount, LastVote, VoteHidden",
             KeyConditionExpression=Key("User").eq(user),
         )
 
@@ -158,9 +158,9 @@ class Vote:
         """
         self.votes_table.update_item(
             Key={"User": user, "TopicKey": get_topic_key(project_name, topic)},
-            ExpressionAttributeNames={"#Hidden": "Hidden",},
-            ExpressionAttributeValues={":Hidden": hidden,},
-            UpdateExpression="SET #Hidden = :Hidden",
+            ExpressionAttributeNames={"#VoteHidden": "VoteHidden",},
+            ExpressionAttributeValues={":VoteHidden": hidden,},
+            UpdateExpression="SET #VoteHidden = :VoteHidden",
         )
 
     def delete_vote(self, user, project_name, topic):

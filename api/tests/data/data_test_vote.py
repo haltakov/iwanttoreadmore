@@ -55,7 +55,7 @@ def create_test_votes_data(votes_table):
             "Topic": "topic_ccc",
             "LastVote": "3333",
             "VoteCount": 30,
-            "Hidden": True,
+            "VoteHidden": True,
         }
     )
     votes_table.put_item(
