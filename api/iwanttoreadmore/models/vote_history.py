@@ -72,3 +72,21 @@ class VoteHistory:
         )
 
         return len(vote["Items"]) > 0
+
+    def check_ip_voted_project(self, user, project, ip_address):
+        """
+        Check if an IP address already voted to the specified user and topic key
+        :param user: username
+        :param project: project
+        :param ip_address: IP address to check
+        :return: False if the IP address hasn't vote for this topic yet, True otherwise
+        """
+        ip_hash = hash_string(user + project + ip_address)
+
+        vote = self.votes_history_table.query(
+            IndexName="IPHashProjectIndex",
+            ProjectionExpression="IPHashProject",
+            KeyConditionExpression=Key("IPHashProject").eq(ip_hash),
+        )
+
+        return len(vote["Items"]) > 0

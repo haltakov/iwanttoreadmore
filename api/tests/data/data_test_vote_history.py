@@ -30,6 +30,15 @@ def create_vote_history_table(table_name):
                     "WriteCapacityUnits": 1,
                 },
             },
+            {
+                "IndexName": "IPHashProjectIndex",
+                "KeySchema": [{"AttributeName": "IPHashProject", "KeyType": "HASH"}],
+                "Projection": {"ProjectionType": "KEYS_ONLY"},
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 1,
+                    "WriteCapacityUnits": 1,
+                },
+            },
         ],
         ProvisionedThroughput={"ReadCapacityUnits": 2, "WriteCapacityUnits": 2},
     )
@@ -48,6 +57,7 @@ def create_test_vote_history_data(votes_table):
             "Topic": "topic_aaa",
             "VoteTimestamp": Decimal(1111),
             "IPHash": hash_string("user_1" + "project_a/topic_aaa" + "192.168.0.1"),
+            "IPHashProject": hash_string("user_1" + "project_a" + "192.168.0.1"),
         }
     )
     votes_table.put_item(
@@ -58,6 +68,7 @@ def create_test_vote_history_data(votes_table):
             "Topic": "topic_aaa",
             "VoteTimestamp": Decimal(2222),
             "IPHash": hash_string("user_1" + "project_a/topic_aaa" + "192.168.0.2"),
+            "IPHashProject": hash_string("user_1" + "project_a" + "192.168.0.2"),
         }
     )
     votes_table.put_item(
@@ -68,6 +79,7 @@ def create_test_vote_history_data(votes_table):
             "Topic": "topic_bbb",
             "VoteTimestamp": Decimal(3333),
             "IPHash": hash_string("user_1" + "project_a/topic_bbb" + "192.168.0.2"),
+            "IPHashProject": hash_string("user_1" + "project_a" + "192.168.0.2"),
         }
     )
 

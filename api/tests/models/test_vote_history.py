@@ -89,6 +89,24 @@ class VoteHistoryTestCase(unittest.TestCase):
             vote_history.check_ip_voted("user_1", "project_a/topic_ccc", "192.168.0.1")
         )
 
+    def test_check_ip_voted_project(self):
+        vote_history = VoteHistory()
+
+        # Valid vote
+        self.assertFalse(
+            vote_history.check_ip_voted_project("user_1", "project_a", "192.168.0.3")
+        )
+
+        # Invalid vote
+        self.assertTrue(
+            vote_history.check_ip_voted_project("user_1", "project_a", "192.168.0.1")
+        )
+
+        # New vote
+        self.assertFalse(
+            vote_history.check_ip_voted_project("user_1", "project_b", "192.168.0.1")
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
