@@ -43,7 +43,7 @@ def do_vote(event, _):
     # Do the voting
     vote = Vote()
     vote.add_vote(user, project, topic)
-    vote_history.add_vote_history(user, get_topic_key(project, topic), ip_address)
+    vote_history.add_vote_history(user, project, topic, ip_address)
 
 
 def add_vote(event, _):

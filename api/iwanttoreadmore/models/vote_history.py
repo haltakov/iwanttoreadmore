@@ -3,6 +3,7 @@ from decimal import Decimal
 import boto3
 from boto3.dynamodb.conditions import Key
 from iwanttoreadmore.common import get_current_timestamp, hash_string
+from iwanttoreadmore.models.vote import get_topic_key
 
 
 class VoteHistory:
@@ -18,13 +19,16 @@ class VoteHistory:
             os.environ["VOTES_HISTORY_TABLE"]
         )
 
-    def add_vote_history(self, user, topic_key, ip_address):
+    def add_vote_history(self, user, project, topic, ip_address):
         """
         Add a new vote history entry
         :param user: username
-        :param topic_key: topic key
+        :param project: topic key
+        :param topic: topic key
         :param ip_address: IP address of the user that voted
         """
+        topic_key = get_topic_key(project, topic)
+
         if not self.check_ip_voted(user, topic_key, ip_address):
             self.votes_history_table.put_item(
                 Item={

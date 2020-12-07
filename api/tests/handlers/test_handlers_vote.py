@@ -207,7 +207,9 @@ class VoteHandlersTestCase(unittest.TestCase):
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
     @mock.patch.object(VoteHistory, "__init__", lambda _: None)
     @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
-    @mock.patch.object(VoteHistory, "add_vote_history", lambda _, __, ___, ____: None)
+    @mock.patch.object(
+        VoteHistory, "add_vote_history", lambda _, __, ___, ____, _____: None
+    )
     @mock.patch("time.time", return_value=9999)
     def test_add_vote(self, _):
         self.add_vote_helper(add_vote, 200)
@@ -216,7 +218,9 @@ class VoteHandlersTestCase(unittest.TestCase):
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
     @mock.patch.object(VoteHistory, "__init__", lambda _: None)
     @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
-    @mock.patch.object(VoteHistory, "add_vote_history", lambda _, __, ___, ____: None)
+    @mock.patch.object(
+        VoteHistory, "add_vote_history", lambda _, __, ___, ____, _____: None
+    )
     @mock.patch.object(
         User,
         "get_user_by_username",

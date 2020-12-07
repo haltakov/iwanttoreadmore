@@ -51,21 +51,21 @@ class VoteHistoryTestCase(unittest.TestCase):
         vote_history = VoteHistory()
 
         # Invalid vote
-        vote_history.add_vote_history("user_1", "project_a/topic_aaa", "192.168.0.1")
+        vote_history.add_vote_history("user_1", "project_a", "topic_aaa", "192.168.0.1")
         self.assertEqual(
             [Decimal(1111), Decimal(2222)],
             vote_history.get_vote_history("user_1", "project_a/topic_aaa"),
         )
 
         # Valid vote
-        vote_history.add_vote_history("user_1", "project_a/topic_aaa", "192.168.0.3")
+        vote_history.add_vote_history("user_1", "project_a", "topic_aaa", "192.168.0.3")
         self.assertEqual(
             [Decimal(1111), Decimal(2222), Decimal(9999)],
             vote_history.get_vote_history("user_1", "project_a/topic_aaa"),
         )
 
         # New vote
-        vote_history.add_vote_history("user_1", "project_a/topic_ccc", "192.168.0.3")
+        vote_history.add_vote_history("user_1", "project_a", "topic_ccc", "192.168.0.3")
         self.assertEqual(
             [Decimal(9999)],
             vote_history.get_vote_history("user_1", "project_a/topic_ccc"),
