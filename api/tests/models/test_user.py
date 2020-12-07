@@ -240,6 +240,29 @@ class UserTestCase(unittest.TestCase):
             ValueError, user.set_voted_message_and_redirect, "user_1", None, "a" * 501
         )
 
+    def test_change_single_voting_projects(self):
+        user = User()
+
+        user.change_single_voting_projects("user_1", ["project_a"])
+        self.assertEqual(
+            ["project_a"], user.get_user_by_username("user_1")["single_voting_projects"]
+        )
+
+        user.change_single_voting_projects(
+            "user_1", ["project_a", "project_b", "project_c"]
+        )
+        self.assertEqual(
+            ["project_a", "project_b", "project_c"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        user.change_single_voting_projects("user_1", [])
+        self.assertEqual(
+            [], user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        self.assertRaises(ValueError, user.change_single_voting_projects, "user_x", [])
+
 
 if __name__ == "__main__":
     unittest.main()
