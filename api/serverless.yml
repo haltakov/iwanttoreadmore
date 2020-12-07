@@ -159,6 +159,22 @@ functions:
                   path: user/changevoted
                   method: post
                   cors: true
+    add_single_voting_project:
+        handler: iwanttoreadmore/handlers/handlers_user.add_single_voting_project
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/single_voting_project/add
+                  method: post
+                  cors: true
+    remove_single_voting_project:
+        handler: iwanttoreadmore/handlers/handlers_user.remove_single_voting_project
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/single_voting_project/remove
+                  method: post
+                  cors: true
 
 resources:
     Resources:

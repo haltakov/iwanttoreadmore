@@ -1,3 +1,4 @@
+import re
 import json
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs
@@ -177,5 +178,63 @@ def change_voted_message_and_redirect(event, _):
         user.set_voted_message_and_redirect(**voted_params)
     except ValueError as error:
         return create_response(400, "POST", str(error))
+
+    return create_response(200, "POST")
+
+
+def add_single_voting_project(event, _):
+    """
+    Add a project to the user's single voting projects list
+    """
+    project = event["body"]
+
+    # Check if the project name is valid
+    if not re.fullmatch(r"[a-z0-9_\.\-]{1,100}", project):
+        return create_response(400, "POST", "Invalid project name")
+
+    # Get the logged in user data
+    user = User()
+    username = get_logged_in_user(event)
+    user_data = user.get_user_by_username(username)
+    if not user_data:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    # Update the list of single voting projects
+    if "single_voting_projects" not in user_data:
+        user_data["single_voting_projects"] = [project]
+    else:
+        if not project in user_data["single_voting_projects"]:
+            user.change_single_voting_projects(
+                username, user_data["single_voting_projects"] + [project]
+            )
+
+    return create_response(200, "POST")
+
+
+def remove_single_voting_project(event, _):
+    """
+    Remove a project from the user's single voting projects list
+    """
+    project = event["body"]
+
+    # Check if the project name is valid
+    if not re.fullmatch(r"[a-z0-9_\.\-]{1,100}", project):
+        return create_response(400, "POST", "Invalid project name")
+
+    # Get the logged in user data
+    user = User()
+    username = get_logged_in_user(event)
+    user_data = user.get_user_by_username(username)
+    if not user_data:
+        return create_response(400, "POST", "User not logged in correctly")
+
+    # Update the list of single voting projects
+    if "single_voting_projects" in user_data:
+        if project in user_data["single_voting_projects"]:
+            user_data["single_voting_projects"].remove(project)
+
+            user.change_single_voting_projects(
+                username, user_data["single_voting_projects"]
+            )
 
     return create_response(200, "POST")

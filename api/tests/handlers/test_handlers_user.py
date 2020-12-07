@@ -14,6 +14,8 @@ from iwanttoreadmore.handlers.handlers_user import (
     get_user_data,
     change_account_public,
     change_voted_message_and_redirect,
+    add_single_voting_project,
+    remove_single_voting_project,
 )
 from iwanttoreadmore.handlers.handler_helpers import create_response
 from tests.data.data_test_user import (
@@ -279,6 +281,105 @@ class UserHandlersTestCase(unittest.TestCase):
         )
         self.assertEqual(
             400, change_voted_message_and_redirect(event, None)["statusCode"]
+        )
+
+    def test_add_single_voting_project(self):
+        cookie = "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+
+        user = User()
+
+        # Positive case
+        event = dict(headers=dict(Cookie=cookie), body="project_c",)
+        self.assertEqual(200, add_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_a", "project_b", "project_c"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Repeated case
+        event = dict(headers=dict(Cookie=cookie), body="project_c",)
+        self.assertEqual(200, add_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_a", "project_b", "project_c"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Wrong cookie
+        event = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="project_d",
+        )
+        self.assertEqual(400, add_single_voting_project(event, None)["statusCode"])
+        self.assertNotIn("single_voting_projects", user.get_user_by_username("user_2"))
+
+        # Invalid project name
+        event = dict(headers=dict(Cookie=cookie), body="project_invalid_<>",)
+        self.assertEqual(400, add_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_a", "project_b", "project_c"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+    def test_remove_single_voting_project(self):
+        cookie = "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+
+        user = User()
+
+        # Positive case
+        event = dict(headers=dict(Cookie=cookie), body="project_a",)
+        self.assertEqual(200, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_b"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Repeated case
+        event = dict(headers=dict(Cookie=cookie), body="project_a",)
+        self.assertEqual(200, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_b"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Non existing case
+        event = dict(headers=dict(Cookie=cookie), body="project_c",)
+        self.assertEqual(200, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_b"],
+            user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Last case
+        event = dict(headers=dict(Cookie=cookie), body="project_b",)
+        self.assertEqual(200, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            [], user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Empty case
+        event = dict(headers=dict(Cookie=cookie), body="project_b",)
+        self.assertEqual(200, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            [], user.get_user_by_username("user_1")["single_voting_projects"],
+        )
+
+        # Wrong cookie
+        event = dict(
+            headers=dict(
+                Cookie="user=user_2&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+            ),
+            body="project_d",
+        )
+        self.assertEqual(400, remove_single_voting_project(event, None)["statusCode"])
+        self.assertNotIn("single_voting_projects", user.get_user_by_username("user_2"))
+
+        # Invalid project name
+        event = dict(headers=dict(Cookie=cookie), body="project_invalid_<>",)
+        self.assertEqual(400, remove_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            [], user.get_user_by_username("user_1")["single_voting_projects"],
         )
 
 
