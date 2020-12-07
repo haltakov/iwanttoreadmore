@@ -36,6 +36,7 @@ class VoteHistory:
                     "TopicKey": topic_key,
                     "VoteTimestamp": get_current_timestamp(),
                     "IPHash": hash_string(user + topic_key + ip_address),
+                    "IPHashProject": hash_string(user + project + ip_address),
                 }
             )
 

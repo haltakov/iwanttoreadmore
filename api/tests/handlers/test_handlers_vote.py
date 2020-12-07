@@ -205,6 +205,7 @@ class VoteHandlersTestCase(unittest.TestCase):
 
     @mock.patch.object(User, "__init__", lambda _: None)
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
+    @mock.patch.object(User, "get_user_by_username", lambda _, __: None)
     @mock.patch.object(VoteHistory, "__init__", lambda _: None)
     @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
     @mock.patch.object(
@@ -216,6 +217,7 @@ class VoteHandlersTestCase(unittest.TestCase):
 
     @mock.patch.object(User, "__init__", lambda _: None)
     @mock.patch.object(User, "is_account_public", lambda _, __: True)
+    @mock.patch.object(User, "get_user_by_username", lambda _, __: None)
     @mock.patch.object(VoteHistory, "__init__", lambda _: None)
     @mock.patch.object(VoteHistory, "check_ip_voted", lambda _, __, ___, ____: False)
     @mock.patch.object(

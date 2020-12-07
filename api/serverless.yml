@@ -221,6 +221,8 @@ resources:
                       AttributeType: S
                     - AttributeName: TopicKey
                       AttributeType: S
+                    - AttributeName: IPHashProject
+                      AttributeType: S
                 KeySchema:
                     - AttributeName: IPHash
                       KeyType: HASH
@@ -242,3 +244,12 @@ resources:
                       ProvisionedThroughput:
                           ReadCapacityUnits: "2"
                           WriteCapacityUnits: "2"
+                    - IndexName: IPHashProjectIndex
+                      KeySchema:
+                          - AttributeName: IPHashProject
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: KEYS_ONLY
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: "1"
+                          WriteCapacityUnits: "1"

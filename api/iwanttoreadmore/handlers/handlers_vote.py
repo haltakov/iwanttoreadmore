@@ -18,12 +18,12 @@ def do_vote(event, _):
     :param event: event
     """
     # Get all parameters
-    user = event["pathParameters"]["user"].lower()
+    username = event["pathParameters"]["user"].lower()
     project = event["pathParameters"]["project"].lower()
     topic = event["pathParameters"]["topic"].lower()
 
     # Check all parameters for validity and return if some of them is not valid
-    if not re.fullmatch(r"[a-z0-9_\.\-]{4,30}", user):
+    if not re.fullmatch(r"[a-z0-9_\.\-]{4,30}", username):
         return
 
     if not re.fullmatch(r"[a-z0-9_\.\-]{1,100}", project):
@@ -37,13 +37,24 @@ def do_vote(event, _):
     ip_address = get_ip_address(event)
 
     vote_history = VoteHistory()
-    if vote_history.check_ip_voted(user, get_topic_key(project, topic), ip_address):
+    if vote_history.check_ip_voted(username, get_topic_key(project, topic), ip_address):
         return
+
+    # Check if the user has multiple voting for a project disabled
+    user = User()
+    user_data = user.get_user_by_username(username)
+    if (
+        user_data
+        and "single_vote_projects" in user_data
+        and project in user_data["single_vote_projects"]
+    ):
+        if vote_history.check_ip_voted_project(username, project, ip_address):
+            return
 
     # Do the voting
     vote = Vote()
-    vote.add_vote(user, project, topic)
-    vote_history.add_vote_history(user, project, topic, ip_address)
+    vote.add_vote(username, project, topic)
+    vote_history.add_vote_history(username, project, topic, ip_address)
 
 
 def add_vote(event, _):
