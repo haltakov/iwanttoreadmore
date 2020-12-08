@@ -117,7 +117,7 @@ function createProjectsTables(user, projects) {
     projects.forEach((project) => {
         // Copy the table container and set the title
         const tableDiv = templateTable.parentElement.cloneNode(true);
-        tableDiv.getElementsByTagName("h3")[0].innerHTML = project.toUpperCase();
+        tableDiv.querySelector("h3").innerHTML = project.toUpperCase();
 
         // Set the correct table ID
         const table = tableDiv.getElementsByTagName("table")[0];
@@ -129,6 +129,7 @@ function createProjectsTables(user, projects) {
         // Initialize buttons
         initSorting(table);
         initReloadButton(table, () => loadVotes(user, project));
+        initSingleVotingCheckbox(table);
     });
 
     // Display error message if no projects were found
@@ -187,6 +188,15 @@ function initReloadButton(table, loadVotes) {
         },
         true
     );
+}
+
+/**
+ * Initialize the single voting project checkbox
+ * @param table - node of the table for which the single voting project checkbox needs to be initialized
+ */
+function initSingleVotingCheckbox(table) {
+    const checkbox = table.parentElement.querySelector(".single-voting-project-checkbox");
+    checkbox.parentElement.parentElement.parentElement.classList.remove("hidden");
 }
 
 /**

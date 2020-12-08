@@ -25,6 +25,7 @@
                 class="w-full xl:w-4/5 mx-auto mt-6 px-2 md:px-5 pb-2 pt-8 md:pt-4 bg-white rounded-lg shadow-lg relative"
             >
                 <h3 class="text-md font-bold text-center"></h3>
+
                 <a class="reload-button absolute right-0 top-0 mr-2 mt-2 animate-spin" href="#">
                     {{ icons.reload("w-4") }}
                 </a>
@@ -47,9 +48,32 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="text-center text-sm mt-3">
-                    <button class="show-hidden-link link">Show hidden topics</button>
-                    <button class="hide-hidden-link link hidden">HIde hidden topics</button>
+                <div class="hidden flex justify-around mt-5 text-sm">
+                    <div class="text-center">
+                        <button class="show-hidden-link link">Show hidden topics</button>
+                        <button class="hide-hidden-link link hidden">Hide hidden topics</button>
+                    </div>
+                    <div class="text-center">
+                        <label class="leading-8">
+                            <input
+                                type="checkbox"
+                                checked
+                                class="pt-2 single-voting-project-checkbox focus:ring-iblue h-5 w-5 text-iblue border-gray-300 rounded"
+                            />
+                            <span
+                                class="hidden sm:inline"
+                                title="If enabled, the your readers will be allowed to vote for multiple topics in this project."
+                            >
+                                Allow voting for multiple topics
+                            </span>
+                            <span
+                                class="sm:hidden"
+                                title="If enabled, the your readers will be allowed to vote for multiple topics in this project."
+                            >
+                                Multi-topic voting</span
+                            >
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
