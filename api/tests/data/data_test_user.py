@@ -31,6 +31,7 @@ def create_test_users_data(users_table):
             "IsPublic": True,
             "VotedMessage": "Test Message",
             "VotedRedirect": None,
+            "SingleVotingProjects": ["project_a", "project_b"],
         }
     )
     users_table.put_item(
@@ -62,6 +63,7 @@ def get_expected_users_data():
             is_public=True,
             voted_message="Test Message",
             voted_redirect=None,
+            single_voting_projects=["project_a", "project_b"],
         ),
         user_2=dict(
             user="user_2",

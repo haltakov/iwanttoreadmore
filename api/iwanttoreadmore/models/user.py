@@ -19,7 +19,7 @@ def get_user_dict_from_table(user_from_query):
     :param user_from_query: a signle result from a query to the users table
     :return: dict representation of the user
     """
-    return dict(
+    user_data = dict(
         user=user_from_query["User"],
         email=user_from_query["EMail"],
         password_hash=user_from_query["PasswordHash"],
@@ -29,6 +29,11 @@ def get_user_dict_from_table(user_from_query):
         voted_message=user_from_query["VotedMessage"],
         voted_redirect=user_from_query["VotedRedirect"],
     )
+
+    if "SingleVotingProjects" in user_from_query:
+        user_data["single_voting_projects"] = user_from_query["SingleVotingProjects"]
+
+    return user_data
 
 
 class User:
@@ -137,7 +142,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.query(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect, SingleVotingProjects",
             ExpressionAttributeNames={"#User": "User"},
             KeyConditionExpression=Key("User").eq(username),
         )
@@ -154,7 +159,7 @@ class User:
         :return: dict containing the user's data
         """
         user = self.users_table.scan(
-            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect",
+            ProjectionExpression="#User, EMail, PasswordHash, Registered, LastActive, IsPublic, VotedMessage, VotedRedirect, SingleVotingProjects",
             ExpressionAttributeNames={"#EMail": "EMail", "#User": "User"},
             ExpressionAttributeValues={":EMail": email,},
             FilterExpression="#EMail = :EMail",
@@ -242,4 +247,20 @@ class User:
                 ":VotedRedirect": voted_redirect,
             },
             UpdateExpression="SET #VotedMessage = :VotedMessage, #VotedRedirect = :VotedRedirect",
+        )
+
+    def change_single_voting_projects(self, user, single_voting_projects):
+        """
+        Change the content of the single voting projects list
+        :param user: username
+        :param single_voting_projects: list of strings defining the single voting projects
+        """
+        if not self.get_user_by_username(user):
+            raise ValueError(f"Cannot find user {user}")
+
+        self.users_table.update_item(
+            Key={"User": user},
+            ExpressionAttributeNames={"#SingleVotingProjects": "SingleVotingProjects",},
+            ExpressionAttributeValues={":SingleVotingProjects": single_voting_projects},
+            UpdateExpression="SET #SingleVotingProjects = :SingleVotingProjects",
         )

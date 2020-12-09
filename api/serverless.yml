@@ -44,6 +44,11 @@ provider:
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_HISTORY_TABLE}"
         - Effect: Allow
           Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_HISTORY_TABLE}/index/*"
+        - Effect: Allow
+          Action:
               - ssm:GetParameter
           Resource: "arn:aws:ssm:us-east-1:018469183656:parameter/IWANTTOREADMORE_COOKIE_SECRET"
 
@@ -159,6 +164,22 @@ functions:
                   path: user/changevoted
                   method: post
                   cors: true
+    add_single_voting_project:
+        handler: iwanttoreadmore/handlers/handlers_user.add_single_voting_project
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/single_voting_project/add
+                  method: post
+                  cors: true
+    remove_single_voting_project:
+        handler: iwanttoreadmore/handlers/handlers_user.remove_single_voting_project
+        memorySize: 1024
+        events:
+            - http:
+                  path: user/single_voting_project/remove
+                  method: post
+                  cors: true
 
 resources:
     Resources:
@@ -205,6 +226,8 @@ resources:
                       AttributeType: S
                     - AttributeName: TopicKey
                       AttributeType: S
+                    - AttributeName: IPHashProject
+                      AttributeType: S
                 KeySchema:
                     - AttributeName: IPHash
                       KeyType: HASH
@@ -226,3 +249,12 @@ resources:
                       ProvisionedThroughput:
                           ReadCapacityUnits: "2"
                           WriteCapacityUnits: "2"
+                    - IndexName: IPHashProjectIndex
+                      KeySchema:
+                          - AttributeName: IPHashProject
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: KEYS_ONLY
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: "1"
+                          WriteCapacityUnits: "1"

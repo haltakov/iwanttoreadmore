@@ -51,21 +51,21 @@ class VoteHistoryTestCase(unittest.TestCase):
         vote_history = VoteHistory()
 
         # Invalid vote
-        vote_history.add_vote_history("user_1", "project_a/topic_aaa", "192.168.0.1")
+        vote_history.add_vote_history("user_1", "project_a", "topic_aaa", "192.168.0.1")
         self.assertEqual(
             [Decimal(1111), Decimal(2222)],
             vote_history.get_vote_history("user_1", "project_a/topic_aaa"),
         )
 
         # Valid vote
-        vote_history.add_vote_history("user_1", "project_a/topic_aaa", "192.168.0.3")
+        vote_history.add_vote_history("user_1", "project_a", "topic_aaa", "192.168.0.3")
         self.assertEqual(
             [Decimal(1111), Decimal(2222), Decimal(9999)],
             vote_history.get_vote_history("user_1", "project_a/topic_aaa"),
         )
 
         # New vote
-        vote_history.add_vote_history("user_1", "project_a/topic_ccc", "192.168.0.3")
+        vote_history.add_vote_history("user_1", "project_a", "topic_ccc", "192.168.0.3")
         self.assertEqual(
             [Decimal(9999)],
             vote_history.get_vote_history("user_1", "project_a/topic_ccc"),
@@ -87,6 +87,24 @@ class VoteHistoryTestCase(unittest.TestCase):
         # New vote
         self.assertFalse(
             vote_history.check_ip_voted("user_1", "project_a/topic_ccc", "192.168.0.1")
+        )
+
+    def test_check_ip_voted_project(self):
+        vote_history = VoteHistory()
+
+        # Valid vote
+        self.assertFalse(
+            vote_history.check_ip_voted_project("user_1", "project_a", "192.168.0.3")
+        )
+
+        # Invalid vote
+        self.assertTrue(
+            vote_history.check_ip_voted_project("user_1", "project_a", "192.168.0.1")
+        )
+
+        # New vote
+        self.assertFalse(
+            vote_history.check_ip_voted_project("user_1", "project_b", "192.168.0.1")
         )
 
 
