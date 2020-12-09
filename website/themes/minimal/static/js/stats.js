@@ -110,6 +110,9 @@ function fillVotesTable(user, votesData) {
  * @param single_voting_projects - list of the single voting projects
  */
 function createProjectsTables(user, projects, single_voting_projects) {
+    // Check it single_voting_projects is null
+    if (!single_voting_projects) single_voting_projects = [];
+
     // Get the table that should be used as a template to create all other tables
     const templateTable = document.getElementById("template-table");
 
