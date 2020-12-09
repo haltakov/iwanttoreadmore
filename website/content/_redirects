@@ -10,3 +10,5 @@
 /user/data  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/data 200
 /user/changepublic  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/changepublic 200
 /user/changevoted  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/changevoted 200
+/user/single_voting_project/add  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/single_voting_project/add 200
+/user/single_voting_project/remove  https://o1n4spbgx7.execute-api.us-east-1.amazonaws.com/dev/user/single_voting_project/remove 200

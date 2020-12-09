@@ -45,8 +45,8 @@ def do_vote(event, _):
     user_data = user.get_user_by_username(username)
     if (
         user_data
-        and "single_vote_projects" in user_data
-        and project in user_data["single_vote_projects"]
+        and "single_voting_projects" in user_data
+        and project in user_data["single_voting_projects"]
     ):
         if vote_history.check_ip_voted_project(username, project, ip_address):
             return

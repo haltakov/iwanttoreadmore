@@ -44,6 +44,11 @@ provider:
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_HISTORY_TABLE}"
         - Effect: Allow
           Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_HISTORY_TABLE}/index/*"
+        - Effect: Allow
+          Action:
               - ssm:GetParameter
           Resource: "arn:aws:ssm:us-east-1:018469183656:parameter/IWANTTOREADMORE_COOKIE_SECRET"
 

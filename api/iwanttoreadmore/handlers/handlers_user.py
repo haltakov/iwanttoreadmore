@@ -201,12 +201,12 @@ def add_single_voting_project(event, _):
 
     # Update the list of single voting projects
     if "single_voting_projects" not in user_data:
-        user_data["single_voting_projects"] = [project]
-    else:
-        if not project in user_data["single_voting_projects"]:
-            user.change_single_voting_projects(
-                username, user_data["single_voting_projects"] + [project]
-            )
+        user_data["single_voting_projects"] = []
+
+    if not project in user_data["single_voting_projects"]:
+        user.change_single_voting_projects(
+            username, user_data["single_voting_projects"] + [project]
+        )
 
     return create_response(200, "POST")
 

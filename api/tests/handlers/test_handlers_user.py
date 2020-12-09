@@ -285,6 +285,7 @@ class UserHandlersTestCase(unittest.TestCase):
 
     def test_add_single_voting_project(self):
         cookie = "user=user_1&signature=$2b$12$oGAaQWkNrjCWI0ugg8Go8uZ1ld2828dTeTk2cE/WZAO2yOB4aUxQm"
+        cookie2 = "user=user_2&signature=$2b$12$VTqno3w/ALCThRCNZQO2wu91wRvULXLhcD.Q06tbRJW9wWBFSYMRG"
 
         user = User()
 
@@ -304,6 +305,14 @@ class UserHandlersTestCase(unittest.TestCase):
             user.get_user_by_username("user_1")["single_voting_projects"],
         )
 
+        # Positive case (no single voting projects yet)
+        event = dict(headers=dict(Cookie=cookie2), body="project_a",)
+        self.assertEqual(200, add_single_voting_project(event, None)["statusCode"])
+        self.assertEqual(
+            ["project_a"],
+            user.get_user_by_username("user_2")["single_voting_projects"],
+        )
+
         # Wrong cookie
         event = dict(
             headers=dict(
@@ -312,7 +321,6 @@ class UserHandlersTestCase(unittest.TestCase):
             body="project_d",
         )
         self.assertEqual(400, add_single_voting_project(event, None)["statusCode"])
-        self.assertNotIn("single_voting_projects", user.get_user_by_username("user_2"))
 
         # Invalid project name
         event = dict(headers=dict(Cookie=cookie), body="project_invalid_<>",)
