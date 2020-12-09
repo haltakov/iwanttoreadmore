@@ -105,20 +105,21 @@ def get_votes_for_user(event, _):
     """
     # Get all parameters
     username = event["pathParameters"]["user"]
-    log.debug(f"User param: {username}")
-
-    # Retrieve votes from the database
-    log.debug(f"Retrieving logs for user: {username}")
-
-    votes_data = []
 
     # Check if the user stats are public or the user is logged in
     user = User()
-    if user.is_account_public(username) or username == get_logged_in_user(event):
+    user_data = user.get_user_by_username(username)
+
+    if user_data and (user_data["is_public"] or username == get_logged_in_user(event)):
         vote = Vote()
         votes_data = vote.get_votes_for_user(username)
-
-    return create_response(200, body=json.dumps(votes_data))
+        result = dict(
+            single_voting_projects=user_data.get("single_voting_projects"),
+            votes=votes_data,
+        )
+        return create_response(200, body=json.dumps(result))
+    else:
+        return create_response(400, "GET", "Invalid user")
 
 
 def get_votes_for_project(event, _):
@@ -131,15 +132,20 @@ def get_votes_for_project(event, _):
     username = event["pathParameters"]["user"]
     project = event["pathParameters"]["project"]
 
-    votes_data = []
-
     # Check if the user stats are public or the user is logged in
     user = User()
-    if user.is_account_public(username) or username == get_logged_in_user(event):
+    user_data = user.get_user_by_username(username)
+
+    if user_data and (user_data["is_public"] or username == get_logged_in_user(event)):
         vote = Vote()
         votes_data = vote.get_votes_for_project(username, project)
-
-    return create_response(200, body=json.dumps(votes_data))
+        result = dict(
+            single_voting_projects=user_data.get("single_voting_projects"),
+            votes=votes_data,
+        )
+        return create_response(200, body=json.dumps(result))
+    else:
+        return create_response(400, "GET", "Invalid user")
 
 
 def set_vote_hidden(event, _):

@@ -109,9 +109,12 @@ def get_expected_votes_data(user, project=None):
         ],
     )
 
-    if not project:
-        result = data[user]
+    if user in data:
+        if not project:
+            result = data[user]
+        else:
+            result = [x for x in data[user] if x["project_name"] == project]
     else:
-        result = [x for x in data[user] if x["project_name"] == project]
+        return []
 
     return sorted(result, key=lambda x: x["vote_count"], reverse=True)
