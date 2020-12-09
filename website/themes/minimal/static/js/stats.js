@@ -13,16 +13,17 @@ function loadVotes(user, project = "") {
         .then((data) => {
             // Get list of all projects
             // TODO: Optmize by providing the data already split from the API
-            const projects = new Set(data.map((vote) => vote["project_name"]));
+            const votes_data = data["votes"];
+            const projects = new Set(votes_data.map((vote) => vote["project_name"]));
 
             // Create the tables for each project
-            createProjectsTables(user, projects);
+            createProjectsTables(user, projects, data["single_voting_projects"]);
 
             // Populate the tables of each project with the data
             projects.forEach((project) =>
                 fillVotesTable(
                     user,
-                    data.filter((vote) => vote["project_name"] == project)
+                    votes_data.filter((vote) => vote["project_name"] == project)
                 )
             );
         });
@@ -104,9 +105,11 @@ function fillVotesTable(user, votesData) {
 
 /**
  * Create a table element for each project
+ * @param user - user the projet belongs to
  * @param projects - list of the user's projects
+ * @param single_voting_projects - list of the single voting projects
  */
-function createProjectsTables(user, projects) {
+function createProjectsTables(user, projects, single_voting_projects) {
     // Get the table that should be used as a template to create all other tables
     const templateTable = document.getElementById("template-table");
 
@@ -129,7 +132,7 @@ function createProjectsTables(user, projects) {
         // Initialize buttons
         initSorting(table);
         initReloadButton(table, () => loadVotes(user, project));
-        initSingleVotingCheckbox(table);
+        initSingleVotingCheckbox(table, project, single_voting_projects.includes(project));
     });
 
     // Display error message if no projects were found
@@ -193,10 +196,30 @@ function initReloadButton(table, loadVotes) {
 /**
  * Initialize the single voting project checkbox
  * @param table - node of the table for which the single voting project checkbox needs to be initialized
+ * @param project - name of the project for which the checkbox is initialized
+ * @param is_single_voting - True if the project is single voting and false otherwise
  */
-function initSingleVotingCheckbox(table) {
+function initSingleVotingCheckbox(table, project, is_single_voting) {
     const checkbox = table.parentElement.querySelector(".single-voting-project-checkbox");
     checkbox.parentElement.parentElement.parentElement.classList.remove("hidden");
+    if (is_single_voting) checkbox.setAttribute("checked", "");
+
+    checkbox.addEventListener("change", () => {
+        if (checkbox.checked)
+            fetch("/user/single_voting_project/add", {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: project,
+            });
+        else
+            fetch("/user/single_voting_project/remove", {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: project,
+            });
+    });
 }
 
 /**
