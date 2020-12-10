@@ -8,31 +8,30 @@ function loadVotes(user, project = "") {
         method: "GET",
         mode: "cors",
         credentials: "same-origin",
-    })
-        .then((response) => {
-            if (response.ok) response.json();
-            else {
-                document.getElementById("no-user-found-message").classList.remove("hidden");
-                document.getElementById("template-table").parentElement.remove();
-            }
-        })
-        .then((data) => {
-            // Get list of all projects
-            // TODO: Optmize by providing the data already split from the API
-            const votes_data = data["votes"];
-            const projects = new Set(votes_data.map((vote) => vote["project_name"]));
+    }).then((response) => {
+        if (response.ok)
+            response.json().then((data) => {
+                // Get list of all projects
+                // TODO: Optmize by providing the data already split from the API
+                const votes_data = data["votes"];
+                const projects = new Set(votes_data.map((vote) => vote["project_name"]));
 
-            // Create the tables for each project
-            createProjectsTables(user, projects, data["single_voting_projects"]);
+                // Create the tables for each project
+                createProjectsTables(user, projects, data["single_voting_projects"]);
 
-            // Populate the tables of each project with the data
-            projects.forEach((project) =>
-                fillVotesTable(
-                    user,
-                    votes_data.filter((vote) => vote["project_name"] == project)
-                )
-            );
-        });
+                // Populate the tables of each project with the data
+                projects.forEach((project) =>
+                    fillVotesTable(
+                        user,
+                        votes_data.filter((vote) => vote["project_name"] == project)
+                    )
+                );
+            });
+        else {
+            document.getElementById("no-user-found-message").classList.remove("hidden");
+            document.getElementById("template-table").parentElement.remove();
+        }
+    });
 }
 
 /**
