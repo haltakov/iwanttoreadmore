@@ -209,6 +209,9 @@ function initReloadButton(table, loadVotes) {
  */
 function initSingleVotingCheckbox(table, project, is_single_voting) {
     const checkbox = table.parentElement.querySelector(".single-voting-project-checkbox");
+
+    if (!checkbox) return;
+
     checkbox.parentElement.parentElement.parentElement.classList.remove("hidden");
     if (is_single_voting) checkbox.setAttribute("checked", "");
 

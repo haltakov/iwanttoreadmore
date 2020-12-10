@@ -86,8 +86,8 @@
                 <div class="flex-grow pl-6">
                     <h1 class="text-primary-800 text-lg font-semibold mb-2">EMBED</h1>
                     <p class="leading-relaxed text-base text-gray-900 lg:text-1xl">
-                        You can embed the vote links in your text using our simple code snippets and our JavaScript
-                        library.
+                        You can embed the vote links in your text directly or use our JavaScript library for more
+                        functionality.
                     </p>
                 </div>
             </div>
@@ -185,11 +185,12 @@
                     </div>
                     <div class="flex-grow">
                         <p class="leading-relaxed text-base">
-                            I Want To Read More is <strong>very easy to start</strong> with. Just include the
-                            <strong>JavaScript library</strong>
-                            and add vote links like this one {{ vote("haltakov","iwanttoreadmore","example") }} usings
-                            data attribues. If you want to stay <strong>fully in control</strong> and not load any
-                            external content, we have a guide how to do that as well.
+                            I Want To Read More is <strong>very easy to start</strong> with. Embed the links directly or
+                            use our JavaScript library to create vote links like this one {{
+                            vote("haltakov","iwanttoreadmore","example") }}. If you want to stay
+                            <strong>fully in control</strong> and not load any external content, we have a guide how to
+                            do that as well in
+                            <a href="{{ SITEURL }}/docs/getting-started" class="link">the documentation</a>.
                         </p>
                     </div>
                 </div>
@@ -214,15 +215,14 @@
                                 rel="noopener"
                                 >GitHub</a
                             >. Our
-                            <strong
-                                ><a
-                                    class="link"
-                                    href="https://plausible.io/iwanttoreadmore.com"
-                                    target="_blank"
-                                    rel="noopener"
-                                    >statistics</a
-                                ></strong
+                            <a
+                                class="link"
+                                href="https://plausible.io/iwanttoreadmore.com"
+                                target="_blank"
+                                rel="noopener"
+                                >statistics</a
                             >
+                            and <a class="link" href="https://iwantotoreadmore.com/roadmap">roadmap</a>
                             are publicly available. We
                             <a class="link" href="{{ SITEURL }}/blog" target="_blank">share</a> the
                             <strong>thought process</strong> behind technical and business decisions and
