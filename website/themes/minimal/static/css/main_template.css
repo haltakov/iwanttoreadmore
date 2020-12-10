@@ -92,6 +92,10 @@ html {
     @apply list-disc ml-8;
 }
 
-.markdown pre {
+.markdown code {
     @apply text-sm mb-2;
+}
+
+.markdown ol {
+    @apply list-decimal ml-5;
 }
