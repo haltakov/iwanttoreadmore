@@ -32,15 +32,15 @@ The minimal setup is just to include direct links to the vote API. When the user
 
 You can easily use way of integration on any blogging platform, like for example Hashnode (see [example](https://haltakov.hashnode.dev/i-want-to-read-more-demo)), Dev.to (see [example](https://dev.to/haltakov/i-want-to-read-more-demo-b1b)) or Wordpress (see example), because it doesn't require you to include any JavaScript or CSS. However, in this way a new page will open up instead of showing a toast.
 
-<pre><code class="language-text">https://iwanttoreadmore.com/vote/&lt;usernamee&gt;/&lt;project&gt;/&lt;topic&gt;/</code></pre>
+<pre><code class="language-text">https://iwanttoreadmore.com/vote/&lt;username&gt;/&lt;project&gt;/&lt;topic&gt;/</code></pre>
 
 Here is how it looks like if you are using Markdown:
 
-<pre><code class="language-markdown">[Vote](https://iwanttoreadmore.com/vote/&lt;usernamee&gt;/&lt;project&gt;/&lt;topic&gt;/)</code></pre>
+<pre><code class="language-markdown">[Vote](https://iwanttoreadmore.com/vote/&lt;username&gt;/&lt;project&gt;/&lt;topic&gt;/)</code></pre>
 
-In many platforms, you can also use HTML directly:
+On many platforms, you can also use HTML directly:
 
-<pre><code class="language-html">&lt;a href="https://iwanttoreadmore.com/vote/&lt;usernamee&gt;/&lt;project&gt;/&lt;topic&gt;/" target="_blank" rel="noopener"&gt;Vote&lt;/a&gt;</code></pre>
+<pre><code class="language-html">&lt;a href="https://iwanttoreadmore.com/vote/&lt;username&gt;/&lt;project&gt;/&lt;topic&gt;/" target="_blank" rel="noopener"&gt;Vote&lt;/a&gt;</code></pre>
 
 <a name="voted-message-customization"></a>
 
@@ -68,7 +68,7 @@ If you are able to include JavaScript and CSS files in your blog, you will be ab
 
 4.  To add a vote link to your text add a regular `<a>` tag with a `data-vote` attribute:
 
-<pre><code class="language-html">&lt;a href="#" data-vote="<username>/<project>/<topic>"&gt;&lt;/a&gt;
+<pre><code class="language-html">&lt;a href="#" data-vote="&lt;username&gt;/&lt;project&gt;/&lt;topic&gt;"&gt;&lt;/a&gt;
 </code></pre>
 
 ### Configuration options
