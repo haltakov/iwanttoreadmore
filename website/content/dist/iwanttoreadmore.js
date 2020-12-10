@@ -23,7 +23,10 @@ const iwanttoreadmore = {
             "messageText" in config ? config.messageText : "Thank you! I will write more on this topic in the future!";
         const configMessageDuration = "messageDuration" in config ? config.messageDuration : 10;
 
-        // Inject the toast
+        // Inject the toast (and delete the old one if needed)
+        const oldToast = document.getElementById("iwanttoreadmore-vote-toast");
+        if (oldToast) oldToast.remove();
+
         document.body.insertAdjacentHTML(
             "beforeend",
             `<div id="iwanttoreadmore-vote-toast"><h3>${configMessageTitle}</h3><p>${configMessageText}</p><small>Powered by <a href="https://iwanttoreadmore.com" target="_blank" rel="noopener">iwanttoreadmore.com</a></small></div>`
