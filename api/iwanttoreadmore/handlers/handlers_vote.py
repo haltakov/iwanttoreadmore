@@ -43,13 +43,18 @@ def do_vote(event, _):
     # Check if the user has multiple voting for a project disabled
     user = User()
     user_data = user.get_user_by_username(username)
+
+    # Stop if the user is not registered
+    if not user_data:
+        return
+
+    # Stop ff the project is a single voting and the user already voted
     if (
-        user_data
-        and "single_voting_projects" in user_data
+        "single_voting_projects" in user_data
         and project in user_data["single_voting_projects"]
+        and vote_history.check_ip_voted_project(username, project, ip_address)
     ):
-        if vote_history.check_ip_voted_project(username, project, ip_address):
-            return
+        return
 
     # Do the voting
     vote = Vote()

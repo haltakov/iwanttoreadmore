@@ -9,7 +9,13 @@ function loadVotes(user, project = "") {
         mode: "cors",
         credentials: "same-origin",
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (response.ok) response.json();
+            else {
+                document.getElementById("no-user-found-message").classList.remove("hidden");
+                document.getElementById("template-table").parentElement.remove();
+            }
+        })
         .then((data) => {
             // Get list of all projects
             // TODO: Optmize by providing the data already split from the API
