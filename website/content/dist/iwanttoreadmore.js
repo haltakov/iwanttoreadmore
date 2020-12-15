@@ -11,6 +11,9 @@ const iwanttoreadmore = {
      * - messageDuration: duration that the message will be shown after voting in seconds. Set to 0 to disable.
      */
     init: (config = {}) => {
+        // Check if the page contains voting links and abort if not
+        if (document.querySelectorAll("[data-vote]").length == 0) return;
+
         // Process the configuration and setup defaults
         const configVoteLink =
             "voteLink" in config
@@ -69,3 +72,9 @@ const iwanttoreadmore = {
         });
     },
 };
+
+if (document.readyState !== "loading") {
+    iwanttoreadmore.init();
+} else {
+    document.addEventListener("DOMContentLoaded", iwanttoreadmore.init);
+}
