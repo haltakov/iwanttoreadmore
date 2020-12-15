@@ -10,9 +10,6 @@ function init() {
 
     // Init the logout button
     initLogoutButton();
-
-    // Init the I Want To Read More script
-    iwanttoreadmore.init();
 }
 
 /**

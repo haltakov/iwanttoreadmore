@@ -58,22 +58,24 @@ If you are able to include JavaScript and CSS files in your blog, you will be ab
 <pre><code class="language-html">&lt;link rel="stylesheet" href="https://iwanttoreadmore.com/dist/iwanttoreadmore.min.css" /&gt;
 </code></pre>
 
-2.  Include the JavaScript right before the closing `</body>` tag, but before the script from which you will call the initialization function:
+2.  Include the JavaScript before the closing `</body>` tag. The script will initialize automatically with the default configuration. See [below](#configuration-options) if you want the customize some of the parameters.
 <pre><code class="language-html">&lt;script defer src="https://iwanttoreadmore.com/dist/iwanttoreadmore.min.js"&gt;&lt;/script&gt;
 </code></pre>
 
-3.  Call the initliazing function when your page is loaded:
-<pre><code class="language-js">iwanttoreadmore.init();
-</code></pre>
-
-4.  To add a vote link to your text add a regular `<a>` tag with a `data-vote` attribute:
-
+3.  To add a vote link to your text add a regular `<a>` tag with a `data-vote` attribute:
 <pre><code class="language-html">&lt;a href="#" data-vote="&lt;username&gt;/&lt;project&gt;/&lt;topic&gt;"&gt;&lt;/a&gt;
 </code></pre>
 
+<a name="configuration-options"></a>
+
 ### Configuration options
 
-You can initialize the script without any parameters to use the defaults, but you can also configure the messages and the icon of the vote links. You have the following options:
+By initializing the script manually, you can configure the messages and the icon of the vote links. Call the initliazing function when your page is loaded with the required configuration:
+
+<pre><code class="language-js">iwanttoreadmore.init({messageDuration: 5, messageTitle: "Thanks for voting!!!"});
+</code></pre>
+
+You have the following options:
 
 -   `voteLink` - content of the vote link (by default the I Want To Read More icon). HTML can be used. Set to empty to use the original content of the link.
 -   `tooltip` - text to show in the tooltip. Set to empty to hide the tooltip.
