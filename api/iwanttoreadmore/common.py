@@ -38,7 +38,7 @@ def check_username(username):
     :param username: username to check
     :return: True if the username is valid, false otherwise
     """
-    return bool(re.fullmatch(r"[a-zA-Z0-9_\.\-]{4,30}", username))
+    return bool(re.fullmatch(r"[a-zA-Z0-9_\.\-]{3,30}", username))
 
 
 def create_password_hash(password):

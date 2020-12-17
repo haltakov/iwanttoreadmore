@@ -65,6 +65,7 @@ class CommonTestCase(unittest.TestCase):
         self.assertFalse(check_password("test()"))
 
     def test_check_username(self):
+        self.assertTrue(check_username("aaa"))
         self.assertTrue(check_username("aaaa"))
         self.assertTrue(check_username("BBBB"))
         self.assertTrue(check_username("1234"))
@@ -74,7 +75,6 @@ class CommonTestCase(unittest.TestCase):
         self.assertFalse(check_username(""))
         self.assertFalse(check_username("a"))
         self.assertFalse(check_username("aa"))
-        self.assertFalse(check_username("aaa"))
         self.assertFalse(check_username("a" * 31))
 
     def test_check_voted_message(self):
