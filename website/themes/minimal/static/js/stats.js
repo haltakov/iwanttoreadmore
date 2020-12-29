@@ -146,7 +146,8 @@ function createProjectsTables(user, projects, single_voting_projects) {
     // Display error message if no projects were found
     if (projects.size == 0) {
         // Check if this is a logged in user that has no votes yet
-        if (document.cookie.endsWith(`=${user}`)) document.location = "/docs/getting-started";
+        if (document.cookie.endsWith(`=${user}`))
+            document.getElementById("no-votes-message").classList.remove("hidden");
         else document.getElementById("no-user-found-message").classList.remove("hidden");
     }
 
