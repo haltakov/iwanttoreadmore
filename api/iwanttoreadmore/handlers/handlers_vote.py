@@ -21,6 +21,7 @@ def do_vote(event, _):
     username = event["pathParameters"]["user"].lower()
     project = event["pathParameters"]["project"].lower()
     topic = event["pathParameters"]["topic"].lower()
+    log.debug("Voting for: %s, %s, %s", username, project, topic)
 
     # Check all parameters for validity and return if some of them is not valid
     if not re.fullmatch(r"[a-z0-9_\.\-]{3,30}", username):
