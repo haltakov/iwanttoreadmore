@@ -2,6 +2,7 @@ Title: Roadmap
 Date: 2020-12-10
 Slug: roadmap
 save_as: roadmap.html
+Url: {{ SITEURL }}/roadmap
 
 {% from 'iwrm_macros.j2' import vote %}
 {% import 'icons.html' as icons %}
